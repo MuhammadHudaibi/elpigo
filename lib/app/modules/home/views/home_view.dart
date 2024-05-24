@@ -9,12 +9,12 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('HomeView'),
+        title: const Text('Home'),
         centerTitle: true,
       ),
       body: const Center(
         child: Text(
-          'Elpigo',
+          'Nama anggota   :\nDhea\nFaiq\nFera\nHuda',
           style: TextStyle(fontSize: 20),
         ),
       ),

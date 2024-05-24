@@ -14,11 +14,11 @@ class ConfirmView extends GetView<ConfirmController> {
           child: Column(
             children: [
               Text(
-                "Selamat Datang !",
+                "Selamat Datang di",
                 style: GoogleFonts.poppins(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: Colors.green,
+                  color: Color.fromARGB(255, 88, 122, 44),
                 ),
               ),
               const SizedBox(height: 10),
@@ -33,13 +33,13 @@ class ConfirmView extends GetView<ConfirmController> {
                 style: GoogleFonts.poppins(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: Colors.green,
+                  color: Color.fromARGB(255, 88, 122, 44),
                 ),
               ),
               const SizedBox(height: 70),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
+                  backgroundColor: Color.fromARGB(255, 88, 122, 44),
                   minimumSize: const Size(150, 80),
                   padding: const EdgeInsets.symmetric(
                     vertical: 10,
@@ -75,7 +75,7 @@ class ConfirmView extends GetView<ConfirmController> {
               const SizedBox(height: 60),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
+                  backgroundColor: Color.fromARGB(255, 88, 122, 44),
                   minimumSize: const Size(170, 80),
                   padding: const EdgeInsets.symmetric(
                     vertical: 10,

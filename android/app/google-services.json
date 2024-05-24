@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "861945316784",
+    "project_id": "elpigo-760a6",
+    "storage_bucket": "elpigo-760a6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:861945316784:android:f8ee60875579eb95d90275",
+        "android_client_info": {
+          "package_name": "com.example.elpigo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2s8nJxNet25T9M8ILYVnrllWIJ-8PBtM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

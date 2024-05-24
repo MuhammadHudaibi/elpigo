@@ -24,11 +24,11 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 60, left: 20, right: 20),
+                padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
                 child: Text(
-                  "REGISTER CUSTOMER",
+                  "REGISTER ",
                   style: GoogleFonts.poppins(
-                    fontSize: 30,
+                    fontSize: 40,
                     fontWeight: FontWeight.bold,
                     color: Color.fromARGB(255, 88, 122, 44),
                   ),

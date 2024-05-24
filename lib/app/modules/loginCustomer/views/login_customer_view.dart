@@ -25,7 +25,7 @@ class LoginCustomerView extends GetView<LoginCustomerController> {
               Padding(
                 padding: const EdgeInsets.only(top: 60, left: 20, right: 20),
                 child: Text(
-                  "LOGIN COSTUMER",
+                  "LOGIN CUSTOMER",
                   style: GoogleFonts.poppins(
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
@@ -156,7 +156,9 @@ class LoginCustomerView extends GetView<LoginCustomerController> {
                               ),
                             ),
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Get.toNamed('/register-customer');
+                              },
                               child: Text(
                                 "Buat akun",
                                 style: GoogleFonts.poppins(

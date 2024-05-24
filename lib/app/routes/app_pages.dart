@@ -10,6 +10,8 @@ import '../modules/loginOwner/bindings/login_owner_binding.dart';
 import '../modules/loginOwner/views/login_owner_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
+import '../modules/registerCustomer/bindings/register_customer_binding.dart';
+import '../modules/registerCustomer/views/register_costumer.dart';
 
 part 'app_routes.dart';
 
@@ -43,6 +45,11 @@ class AppPages {
       name: _Paths.LOGIN_CUSTOMER,
       page: () => const LoginCustomerView(),
       binding: LoginCustomerBinding(),
+    ),
+    GetPage(
+      name: _Paths.REGISTER_CUSTOMER,
+      page: () => const RegisterCustomerView(),
+      binding: RegisterCustomerBinding(),
     ),
   ];
 }

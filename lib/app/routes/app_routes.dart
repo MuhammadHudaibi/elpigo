@@ -9,6 +9,7 @@ abstract class Routes {
   static const CONFIRM = _Paths.CONFIRM;
   static const LOGIN_OWNER = _Paths.LOGIN_OWNER;
   static const LOGIN_CUSTOMER = _Paths.LOGIN_CUSTOMER;
+  static const REGISTER_CUSTOMER = _Paths.REGISTER_CUSTOMER; 
 }
 
 abstract class _Paths {
@@ -17,4 +18,5 @@ abstract class _Paths {
   static const CONFIRM = '/confirm';
   static const LOGIN_OWNER = '/login-owner';
   static const LOGIN_CUSTOMER = '/login-customer';
+  static const REGISTER_CUSTOMER = '/register-customer'; 
 }

@@ -17,14 +17,14 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                 padding: const EdgeInsets.only(top: 50, right: 310),
                 child: IconButton(
                   icon: Icon(Icons.arrow_back),
-                  iconSize: 35,
+                  iconSize: 30,
                   onPressed: () {
                     Get.back();
                   },
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
+                padding: const EdgeInsets.only(top: 2, left: 20, right: 20),
                 child: Text(
                   "REGISTER ",
                   style: GoogleFonts.poppins(
@@ -38,7 +38,7 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
               Form(
                 child: Container(
                   width: 340,
-                  height: 600,
+                  height: 670,
                   decoration: BoxDecoration(
                     color: Color.fromARGB(255, 88, 122, 44),
                     borderRadius: BorderRadius.circular(15),
@@ -142,6 +142,48 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                         const SizedBox(height: 20),
                         Container(
                           width: 300,
+                          child: Obx(() => DropdownButtonFormField<String>(
+                                value: controller.selectedCustomerType.value.isEmpty
+                                    ? null
+                                    : controller.selectedCustomerType.value,
+                                hint: Text(
+                                  'Select Customer Type',
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                decoration: InputDecoration(
+                                  enabledBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  focusedBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                                dropdownColor: Color.fromARGB(255, 88, 122, 44),
+                                items: controller.customerTypes.map((type) {
+                                  return DropdownMenuItem<String>(
+                                    value: type,
+                                    child: Text(
+                                      type,
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  controller.selectedCustomerType.value = value!;
+                                },
+                              )),
+                        ),
+                        const SizedBox(height: 20),
+                        Container(
+                          width: 300,
                           child: Obx(() => TextFormField(
                                 cursorColor: Colors.white,
                                 obscureText: controller.isObscured.value,
@@ -209,48 +251,6 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                                 ),
                               )),
                         ),
-                        const SizedBox(height: 20),
-                        Container(
-                          width: 300,
-                          child: Obx(() => DropdownButtonFormField<String>(
-                                value: controller.selectedCustomerType.value.isEmpty
-                                    ? null
-                                    : controller.selectedCustomerType.value,
-                                hint: Text(
-                                  'Select Customer Type',
-                                  style: GoogleFonts.poppins(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                decoration: InputDecoration(
-                                  enabledBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  focusedBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                                dropdownColor: Color.fromARGB(255, 88, 122, 44),
-                                items: controller.customerTypes.map((type) {
-                                  return DropdownMenuItem<String>(
-                                    value: type,
-                                    child: Text(
-                                      type,
-                                      style: GoogleFonts.poppins(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  );
-                                }).toList(),
-                                onChanged: (value) {
-                                  controller.selectedCustomerType.value = value!;
-                                },
-                              )),
-                        ),
                         const SizedBox(height: 40),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -285,6 +285,4 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
           ),
         ),
       ),
-    );
-  }
-}
+    );}}

@@ -4,10 +4,11 @@ import '../controllers/splash_controller.dart';
 
 class SplashView extends GetView<SplashController> {
   const SplashView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 4), () {
-      Get.offNamed('/home');
+      Get.offNamed('/confirm');
     });
     return Scaffold(
       backgroundColor: Colors.white,

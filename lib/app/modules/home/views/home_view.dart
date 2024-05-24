@@ -14,7 +14,7 @@ class HomeView extends GetView<HomeController> {
       ),
       body: const Center(
         child: Text(
-          'Elpigo',
+          'Nama anggota   :\nDhea\nFaiq\nFera\nHuda',
           style: TextStyle(fontSize: 20),
         ),
       ),

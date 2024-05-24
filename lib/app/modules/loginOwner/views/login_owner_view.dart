@@ -26,11 +26,11 @@ class LoginOwnerView extends GetView<LoginOwnerController> {
               Padding(
                 padding: const EdgeInsets.only(top: 60, left: 20, right: 20),
                 child: Text(
-                  "LOGIN",
+                  "LOGIN OWNER",
                   style: GoogleFonts.poppins(
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
-                    color: Colors.green,
+                    color: Color.fromARGB(255, 88, 122, 44),
                   ),
                 ),
               ),
@@ -40,7 +40,7 @@ class LoginOwnerView extends GetView<LoginOwnerController> {
                   width: 340,
                   height: 420,
                   decoration: BoxDecoration(
-                    color: Colors.green,
+                    color: Color.fromARGB(255, 88, 122, 44),
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Padding(
@@ -141,36 +141,11 @@ class LoginOwnerView extends GetView<LoginOwnerController> {
                             style: GoogleFonts.poppins(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: Colors.green,
+                              color:Color.fromARGB(255, 88, 122, 44),
                             ),
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Belum memiliki akun?",
-                              style: GoogleFonts.poppins(
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
-                                color: Colors.white,
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                "Buat akun",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                  decoration: TextDecoration.underline,
-                                  decorationColor: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                      
                       ],
                     ),
                   ),

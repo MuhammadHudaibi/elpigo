@@ -25,11 +25,11 @@ class LoginCustomerView extends GetView<LoginCustomerController> {
               Padding(
                 padding: const EdgeInsets.only(top: 60, left: 20, right: 20),
                 child: Text(
-                  "LOGIN",
+                  "LOGIN COSTUMER",
                   style: GoogleFonts.poppins(
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
-                    color: Colors.green,
+                    color: Color.fromARGB(255, 88, 122, 44),
                   ),
                 ),
               ),
@@ -39,7 +39,7 @@ class LoginCustomerView extends GetView<LoginCustomerController> {
                   width: 340,
                   height: 420,
                   decoration: BoxDecoration(
-                    color: Colors.green,
+                    color: Color.fromARGB(255, 88, 122, 44),
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Padding(
@@ -140,7 +140,7 @@ class LoginCustomerView extends GetView<LoginCustomerController> {
                             style: GoogleFonts.poppins(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: Colors.green,
+                              color: Color.fromARGB(255, 88, 122, 44),
                             ),
                           ),
                         ),

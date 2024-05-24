@@ -28,7 +28,7 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                 child: Text(
                   "REGISTER CUSTOMER",
                   style: GoogleFonts.poppins(
-                    fontSize: 40,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold,
                     color: Color.fromARGB(255, 88, 122, 44),
                   ),

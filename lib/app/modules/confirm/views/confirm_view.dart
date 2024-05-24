@@ -49,11 +49,13 @@ class ConfirmView extends GetView<ConfirmController> {
                     borderRadius: BorderRadius.circular(8.0),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Get.toNamed('/login-owner');
+                },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.person,
                       color: Colors.white,
                       size: 45,
@@ -83,11 +85,13 @@ class ConfirmView extends GetView<ConfirmController> {
                     borderRadius: BorderRadius.circular(8.0),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Get.toNamed('/login-customer');
+                },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.person,
                       color: Colors.white,
                       size: 45,

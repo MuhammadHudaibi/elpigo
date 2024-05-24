@@ -10,28 +10,37 @@ class ConfirmView extends GetView<ConfirmController> {
     return Scaffold(
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.only(top: 190, left: 20, right: 20),
+          padding: const EdgeInsets.only(top: 100, left: 20, right: 20),
           child: Column(
             children: [
               Text(
-                "Masuk sebagai : ",
+                "Selamat Datang !",
                 style: GoogleFonts.poppins(
-                  fontSize: 25,
+                  fontSize: 28,
                   fontWeight: FontWeight.bold,
                   color: Colors.green,
                 ),
               ),
-              const SizedBox(height: 50),
-              const Icon(
-                Icons.person,
-                size: 70,
-                color: Colors.grey,
+              const SizedBox(height: 10),
+              Image.asset(
+                'assets/logo.png',
+                height: 200,
+                width: 200,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
+              Text(
+                "Masuk sebagai : ",
+                style: GoogleFonts.poppins(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green,
+                ),
+              ),
+              const SizedBox(height: 70),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
-                  minimumSize: const Size(150, 50),
+                  minimumSize: const Size(150, 80),
                   padding: const EdgeInsets.symmetric(
                     vertical: 10,
                     horizontal: 16,
@@ -41,26 +50,31 @@ class ConfirmView extends GetView<ConfirmController> {
                   ),
                 ),
                 onPressed: () {},
-                child: Text(
-                  "Owner",
-                  style: GoogleFonts.poppins(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.person,
+                      color: Colors.white,
+                      size: 45,
+                    ),
+                    const SizedBox(width: 10),
+                    Text(
+                      "Owner",
+                      style: GoogleFonts.poppins(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 40),
-              const Icon(
-                Icons.person,
-                size: 70,
-                color: Colors.grey,
-              ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 60),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
-                  minimumSize: const Size(150, 50),
+                  minimumSize: const Size(170, 80),
                   padding: const EdgeInsets.symmetric(
                     vertical: 10,
                     horizontal: 16,
@@ -70,13 +84,24 @@ class ConfirmView extends GetView<ConfirmController> {
                   ),
                 ),
                 onPressed: () {},
-                child: Text(
-                  "Customer",
-                  style: GoogleFonts.poppins(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.person,
+                      color: Colors.white,
+                      size: 45,
+                    ),
+                    const SizedBox(width: 10),
+                    Text(
+                      "Customer",
+                      style: GoogleFonts.poppins(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

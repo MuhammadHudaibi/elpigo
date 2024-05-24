@@ -7,7 +7,7 @@ class SplashView extends GetView<SplashController> {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(const Duration(seconds: 4), () {
+    Future.delayed(const Duration(seconds: 3), () {
       Get.offNamed('/confirm');
     });
     return Scaffold(
@@ -18,8 +18,8 @@ class SplashView extends GetView<SplashController> {
           children: <Widget>[
             Image.asset(
               'assets/logo.png',
-              height: 180,
-              width: 180,
+              height: 190,
+              width: 190,
             ),
           ],
         ),

@@ -25,7 +25,7 @@ class ConfirmView extends GetView<ConfirmController> {
               const Icon(
                 Icons.person,
                 size: 70,
-                color: Colors.black,
+                color: Colors.grey,
               ),
               const SizedBox(height: 20),
               ElevatedButton(
@@ -54,7 +54,7 @@ class ConfirmView extends GetView<ConfirmController> {
               const Icon(
                 Icons.person,
                 size: 70,
-                color: Colors.black,
+                color: Colors.grey,
               ),
               const SizedBox(height: 20),
               ElevatedButton(

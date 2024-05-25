@@ -47,7 +47,7 @@ class UploadRTDataView extends GetView<RegisterCustomerController> {
               Form(
                 child: Container(
                   width: 340,
-                  height: 1000,
+                  height: 970,
                   decoration: BoxDecoration(
                     color: Color.fromARGB(255, 88, 122, 44),
                     borderRadius: BorderRadius.circular(15),

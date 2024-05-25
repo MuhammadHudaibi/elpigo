@@ -63,7 +63,7 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                                   color: Colors.black,
                                 ),
                               ),
-                              hintText: "Username",
+                              hintText: "Name",
                               hintStyle: GoogleFonts.poppins(
                                 color: Colors.white,
                               ),
@@ -86,7 +86,7 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                                   color: Colors.black,
                                 ),
                               ),
-                              hintText: "Name",
+                              hintText: "Adress",
                               hintStyle: GoogleFonts.poppins(
                                 color: Colors.white,
                               ),

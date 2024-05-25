@@ -62,7 +62,7 @@ class LoginCustomerView extends GetView<LoginCustomerController> {
                                   color: Colors.black,
                                 ),
                               ),
-                              hintText: "Email",
+                              hintText: "NIK",
                               hintStyle: GoogleFonts.poppins(
                                 color: Colors.white,
                               ),

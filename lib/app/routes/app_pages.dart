@@ -1,3 +1,5 @@
+import 'package:elpigo/app/modules/registerCustomer/views/uplode_data_rt.dart';
+import 'package:elpigo/app/modules/registerCustomer/views/uplode_data_um.dart';
 import 'package:get/get.dart';
 
 import '../modules/confirm/bindings/confirm_binding.dart';
@@ -50,6 +52,14 @@ class AppPages {
       name: _Paths.REGISTER_CUSTOMER,
       page: () => const RegisterCustomerView(),
       binding: RegisterCustomerBinding(),
+    ),
+    GetPage(
+      name: Routes.UPLOAD_UMKM_DATA,
+      page: () => UploadUMKMDataView(),
+    ),
+    GetPage(
+      name: Routes.UPLOAD_RT_DATA,
+      page: () => UploadRTDataView(),
     ),
   ];
 }

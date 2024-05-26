@@ -62,7 +62,7 @@ class LoginCustomerView extends GetView<LoginCustomerController> {
                                   color: Colors.black,
                                 ),
                               ),
-                              hintText: "NIK",
+                              hintText: "NIK+@gmail.com",
                               hintStyle: GoogleFonts.poppins(
                                 color: Colors.white,
                               ),
@@ -122,28 +122,31 @@ class LoginCustomerView extends GetView<LoginCustomerController> {
                           ),
                         ),
                         const SizedBox(height: 60),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            minimumSize: const Size(180, 50),
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 16,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                          ),
-                          onPressed: () {},
-                          child: Text(
-                            "Login",
-                            style: GoogleFonts.poppins(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 88, 122, 44),
-                            ),
-                          ),
-                        ),
+                       ElevatedButton(
+  style: ElevatedButton.styleFrom(
+    backgroundColor: Colors.white,
+    minimumSize: const Size(180, 50),
+    padding: const EdgeInsets.symmetric(
+      vertical: 10,
+      horizontal: 16,
+    ),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8.0),
+    ),
+  ),
+  onPressed: () {
+    controller.login(); // Panggil fungsi login
+  },
+  child: Text(
+    "Login",
+    style: GoogleFonts.poppins(
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+      color: Color.fromARGB(255, 88, 122, 44),
+    ),
+  ),
+),
+
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [

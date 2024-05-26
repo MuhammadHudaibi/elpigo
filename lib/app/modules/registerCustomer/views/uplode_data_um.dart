@@ -96,7 +96,7 @@ class UploadUMKMDataView extends GetView<RegisterCustomerController> {
                             ),
                           ),
                           onPressed: () {
-                            controller.uploadData();
+                            controller.uploadData('/next-page');
                           },
                           child: Text(
                             "Upload",
@@ -121,8 +121,7 @@ class UploadUMKMDataView extends GetView<RegisterCustomerController> {
     );
   }
 
-  Widget _buildUploadField(
-      BuildContext context, String label, Rx<File?> imageFile) {
+  Widget _buildUploadField(BuildContext context, String label, Rx<File?> imageFile) {
     return Container(
       width: 300,
       child: Column(
@@ -137,25 +136,43 @@ class UploadUMKMDataView extends GetView<RegisterCustomerController> {
           ),
           const SizedBox(height: 10),
           Obx(
-            () => Container(
-              height: 150,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.white),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: imageFile.value == null
-                  ? Center(
-                      child: IconButton(
-                        icon: Icon(Icons.camera_alt, color: Colors.white),
-                        onPressed: () {
-                          _pickImage(ImageSource.camera, imageFile);
-                        },
-                      ),
-                    )
-                  : Image.file(
-                      imageFile.value!,
-                      fit: BoxFit.cover,
+            () => Stack(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    _pickImage(ImageSource.camera, imageFile);
+                  },
+                  child: Container(
+                    height: 150,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.white),
+                      borderRadius: BorderRadius.circular(8),
                     ),
+                    child: imageFile.value == null
+                        ? Center(
+                            child: Icon(Icons.camera_alt, color: Colors.white),
+                          )
+                        : Image.file(
+                            imageFile.value!,
+                            fit: BoxFit.cover,
+                          ),
+                  ),
+                ),
+                if (imageFile.value != null)
+                  Positioned(
+                    top: 5,
+                    right: 5,
+                    child: GestureDetector(
+                      onTap: () {
+                        imageFile.value = null;
+                      },
+                      child: Icon(
+                        Icons.close,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
         ],
@@ -177,7 +194,6 @@ class UploadUMKMDataView extends GetView<RegisterCustomerController> {
             ),
           ),
           const SizedBox(height: 10),
-          
           Container(
             height: 150,
             decoration: BoxDecoration(

@@ -20,7 +20,7 @@ class LoginOwnerController extends GetxController {
         Map<String, dynamic> userData = userSnapshot.data() as Map<String, dynamic>;
 
         if (userData['password'] == password) {
-          Contoh: Get.offAll(LayoutOwnerView());
+           Get.offAll(LayoutOwnerView());
           Get.snackbar(
           "Berhasil",
           "Anda Berhasil Masuk.",

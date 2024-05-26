@@ -8,7 +8,7 @@ import '../controllers/register_customer_controller.dart';
 class UploadRTDataView extends GetView<RegisterCustomerController> {
   const UploadRTDataView({Key? key}) : super(key: key);
 
- Future<void> _pickImage(ImageSource source, Rx<File?> imageFile) async {
+  Future<void> _pickImage(ImageSource source, Rx<File?> imageFile) async {
     final pickedFile = await ImagePicker().pickImage(source: source);
     if (pickedFile != null) {
       imageFile.value = File(pickedFile.path);
@@ -90,7 +90,7 @@ class UploadRTDataView extends GetView<RegisterCustomerController> {
                             ),
                           ),
                           onPressed: () {
-                            controller.uploadData();
+                            controller.uploadData('/next-page');
                           },
                           child: Text(
                             "Upload",
@@ -115,48 +115,64 @@ class UploadRTDataView extends GetView<RegisterCustomerController> {
     );
   }
 
-  Widget _buildUploadField(
-    BuildContext context, String label, Rx<File?> imageFile) {
-  return Container(
-    width: 300,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: GoogleFonts.poppins(
-            color: Colors.white,
-            fontSize: 16,
-          ),
-        ),
-        const SizedBox(height: 10),
-        Obx(
-          () => GestureDetector(
-            onTap: () {
-              _pickImage(ImageSource.camera, imageFile);
-            },
-            child: Container(
-              height: 150,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.white),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: imageFile.value == null
-                  ? Center(
-                      child: Icon(Icons.camera_alt, color: Colors.white),
-                    )
-                  : Image.file(
-                      imageFile.value!,
-                      fit: BoxFit.cover,
-                    ),
+  Widget _buildUploadField(BuildContext context, String label, Rx<File?> imageFile) {
+    return Container(
+      width: 300,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: GoogleFonts.poppins(
+              color: Colors.white,
+              fontSize: 16,
             ),
           ),
-        ),
-      ],
-    ),
-  );
-}
-
+          const SizedBox(height: 10),
+          Obx(
+            () => Stack(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    _pickImage(ImageSource.camera, imageFile);
+                  },
+                  child: Container(
+                    height: 150,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.white),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: imageFile.value == null
+                        ? Center(
+                            child: Icon(Icons.camera_alt, color: Colors.white),
+                          )
+                        : Image.file(
+                            imageFile.value!,
+                            fit: BoxFit.cover,
+                          ),
+                  ),
+                ),
+                if (imageFile.value != null)
+                  Positioned(
+                    top: 5,
+                    right: 5,
+                    child: GestureDetector(
+                      onTap: () {
+                        imageFile.value = null;
+                      },
+                      child: Icon(
+                        Icons.close,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget _buildGoogleMapsField(BuildContext context) {
     return Container(
@@ -172,7 +188,6 @@ class UploadRTDataView extends GetView<RegisterCustomerController> {
             ),
           ),
           const SizedBox(height: 10),
-          
           Container(
             height: 150,
             decoration: BoxDecoration(
@@ -182,8 +197,12 @@ class UploadRTDataView extends GetView<RegisterCustomerController> {
             child: Center(
               child: IconButton(
                 icon: Icon(Icons.map, color: Colors.white),
-                onPressed: () {
-                  
+                onPressed: () async {
+                  // This is where you would integrate a map picker
+                  // For now, we just simulate picking a location
+                  // You would set the location value here
+                  controller.location.value = 'Example Location';
+                  Get.snackbar('Location picked', 'Location has been set');
                 },
               ),
             ),

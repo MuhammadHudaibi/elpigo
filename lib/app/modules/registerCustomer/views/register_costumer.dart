@@ -51,6 +51,7 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                         Container(
                           width: 300,
                           child: TextFormField(
+                            controller: controller.nameController,
                             cursorColor: Colors.white,
                             decoration: InputDecoration(
                               enabledBorder: const OutlineInputBorder(
@@ -74,6 +75,7 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                         Container(
                           width: 300,
                           child: TextFormField(
+                            controller: controller.addressController,
                             cursorColor: Colors.white,
                             decoration: InputDecoration(
                               enabledBorder: const OutlineInputBorder(
@@ -86,7 +88,7 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                                   color: Colors.black,
                                 ),
                               ),
-                              hintText: "Adress",
+                              hintText: "Address",
                               hintStyle: GoogleFonts.poppins(
                                 color: Colors.white,
                               ),
@@ -97,6 +99,7 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                         Container(
                           width: 300,
                           child: TextFormField(
+                            controller: controller.nikController,
                             cursorColor: Colors.white,
                             decoration: InputDecoration(
                               enabledBorder: const OutlineInputBorder(
@@ -109,7 +112,7 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                                   color: Colors.black,
                                 ),
                               ),
-                              hintText: "NIK",
+                              hintText: "NIK+@gmail.com",
                               hintStyle: GoogleFonts.poppins(
                                 color: Colors.white,
                               ),
@@ -120,6 +123,7 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                         Container(
                           width: 300,
                           child: TextFormField(
+                            controller: controller.phoneController,
                             cursorColor: Colors.white,
                             decoration: InputDecoration(
                               enabledBorder: const OutlineInputBorder(
@@ -185,6 +189,7 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                         Container(
                           width: 300,
                           child: Obx(() => TextFormField(
+                                controller: controller.passwordController,
                                 cursorColor: Colors.white,
                                 obscureText: controller.isObscured.value,
                                 decoration: InputDecoration(
@@ -220,6 +225,7 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                         Container(
                           width: 300,
                           child: Obx(() => TextFormField(
+                                controller: controller.confirmPasswordController,
                                 cursorColor: Colors.white,
                                 obscureText: controller.isObscured.value,
                                 decoration: InputDecoration(
@@ -253,29 +259,30 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                         ),
                         const SizedBox(height: 40),
                         ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            minimumSize: const Size(180, 50),
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 16,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                          ),
-                          onPressed: () {
-                            controller.register();
-                          },
-                          child: Text(
-                            "Register",
-                            style: GoogleFonts.poppins(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 88, 122, 44),
-                            ),
-                          ),
-                        ),
+  style: ElevatedButton.styleFrom(
+    backgroundColor: Colors.white,
+    minimumSize: const Size(180, 50),
+    padding: const EdgeInsets.symmetric(
+      vertical: 10,
+      horizontal: 16,
+    ),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8.0),
+    ),
+  ),
+  onPressed: () {
+    controller.register(); // Panggil fungsi register
+  },
+  child: Text(
+    "Register",
+    style: GoogleFonts.poppins(
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+      color: Color.fromARGB(255, 88, 122, 44),
+    ),
+  ),
+),
+
                       ],
                     ),
                   ),
@@ -285,4 +292,6 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
           ),
         ),
       ),
-    );}}
+    );
+  }
+}

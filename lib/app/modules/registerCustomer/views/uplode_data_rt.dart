@@ -101,13 +101,13 @@ class UploadRTDataView extends GetView<RegisterCustomerController> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 20), // Tambahkan jarak di sini
+                        const SizedBox(height: 20), 
                       ],
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 20), // Tambahkan jarak di sini
+              const SizedBox(height: 20), 
             ],
           ),
         ),
@@ -116,22 +116,26 @@ class UploadRTDataView extends GetView<RegisterCustomerController> {
   }
 
   Widget _buildUploadField(
-      BuildContext context, String label, Rx<File?> imageFile) {
-    return Container(
-      width: 300,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: GoogleFonts.poppins(
-              color: Colors.white,
-              fontSize: 16,
-            ),
+    BuildContext context, String label, Rx<File?> imageFile) {
+  return Container(
+    width: 300,
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: GoogleFonts.poppins(
+            color: Colors.white,
+            fontSize: 16,
           ),
-          const SizedBox(height: 10),
-          Obx(
-            () => Container(
+        ),
+        const SizedBox(height: 10),
+        Obx(
+          () => GestureDetector(
+            onTap: () {
+              _pickImage(ImageSource.camera, imageFile);
+            },
+            child: Container(
               height: 150,
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.white),
@@ -139,12 +143,7 @@ class UploadRTDataView extends GetView<RegisterCustomerController> {
               ),
               child: imageFile.value == null
                   ? Center(
-                      child: IconButton(
-                        icon: Icon(Icons.camera_alt, color: Colors.white),
-                        onPressed: () {
-                          _pickImage(ImageSource.camera, imageFile);
-                        },
-                      ),
+                      child: Icon(Icons.camera_alt, color: Colors.white),
                     )
                   : Image.file(
                       imageFile.value!,
@@ -152,10 +151,12 @@ class UploadRTDataView extends GetView<RegisterCustomerController> {
                     ),
             ),
           ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
+}
+
 
   Widget _buildGoogleMapsField(BuildContext context) {
     return Container(
@@ -171,7 +172,7 @@ class UploadRTDataView extends GetView<RegisterCustomerController> {
             ),
           ),
           const SizedBox(height: 10),
-          // Tambahkan widget Google Maps di sini
+          
           Container(
             height: 150,
             decoration: BoxDecoration(

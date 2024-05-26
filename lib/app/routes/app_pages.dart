@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
 
-import 'package:elpigo/app/modules/owner/layout_owner/bindings/layout_owner_binding.dart';
-import 'package:elpigo/app/modules/owner/layout_owner/views/layout_owner_view.dart';
+import 'package:elpigo/app/modules/customer/home_customer/bindings/home_customer_binding.dart';
+import 'package:elpigo/app/modules/customer/home_customer/views/home_customer_view.dart';
 import 'package:elpigo/app/modules/owner/home_owner/bindings/home_owner_binding.dart';
 import 'package:elpigo/app/modules/owner/home_owner/views/home_owner_view.dart';
+import 'package:elpigo/app/modules/owner/layout_owner/bindings/layout_owner_binding.dart';
+import 'package:elpigo/app/modules/owner/layout_owner/views/layout_owner_view.dart';
 import 'package:elpigo/app/modules/owner/riwayat_pembelian/bindings/riwayat_penjualan_binding.dart';
 import 'package:elpigo/app/modules/owner/riwayat_pembelian/views/riwayat_penjualan_view.dart';
 
@@ -11,16 +13,14 @@ import '../modules/Profile/bindings/profile_binding.dart';
 import '../modules/Profile/views/profile_view.dart';
 import '../modules/confirm/bindings/confirm_binding.dart';
 import '../modules/confirm/views/confirm_view.dart';
-import '../modules/customer/bindings/home_binding.dart';
-import '../modules/customer/views/home_customer.dart';
-import '../modules/loginCustomer/bindings/login_customer_binding.dart';
-import '../modules/loginCustomer/views/login_customer_view.dart';
+import '../modules/customer/loginCustomer/bindings/login_customer_binding.dart';
+import '../modules/customer/loginCustomer/views/login_customer_view.dart';
 import '../modules/owner/loginOwner/bindings/login_owner_binding.dart';
 import '../modules/owner/loginOwner/views/login_owner_view.dart';
-import '../modules/registerCustomer/bindings/register_customer_binding.dart';
-import '../modules/registerCustomer/views/register_costumer.dart';
-import '../modules/registerCustomer/views/uplode_data_rt.dart';
-import '../modules/registerCustomer/views/uplode_data_um.dart';
+import '../modules/customer/registerCustomer/bindings/register_customer_binding.dart';
+import '../modules/customer/registerCustomer/views/register_costumer.dart';
+import '../modules/customer/registerCustomer/views/uplode_data_rt.dart';
+import '../modules/customer/registerCustomer/views/uplode_data_um.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
 
@@ -32,11 +32,6 @@ class AppPages {
   static const INITIAL = Routes.SPLASH;
 
   static final routes = [
-    GetPage(
-      name: _Paths.HOME,
-      page: () => const HomeView(),
-      binding: HomeBinding(),
-    ),
     GetPage(
       name: _Paths.SPLASH,
       page: () => const SplashView(),
@@ -89,6 +84,11 @@ class AppPages {
       name: _Paths.RIWAYAT_PENJUALAN,
       page: () => RiwayatPenjualanView(),
       binding: RiwayatPenjualanBinding(),
+    ),
+    GetPage(
+      name: _Paths.HOME_CUSTOMER,
+      page: () => HomeCustomerView(),
+      binding: HomeCustomerBinding(),
     ),
   ];
 }

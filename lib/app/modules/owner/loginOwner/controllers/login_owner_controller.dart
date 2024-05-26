@@ -20,12 +20,12 @@ class LoginOwnerController extends GetxController {
         Map<String, dynamic> userData = userSnapshot.data() as Map<String, dynamic>;
 
         if (userData['password'] == password) {
-           Get.offAll(LayoutOwnerView());
+          Get.offAll(LayoutOwnerView());
           Get.snackbar(
-          "Berhasil",
-          "Anda Berhasil Masuk.",
-          backgroundColor: Colors.green
-        );
+            "Berhasil",
+            "Anda Berhasil Masuk.",
+            backgroundColor: Colors.green
+          );
         } else {
           Get.snackbar(
             "Error",

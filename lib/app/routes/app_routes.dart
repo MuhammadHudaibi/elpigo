@@ -2,8 +2,6 @@ part of 'app_pages.dart';
 
 abstract class Routes {
   Routes._();
-
-  static const HOME = _Paths.HOME;
   static const SPLASH = _Paths.SPLASH;
   static const CONFIRM = _Paths.CONFIRM;
   static const LOGIN_OWNER = _Paths.LOGIN_OWNER;
@@ -15,10 +13,10 @@ abstract class Routes {
   static const HOME_OWNER = _Paths.HOME_OWNER;
   static const LAYOUT_OWNER = _Paths.LAYOUT_OWNER;
   static const RIWAYAT_PENJUALAN = _Paths.RIWAYAT_PENJUALAN;
+  static const HOME_CUSTOMER = _Paths.HOME_CUSTOMER;
 }
 
 abstract class _Paths {
-  static const HOME = '/home';
   static const SPLASH = '/splash';
   static const CONFIRM = '/confirm';
   static const LOGIN_OWNER = '/login-owner';
@@ -30,4 +28,5 @@ abstract class _Paths {
   static const HOME_OWNER = '/home-owner';
   static const LAYOUT_OWNER = '/layout-owner';
   static const RIWAYAT_PENJUALAN = '/riwayat-penjualan';
+  static const HOME_CUSTOMER = '/home-customer';
 }

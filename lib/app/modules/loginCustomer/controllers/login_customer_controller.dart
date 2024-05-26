@@ -18,12 +18,13 @@ class LoginCustomerController extends GetxController {
     try {
       // Lakukan proses login dengan Firebase Auth
       await FirebaseAuth.instance.signInWithEmailAndPassword(
+
         email: email,
         password: pasword,
       );
 
   
-      Get.offNamed('/home');
+      Get.offAllNamed('/home');
     } catch (e) {
 
       print('Error while logging in: $e');

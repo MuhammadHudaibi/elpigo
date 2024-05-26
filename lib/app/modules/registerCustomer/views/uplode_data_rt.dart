@@ -101,13 +101,13 @@ class UploadRTDataView extends GetView<RegisterCustomerController> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 20), // Tambahkan jarak di sini
+                        const SizedBox(height: 20), 
                       ],
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 20), // Tambahkan jarak di sini
+              const SizedBox(height: 20), 
             ],
           ),
         ),
@@ -172,7 +172,7 @@ class UploadRTDataView extends GetView<RegisterCustomerController> {
             ),
           ),
           const SizedBox(height: 10),
-          // Tambahkan widget Google Maps di sini
+          
           Container(
             height: 150,
             decoration: BoxDecoration(

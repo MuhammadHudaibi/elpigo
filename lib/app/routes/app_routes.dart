@@ -10,9 +10,9 @@ abstract class Routes {
   static const LOGIN_OWNER = _Paths.LOGIN_OWNER;
   static const LOGIN_CUSTOMER = _Paths.LOGIN_CUSTOMER;
   static const REGISTER_CUSTOMER = _Paths.REGISTER_CUSTOMER;
-   static const UPLOAD_UMKM_DATA = _Paths.UPLOAD_UMKM_DATA;
+  static const UPLOAD_UMKM_DATA = _Paths.UPLOAD_UMKM_DATA;
   static const UPLOAD_RT_DATA = _Paths.UPLOAD_RT_DATA;
-   
+  static const PROFILE = _Paths.PROFILE;
 }
 
 abstract class _Paths {
@@ -23,5 +23,6 @@ abstract class _Paths {
   static const LOGIN_CUSTOMER = '/login-customer';
   static const REGISTER_CUSTOMER = '/register-customer';
   static const UPLOAD_UMKM_DATA = '/upload-umkm';
-  static const UPLOAD_RT_DATA = '/upload-rt'; 
+  static const UPLOAD_RT_DATA = '/upload-rt';
+  static const PROFILE = '/profile';
 }

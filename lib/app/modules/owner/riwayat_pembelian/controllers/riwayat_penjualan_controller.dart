@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
-class RiwayatPembelianController extends GetxController {
-  //TODO: Implement RiwayatPembelianController
+class RiwayatPenjualanController extends GetxController {
+  
 
   final count = 0.obs;
   @override

@@ -14,7 +14,7 @@ abstract class Routes {
   static const PROFILE = _Paths.PROFILE;
   static const HOME_OWNER = _Paths.HOME_OWNER;
   static const LAYOUT_OWNER = _Paths.LAYOUT_OWNER;
-  static const RIWAYAT_PEMBELIAN = _Paths.RIWAYAT_PEMBELIAN;
+  static const RIWAYAT_PENJUALAN = _Paths.RIWAYAT_PENJUALAN;
 }
 
 abstract class _Paths {
@@ -29,5 +29,5 @@ abstract class _Paths {
   static const PROFILE = '/profile';
   static const HOME_OWNER = '/home-owner';
   static const LAYOUT_OWNER = '/layout-owner';
-  static const RIWAYAT_PEMBELIAN = '/riwayat-pembelian';
+  static const RIWAYAT_PENJUALAN = '/riwayat-penjualan';
 }

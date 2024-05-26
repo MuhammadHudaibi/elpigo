@@ -1,5 +1,5 @@
 import 'package:elpigo/app/modules/owner/home_owner/views/home_owner_view.dart';
-import 'package:elpigo/app/modules/owner/riwayat_pembelian/views/riwayat_pembelian_view.dart';
+import 'package:elpigo/app/modules/owner/riwayat_pembelian/views/riwayat_penjualan_view.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -18,7 +18,7 @@ class LayoutOwnerView extends StatelessWidget {
           index: controller.tabIndex.value,
           children: [
             HomeOwnerView(),
-            RiwayatPembelianView(),
+            RiwayatPenjualanView(),
           ],
         ),
       ),
@@ -42,8 +42,8 @@ class LayoutOwnerView extends StatelessWidget {
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Detail Konsumen',
+              icon: Icon(Icons.history),
+              label: 'Riwayat penjualan',
             ),
           ],
         ),

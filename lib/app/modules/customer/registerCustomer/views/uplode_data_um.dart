@@ -96,7 +96,7 @@ class UploadUMKMDataView extends GetView<RegisterCustomerController> {
                             ),
                           ),
                           onPressed: () {
-                            controller.uploadData('/next-page');
+                            controller.uploadData('/login-customer');
                           },
                           child: Text(
                             "Upload",

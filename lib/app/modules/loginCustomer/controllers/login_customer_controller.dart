@@ -14,13 +14,13 @@ class LoginCustomerController extends GetxController {
     try {
       // Lakukan proses login dengan Firebase Auth
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: '${nik.value}@example.com',
+        email: '${nik.value}',
         password: password.value,
       );
 
-      // Jika berhasil login, lakukan sesuatu seperti navigasi ke halaman berikutnya
-      // Misalnya, Anda dapat menggunakan Get untuk melakukan navigasi ke halaman lain:
-      // Get.offNamed('/home');
+      // Jika berhasil login, navigasikan ke halaman home
+      Get.offNamed('/home');
+
     } catch (e) {
       // Tangani kesalahan saat login
       print('Error while logging in: $e');

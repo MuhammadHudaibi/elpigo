@@ -4,6 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import '../controllers/login_owner_controller.dart';
 
 class LoginOwnerView extends GetView<LoginOwnerController> {
+  final TextEditingController idPangkalanController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   LoginOwnerView({Key? key}) : super(key: key);
 
   @override
@@ -51,6 +54,7 @@ class LoginOwnerView extends GetView<LoginOwnerController> {
                         Container(
                           width: 300,
                           child: TextFormField(
+                            controller: idPangkalanController,
                             cursorColor: Colors.white,
                             decoration: InputDecoration(
                               enabledBorder: const OutlineInputBorder(
@@ -74,6 +78,7 @@ class LoginOwnerView extends GetView<LoginOwnerController> {
                         Container(
                           width: 300,
                           child: Obx(() => TextFormField(
+                                controller: passwordController,
                                 cursorColor: Colors.white,
                                 obscureText: controller.isObscured.value,
                                 decoration: InputDecoration(
@@ -135,7 +140,12 @@ class LoginOwnerView extends GetView<LoginOwnerController> {
                               borderRadius: BorderRadius.circular(8.0),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            controller.signIn(
+                              idPangkalanController.text,
+                              passwordController.text,
+                            );
+                          },
                           child: Text(
                             "Login",
                             style: GoogleFonts.poppins(

@@ -1,6 +1,5 @@
 part of 'app_pages.dart';
 
-
 abstract class Routes {
   Routes._();
 
@@ -13,6 +12,9 @@ abstract class Routes {
   static const UPLOAD_UMKM_DATA = _Paths.UPLOAD_UMKM_DATA;
   static const UPLOAD_RT_DATA = _Paths.UPLOAD_RT_DATA;
   static const PROFILE = _Paths.PROFILE;
+  static const HOME_OWNER = _Paths.HOME_OWNER;
+  static const LAYOUT_OWNER = _Paths.LAYOUT_OWNER;
+  static const RIWAYAT_PEMBELIAN = _Paths.RIWAYAT_PEMBELIAN;
 }
 
 abstract class _Paths {
@@ -25,4 +27,7 @@ abstract class _Paths {
   static const UPLOAD_UMKM_DATA = '/upload-umkm';
   static const UPLOAD_RT_DATA = '/upload-rt';
   static const PROFILE = '/profile';
+  static const HOME_OWNER = '/home-owner';
+  static const LAYOUT_OWNER = '/layout-owner';
+  static const RIWAYAT_PEMBELIAN = '/riwayat-pembelian';
 }

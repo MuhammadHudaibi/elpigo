@@ -1,5 +1,12 @@
 import 'package:get/get.dart';
 
+import 'package:elpigo/app/modules/owner/layout_owner/bindings/layout_owner_binding.dart';
+import 'package:elpigo/app/modules/owner/layout_owner/views/layout_owner_view.dart';
+import 'package:elpigo/app/modules/owner/home_owner/bindings/home_owner_binding.dart';
+import 'package:elpigo/app/modules/owner/home_owner/views/home_owner_view.dart';
+import 'package:elpigo/app/modules/owner/riwayat_pembelian/bindings/riwayat_pembelian_binding.dart';
+import 'package:elpigo/app/modules/owner/riwayat_pembelian/views/riwayat_pembelian_view.dart';
+
 import '../modules/Profile/bindings/profile_binding.dart';
 import '../modules/Profile/views/profile_view.dart';
 import '../modules/confirm/bindings/confirm_binding.dart';
@@ -8,8 +15,8 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/loginCustomer/bindings/login_customer_binding.dart';
 import '../modules/loginCustomer/views/login_customer_view.dart';
-import '../modules/loginOwner/bindings/login_owner_binding.dart';
-import '../modules/loginOwner/views/login_owner_view.dart';
+import '../modules/owner/loginOwner/bindings/login_owner_binding.dart';
+import '../modules/owner/loginOwner/views/login_owner_view.dart';
 import '../modules/registerCustomer/bindings/register_customer_binding.dart';
 import '../modules/registerCustomer/views/register_costumer.dart';
 import '../modules/registerCustomer/views/uplode_data_rt.dart';
@@ -67,6 +74,21 @@ class AppPages {
       name: _Paths.PROFILE,
       page: () => Profileview(),
       binding: ProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.HOME_OWNER,
+      page: () => HomeOwnerView(),
+      binding: HomeOwnerBinding(),
+    ),
+    GetPage(
+      name: _Paths.LAYOUT_OWNER,
+      page: () => LayoutOwnerView(),
+      binding: LayoutOwnerBinding(),
+    ),
+    GetPage(
+      name: _Paths.RIWAYAT_PEMBELIAN,
+      page: () => RiwayatPembelianView(),
+      binding: RiwayatPembelianBinding(),
     ),
   ];
 }

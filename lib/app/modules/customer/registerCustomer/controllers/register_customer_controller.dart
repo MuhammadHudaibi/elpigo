@@ -30,7 +30,7 @@ class RegisterCustomerController extends GetxController {
   Future<String?> _uploadPhoto(File? photo, String path, String username, String password) async {
     if (photo == null) return null;
     try {
-      // Konfigurasi Firebase Storage dengan username dan password
+      
       final ref = FirebaseStorage.instance
           .ref()
           .child(path)
@@ -46,19 +46,19 @@ class RegisterCustomerController extends GetxController {
 
   void register() async {
     try {
-      // Lakukan otentikasi pengguna dengan email dan password
+      
       UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: nikController.text,
         password: passwordController.text,
       );
 
-      // Menggunakan userCredential
+      
       User? user = userCredential.user;
       if (user != null) {
-        // Lakukan tindakan tambahan, misalnya menyimpan informasi tambahan tentang pengguna ke Firestore
+       
       }
 
-      // Setelah pengguna berhasil diautentikasi, lanjutkan dengan menentukan halaman upload data yang sesuai
+      
       String nextPage = selectedCustomerType.value == 'UMKM' ? '/upload-umkm' : '/upload-rt';
       await uploadData(nextPage);
 
@@ -69,47 +69,47 @@ class RegisterCustomerController extends GetxController {
 
   Future<void> uploadData(String nextPage) async {
     try {
-      // Mendapatkan NIK dari nikController
+      
       String name = nameController.text;
 
-      // Menyimpan waktu saat ini dalam variabel untuk digunakan sebagai nama file
+      
       int currentTimeMillis = DateTime.now().millisecondsSinceEpoch;
 
-      // Mengunggah foto KTP
+      
       String? ktpPhotoUrl = await _uploadPhoto(
         ktpPhoto.value, 
         'photos/$name/ktp/$currentTimeMillis.jpg',
-        name, // Menggunakan NIK sebagai username
-        passwordController.text, // Menggunakan password dari controller
+        name,
+        passwordController.text, 
       );
 
-      // Mengunggah foto KK
+      
       String? kkPhotoUrl = await _uploadPhoto(
         kkPhoto.value, 
         'photos/$name/kk/$currentTimeMillis.jpg',
-        name, // Menggunakan NIK sebagai username
-        passwordController.text, // Menggunakan password dari controller
+        name, 
+        passwordController.text, 
       );
 
       // Mengunggah foto pemilik
       String? ownerPhotoUrl = await _uploadPhoto(
         ownerPhoto.value, 
         'photos/$name/owner/$currentTimeMillis.jpg',
-        name, // Menggunakan NIK sebagai username
-        passwordController.text, // Menggunakan password dari controller
+        name, 
+        passwordController.text, 
       );
 
-      // Mengunggah foto bisnis (jika jenis pelanggan adalah UMKM)
+      
       String? businessPhotoUrl = selectedCustomerType.value == 'UMKM'
           ? await _uploadPhoto(
               businessPhoto.value, 
               'photos/$name/business/$currentTimeMillis.jpg',
-              name, // Menggunakan NIK sebagai username
-              passwordController.text, // Menggunakan password dari controller
+              name, 
+              passwordController.text, 
             )
           : null;
 
-      // Menyimpan data pelanggan ke Firestore
+
       await FirebaseFirestore.instance.collection('customers').add({
         'name': nameController.text,
         'address': addressController.text,
@@ -124,23 +124,20 @@ class RegisterCustomerController extends GetxController {
         'location': location.value,
       });
 
-      // Menampilkan snackbar untuk konfirmasi
+      
       Get.snackbar('Success', 'Data registered successfully');
 
-      // Mengalihkan ke halaman berikutnya jika diberikan
+      
       if (nextPage.isNotEmpty) {
         Get.toNamed(nextPage);
       }
     } catch (e) {
-      // Menampilkan snackbar jika terjadi kesalahan
+     
       Get.snackbar('Error', 'Failed to register data: $e');
     }
   }
 
   Future<void> uploadToFirebaseStorage() async {
-    // Implementasi logika untuk mengunggah ke Firebase Storage di sini
-    // Anda dapat memanggil metode _uploadPhoto atau menggunakan metode upload file Firebase Storage lainnya
-    // Misalnya:
-    // await _uploadPhoto(ktpPhoto.value, 'photos/ktp/${DateTime.now().millisecondsSinceEpoch}.jpg');
+    
   }
 }

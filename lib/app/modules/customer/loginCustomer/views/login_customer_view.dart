@@ -25,7 +25,7 @@ class LoginCustomerView extends GetView<LoginCustomerController> {
               Padding(
                 padding: const EdgeInsets.only(top: 60, left: 20, right: 20),
                 child: Text(
-                  "LOGIN CUSTOMER",
+                  "LOGIN CUST",
                   style: GoogleFonts.poppins(
                     fontSize: 40,
                     fontWeight: FontWeight.bold,

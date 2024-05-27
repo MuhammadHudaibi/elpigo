@@ -15,13 +15,6 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 50, right: 310),
-                child: IconButton(
-                  icon: Icon(Icons.arrow_back),
-                  iconSize: 30,
-                  onPressed: () {
-                    Get.back();
-                  },
-                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 2, left: 20, right: 20),
@@ -38,7 +31,7 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
               Form(
                 child: Container(
                   width: 340,
-                  height: 670,
+                  height: 720,
                   decoration: BoxDecoration(
                     color: Color.fromARGB(255, 88, 122, 44),
                     borderRadius: BorderRadius.circular(15),
@@ -257,32 +250,54 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                                 ),
                               )),
                         ),
-                        const SizedBox(height: 40),
+                        const SizedBox(height: 20),
                         ElevatedButton(
-  style: ElevatedButton.styleFrom(
-    backgroundColor: Colors.white,
-    minimumSize: const Size(180, 50),
-    padding: const EdgeInsets.symmetric(
-      vertical: 10,
-      horizontal: 16,
-    ),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(8.0),
-    ),
-  ),
-  onPressed: () {
-    controller.register(); // Panggil fungsi register
-  },
-  child: Text(
-    "Register",
-    style: GoogleFonts.poppins(
-      fontSize: 20,
-      fontWeight: FontWeight.bold,
-      color: Color.fromARGB(255, 88, 122, 44),
-    ),
-  ),
-),
-
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            minimumSize: const Size(180, 50),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 10,
+                              horizontal: 16,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                          ),
+                          onPressed: () {
+                            controller.register(); // Call the register function
+                          },
+                          child: Text(
+                            "Register",
+                            style: GoogleFonts.poppins(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(255, 88, 122, 44),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        TextButton(
+                          onPressed: () {
+                            // Navigate to the login page
+                            Get.toNamed('/login-customer');
+                          },
+                          child: RichText(
+                            text: TextSpan(
+                              text: 'Sudah punya akun? ',
+                              style: GoogleFonts.poppins(
+                                color: Colors.white,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: 'Login',
+                                  style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),

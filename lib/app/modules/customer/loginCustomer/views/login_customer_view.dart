@@ -24,12 +24,15 @@ class LoginCustomerView extends GetView<LoginCustomerController> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 60, left: 20, right: 20),
-                child: Text(
-                  "LOGIN CUST",
-                  style: GoogleFonts.poppins(
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 88, 122, 44),
+                child: Center(
+                  child: Text(
+                    "LOGIN\nCUSTOMER",
+                    style: GoogleFonts.poppins(
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 88, 122, 44),
+                    ),
+                    textAlign: TextAlign.center, // Tambahkan ini untuk memastikan teks diatur di tengah secara horizontal
                   ),
                 ),
               ),

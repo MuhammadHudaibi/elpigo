@@ -1,3 +1,4 @@
+import 'package:elpigo/app/modules/customer/loginCustomer/views/login_customer_view.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,6 +14,7 @@ class RegisterCustomerController extends GetxController {
   var addressController = TextEditingController();
   var nameController = TextEditingController();
   var nikController = TextEditingController();
+  var emailController = TextEditingController();
   var phoneController = TextEditingController();
   var passwordController = TextEditingController();
   var confirmPasswordController = TextEditingController();
@@ -20,17 +22,87 @@ class RegisterCustomerController extends GetxController {
 
   var isObscured = true.obs;
   var selectedCustomerType = ''.obs;
+  var isLoading = false.obs;
 
   final List<String> customerTypes = ['UMKM', 'RT'];
+
+  var nameError = ''.obs;
+  var addressError = ''.obs;
+  var nikError = ''.obs;
+  var emailError = ''.obs;
+  var phoneError = ''.obs;
+  var passwordError = ''.obs;
+  var confirmPasswordError = ''.obs;
+  var customerTypeError = ''.obs;
 
   void toggleObscure() {
     isObscured.toggle();
   }
 
+  bool validateInputs() {
+    bool isValid = true;
+
+    if (nameController.text.isEmpty) {
+      nameError.value = 'Nama harus diisi';
+      isValid = false;
+    } else {
+      nameError.value = '';
+    }
+
+    if (addressController.text.isEmpty) {
+      addressError.value = 'Alamat harus diisi';
+      isValid = false;
+    } else {
+      addressError.value = '';
+    }
+
+    if (nikController.text.isEmpty) {
+      nikError.value = 'NIK harus diisi';
+      isValid = false;
+    } else {
+      nikError.value = '';
+    }
+
+    if (emailController.text.isEmpty || !GetUtils.isEmail(emailController.text)) {
+      emailError.value = 'Email yang valid harus diisi';
+      isValid = false;
+    } else {
+      emailError.value = '';
+    }
+
+    if (phoneController.text.isEmpty || !GetUtils.isPhoneNumber(phoneController.text)) {
+      phoneError.value = 'Nomor telepon yang valid harus diisi';
+      isValid = false;
+    } else {
+      phoneError.value = '';
+    }
+
+    if (passwordController.text.isEmpty || passwordController.text.length < 6) {
+      passwordError.value = 'Kata sandi harus minimal 6 karakter';
+      isValid = false;
+    } else {
+      passwordError.value = '';
+    }
+
+    if (confirmPasswordController.text != passwordController.text) {
+      confirmPasswordError.value = 'Kata sandi tidak cocok';
+      isValid = false;
+    } else {
+      confirmPasswordError.value = '';
+    }
+
+    if (selectedCustomerType.value.isEmpty) {
+    customerTypeError.value = 'Tipe pelanggan harus dipilih';
+    isValid = false;
+  } else {
+    customerTypeError.value = '';
+  }
+    return isValid;
+  }
+
   Future<String?> _uploadPhoto(File? photo, String path, String username, String password) async {
     if (photo == null) return null;
     try {
-      
       final ref = FirebaseStorage.instance
           .ref()
           .child(path)
@@ -45,99 +117,90 @@ class RegisterCustomerController extends GetxController {
   }
 
   void register() async {
+    if (!validateInputs()) {
+      return;
+    }
+
     try {
-      
+      isLoading.value = true;
       UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: nikController.text,
+        email: emailController.text,
         password: passwordController.text,
       );
 
-      
       User? user = userCredential.user;
       if (user != null) {
-       
+        String nextPage = selectedCustomerType.value == 'UMKM' ? '/upload-umkm' : '/upload-rt';
+        Get.toNamed(nextPage);
       }
-
-      
-      String nextPage = selectedCustomerType.value == 'UMKM' ? '/upload-umkm' : '/upload-rt';
-      await uploadData(nextPage);
-
     } catch (e) {
       Get.snackbar('Error', 'Failed to register user: $e');
+      print(e);
+    } finally {
+      isLoading.value = false;
     }
   }
 
-  Future<void> uploadData(String nextPage) async {
+  Future<void> uploadData() async {
     try {
-      
+      isLoading.value = true;
       String name = nameController.text;
-
-      
       int currentTimeMillis = DateTime.now().millisecondsSinceEpoch;
 
-      
       String? ktpPhotoUrl = await _uploadPhoto(
-        ktpPhoto.value, 
+        ktpPhoto.value,
         'photos/$name/ktp/$currentTimeMillis.jpg',
         name,
-        passwordController.text, 
+        passwordController.text,
       );
 
-      
       String? kkPhotoUrl = await _uploadPhoto(
-        kkPhoto.value, 
+        kkPhoto.value,
         'photos/$name/kk/$currentTimeMillis.jpg',
-        name, 
-        passwordController.text, 
+        name,
+        passwordController.text,
       );
 
-      // Mengunggah foto pemilik
       String? ownerPhotoUrl = await _uploadPhoto(
-        ownerPhoto.value, 
+        ownerPhoto.value,
         'photos/$name/owner/$currentTimeMillis.jpg',
-        name, 
-        passwordController.text, 
+        name,
+        passwordController.text,
       );
 
-      
-      String? businessPhotoUrl = selectedCustomerType.value == 'UMKM'
-          ? await _uploadPhoto(
-              businessPhoto.value, 
-              'photos/$name/business/$currentTimeMillis.jpg',
-              name, 
-              passwordController.text, 
-            )
-          : null;
-
+      String? businessPhotoUrl;
+      if (selectedCustomerType.value == 'UMKM') {
+        businessPhotoUrl = await _uploadPhoto(
+          businessPhoto.value,
+          'photos/$name/business/$currentTimeMillis.jpg',
+          name,
+          passwordController.text,
+        );
+      }
 
       await FirebaseFirestore.instance.collection('customers').add({
         'name': nameController.text,
         'address': addressController.text,
         'nik': nikController.text,
+        'email': emailController.text,
         'phone': phoneController.text,
         'customerType': selectedCustomerType.value,
         'password': passwordController.text,
         'ktpPhotoUrl': ktpPhotoUrl,
         'kkPhotoUrl': kkPhotoUrl,
         'ownerPhotoUrl': ownerPhotoUrl,
-        'businessPhotoUrl': businessPhotoUrl,
+        if (businessPhotoUrl != null) 'businessPhotoUrl': businessPhotoUrl,
         'location': location.value,
       });
 
-      
       Get.snackbar('Success', 'Data registered successfully');
 
-      
-      if (nextPage.isNotEmpty) {
-        Get.toNamed(nextPage);
-      }
-    } catch (e) {
-     
-      Get.snackbar('Error', 'Failed to register data: $e');
-    }
-  }
+      Get.off(LoginCustomerView());
 
-  Future<void> uploadToFirebaseStorage() async {
-    
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to register data: $e');
+    } finally {
+      isLoading.value = false;
+    }
   }
 }

@@ -77,37 +77,43 @@ class UploadRTDataView extends GetView<RegisterCustomerController> {
                         const SizedBox(height: 20),
                         _buildGoogleMapsField(context),
                         const SizedBox(height: 40),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            minimumSize: const Size(180, 50),
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 16,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                          ),
-                          onPressed: () {
-                            controller.uploadData('/login-customer');
-                          },
-                          child: Text(
-                            "Upload",
-                            style: GoogleFonts.poppins(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 88, 122, 44),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 20), 
+                        Obx((){
+                          if (controller.isLoading.value) {
+                            return CircularProgressIndicator();
+                          } else{
+                            return ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                minimumSize: const Size(180, 50),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 10,
+                                  horizontal: 16,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                              ),
+                              onPressed: () {
+                                controller.uploadData();
+                              },
+                              child: Text(
+                                "Upload",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(255, 88, 122, 44),
+                                ),
+                              ),
+                            );
+                           }
+                        }),
+                        SizedBox(height: 20),
                       ],
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 20), 
+              const SizedBox(height: 20),
             ],
           ),
         ),

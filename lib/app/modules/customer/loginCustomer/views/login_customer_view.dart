@@ -32,7 +32,7 @@ class LoginCustomerView extends GetView<LoginCustomerController> {
                       fontWeight: FontWeight.bold,
                       color: Color.fromARGB(255, 88, 122, 44),
                     ),
-                    textAlign: TextAlign.center, // Tambahkan ini untuk memastikan teks diatur di tengah secara horizontal
+                    textAlign: TextAlign.center,
                   ),
                 ),
               ),
@@ -66,7 +66,7 @@ class LoginCustomerView extends GetView<LoginCustomerController> {
                                   color: Colors.black,
                                 ),
                               ),
-                              hintText: "NIK+@gmail.com",
+                              hintText: "Masukan NIK/Email Anda",
                               hintStyle: GoogleFonts.poppins(
                                 color: Colors.white,
                               ),

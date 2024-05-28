@@ -120,9 +120,14 @@ class RegisterCustomerController extends GetxController {
     if (!validateInputs()) {
       return;
     }
+    String nextPage = selectedCustomerType.value == 'UMKM' ? '/upload-umkm' : '/upload-rt';
+    Get.toNamed(nextPage);
+  }
 
+  Future<void> uploadData() async {
     try {
       isLoading.value = true;
+
       UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
@@ -130,73 +135,59 @@ class RegisterCustomerController extends GetxController {
 
       User? user = userCredential.user;
       if (user != null) {
-        String nextPage = selectedCustomerType.value == 'UMKM' ? '/upload-umkm' : '/upload-rt';
-        Get.toNamed(nextPage);
-      }
-    } catch (e) {
-      Get.snackbar('Error', 'Failed to register user: $e');
-      print(e);
-    } finally {
-      isLoading.value = false;
-    }
-  }
+        String name = nameController.text;
+        int currentTimeMillis = DateTime.now().millisecondsSinceEpoch;
 
-  Future<void> uploadData() async {
-    try {
-      isLoading.value = true;
-      String name = nameController.text;
-      int currentTimeMillis = DateTime.now().millisecondsSinceEpoch;
-
-      String? ktpPhotoUrl = await _uploadPhoto(
-        ktpPhoto.value,
-        'photos/$name/ktp/$currentTimeMillis.jpg',
-        name,
-        passwordController.text,
-      );
-
-      String? kkPhotoUrl = await _uploadPhoto(
-        kkPhoto.value,
-        'photos/$name/kk/$currentTimeMillis.jpg',
-        name,
-        passwordController.text,
-      );
-
-      String? ownerPhotoUrl = await _uploadPhoto(
-        ownerPhoto.value,
-        'photos/$name/owner/$currentTimeMillis.jpg',
-        name,
-        passwordController.text,
-      );
-
-      String? businessPhotoUrl;
-      if (selectedCustomerType.value == 'UMKM') {
-        businessPhotoUrl = await _uploadPhoto(
-          businessPhoto.value,
-          'photos/$name/business/$currentTimeMillis.jpg',
+        String? ktpPhotoUrl = await _uploadPhoto(
+          ktpPhoto.value,
+          'photos/$name/ktp/$currentTimeMillis.jpg',
           name,
           passwordController.text,
         );
+
+        String? kkPhotoUrl = await _uploadPhoto(
+          kkPhoto.value,
+          'photos/$name/kk/$currentTimeMillis.jpg',
+          name,
+          passwordController.text,
+        );
+
+        String? ownerPhotoUrl = await _uploadPhoto(
+          ownerPhoto.value,
+          'photos/$name/owner/$currentTimeMillis.jpg',
+          name,
+          passwordController.text,
+        );
+
+        String? businessPhotoUrl;
+        if (selectedCustomerType.value == 'UMKM') {
+          businessPhotoUrl = await _uploadPhoto(
+            businessPhoto.value,
+            'photos/$name/business/$currentTimeMillis.jpg',
+            name,
+            passwordController.text,
+          );
+        }
+
+        await FirebaseFirestore.instance.collection('customers').doc(user.uid).set({
+          'name': nameController.text,
+          'address': addressController.text,
+          'nik': nikController.text,
+          'email': emailController.text,
+          'phone': phoneController.text,
+          'customerType': selectedCustomerType.value,
+          'password': passwordController.text,
+          'ktpPhotoUrl': ktpPhotoUrl,
+          'kkPhotoUrl': kkPhotoUrl,
+          'ownerPhotoUrl': ownerPhotoUrl,
+          if (businessPhotoUrl != null) 'businessPhotoUrl': businessPhotoUrl,
+          'location': location.value,
+        });
+
+        Get.snackbar('Success', 'Data registered successfully');
+
+        Get.off(LoginCustomerView());
       }
-
-      await FirebaseFirestore.instance.collection('customers').add({
-        'name': nameController.text,
-        'address': addressController.text,
-        'nik': nikController.text,
-        'email': emailController.text,
-        'phone': phoneController.text,
-        'customerType': selectedCustomerType.value,
-        'password': passwordController.text,
-        'ktpPhotoUrl': ktpPhotoUrl,
-        'kkPhotoUrl': kkPhotoUrl,
-        'ownerPhotoUrl': ownerPhotoUrl,
-        if (businessPhotoUrl != null) 'businessPhotoUrl': businessPhotoUrl,
-        'location': location.value,
-      });
-
-      Get.snackbar('Success', 'Data registered successfully');
-
-      Get.off(LoginCustomerView());
-
     } catch (e) {
       Get.snackbar('Error', 'Failed to register data: $e');
     } finally {

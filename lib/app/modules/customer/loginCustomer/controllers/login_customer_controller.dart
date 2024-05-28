@@ -57,16 +57,6 @@ class LoginCustomerController extends GetxController {
     }
   }
 
-  Future<void> logout() async {
-    try {
-      await FirebaseAuth.instance.signOut();
-      Get.offAllNamed(Routes.CONFIRM);
-    } catch (e) {
-      print('Error while logging out: $e');
-      Get.snackbar('Error', 'Failed to logout: $e');
-    }
-  }
-
   @override
   void onClose() {
     emailNikController.dispose();

@@ -129,6 +129,7 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                               controller: controller.addressController,
                               cursorColor: Colors.white,
                               keyboardType: TextInputType.streetAddress,
+                              maxLines: null,
                               decoration: InputDecoration(
                                 enabledBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(

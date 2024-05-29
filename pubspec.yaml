@@ -26,5 +26,8 @@ dev_dependencies:
 flutter:
   assets: 
     - assets/logo.png
+    - assets/3kg.png
+    - assets/12.png
+    - assets/bright_gas.png
   uses-material-design: true
 

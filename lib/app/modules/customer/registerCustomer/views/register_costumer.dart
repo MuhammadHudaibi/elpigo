@@ -42,7 +42,8 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 50, horizontal: 20),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -50,39 +51,38 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                               controller: controller.nameController,
                               cursorColor: Colors.white,
                               decoration: InputDecoration(
-                                enabledBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
+                                  enabledBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  focusedBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  errorBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 2.0,
+                                    ),
+                                  ),
+                                  focusedErrorBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 2.0,
+                                    ),
+                                  ),
+                                  hintText: "Nama Sesuai KTP",
+                                  hintStyle: GoogleFonts.poppins(
                                     color: Colors.white,
                                   ),
-                                ),
-                                focusedBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                errorBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.red,
-                                    width: 2.0,
-                                  ),
-                                ),
-                                focusedErrorBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.red,
-                                    width: 2.0,
-                                  ),
-                                ),
-                                hintText: "Nama Sesuai KTP",
-                                hintStyle: GoogleFonts.poppins(
-                                  color: Colors.white,
-                                ),
-                                errorText: controller.nameError.value.isNotEmpty
-                                      ? controller.nameError.value
-                                      : null,
-                                errorStyle: GoogleFonts.poppins(
-                                  color: Colors.redAccent
-                                )
-                              ),
+                                  errorText:
+                                      controller.nameError.value.isNotEmpty
+                                          ? controller.nameError.value
+                                          : null,
+                                  errorStyle: GoogleFonts.poppins(
+                                      color: Colors.redAccent)),
                             ),
                             const SizedBox(height: 20),
                             TextFormField(
@@ -90,39 +90,38 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                               cursorColor: Colors.white,
                               keyboardType: TextInputType.number,
                               decoration: InputDecoration(
-                                enabledBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
+                                  enabledBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  focusedBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  errorBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 2.0,
+                                    ),
+                                  ),
+                                  focusedErrorBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 2.0,
+                                    ),
+                                  ),
+                                  hintText: "NIK Anda",
+                                  hintStyle: GoogleFonts.poppins(
                                     color: Colors.white,
                                   ),
-                                ),
-                                focusedBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                errorBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.red,
-                                    width: 2.0,
-                                  ),
-                                ),
-                                focusedErrorBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.red,
-                                    width: 2.0,
-                                  ),
-                                ),
-                                hintText: "NIK Anda",
-                                hintStyle: GoogleFonts.poppins(
-                                  color: Colors.white,
-                                ),
-                                errorText: controller.nikError.value.isNotEmpty
-                                      ? controller.nikError.value
-                                      : null,
-                                errorStyle: GoogleFonts.poppins(
-                                  color: Colors.redAccent
-                                )
-                              ),
+                                  errorText:
+                                      controller.nikError.value.isNotEmpty
+                                          ? controller.nikError.value
+                                          : null,
+                                  errorStyle: GoogleFonts.poppins(
+                                      color: Colors.redAccent)),
                             ),
                             const SizedBox(height: 20),
                             TextFormField(
@@ -131,39 +130,38 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                               keyboardType: TextInputType.streetAddress,
                               maxLines: null,
                               decoration: InputDecoration(
-                                enabledBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
+                                  enabledBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  focusedBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  errorBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 2.0,
+                                    ),
+                                  ),
+                                  focusedErrorBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 2.0,
+                                    ),
+                                  ),
+                                  hintText: "Alamat Anda",
+                                  hintStyle: GoogleFonts.poppins(
                                     color: Colors.white,
                                   ),
-                                ),
-                                focusedBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                errorBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.red,
-                                    width: 2.0,
-                                  ),
-                                ),
-                                focusedErrorBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.red,
-                                    width: 2.0,
-                                  ),
-                                ),
-                                hintText: "Alamat Anda",
-                                hintStyle: GoogleFonts.poppins(
-                                  color: Colors.white,
-                                ),
-                                errorText: controller.addressError.value.isNotEmpty
-                                      ? controller.addressError.value
-                                      : null,
-                                errorStyle: GoogleFonts.poppins(
-                                  color: Colors.redAccent
-                                )
-                              ),
+                                  errorText:
+                                      controller.addressError.value.isNotEmpty
+                                          ? controller.addressError.value
+                                          : null,
+                                  errorStyle: GoogleFonts.poppins(
+                                      color: Colors.redAccent)),
                             ),
                             const SizedBox(height: 20),
                             TextFormField(
@@ -171,39 +169,38 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                               cursorColor: Colors.white,
                               keyboardType: TextInputType.emailAddress,
                               decoration: InputDecoration(
-                                enabledBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
+                                  enabledBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  focusedBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  errorBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 2.0,
+                                    ),
+                                  ),
+                                  focusedErrorBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 2.0,
+                                    ),
+                                  ),
+                                  hintText: "Email Anda",
+                                  hintStyle: GoogleFonts.poppins(
                                     color: Colors.white,
                                   ),
-                                ),
-                                focusedBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                errorBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.red,
-                                    width: 2.0,
-                                  ),
-                                ),
-                                focusedErrorBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.red,
-                                    width: 2.0,
-                                  ),
-                                ),
-                                hintText: "Email Anda",
-                                hintStyle: GoogleFonts.poppins(
-                                  color: Colors.white,
-                                ),
-                                errorText: controller.emailError.value.isNotEmpty
-                                      ? controller.emailError.value
-                                      : null,
-                                errorStyle: GoogleFonts.poppins(
-                                  color: Colors.redAccent
-                                )
-                              ),
+                                  errorText:
+                                      controller.emailError.value.isNotEmpty
+                                          ? controller.emailError.value
+                                          : null,
+                                  errorStyle: GoogleFonts.poppins(
+                                      color: Colors.redAccent)),
                             ),
                             const SizedBox(height: 20),
                             TextFormField(
@@ -211,51 +208,105 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                               cursorColor: Colors.white,
                               keyboardType: TextInputType.phone,
                               decoration: InputDecoration(
-                                enabledBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                focusedBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                errorBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.red,
-                                    width: 2.0,
-                                  ),
-                                ),
-                                focusedErrorBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.red,
-                                    width: 2.0,
-                                  ),
-                                ),
-                                hintText: "Nomor HP Anda",
-                                hintStyle: GoogleFonts.poppins(
-                                  color: Colors.white,
-                                ),
-                                errorText: controller.phoneError.value.isNotEmpty
-                                      ? controller.phoneError.value
-                                      : null,
-                                errorStyle: GoogleFonts.poppins(
-                                  color: Colors.redAccent
-                                )
-                              ),
-                            ),
-                            const SizedBox(height: 20),
-                            Obx(() => DropdownButtonFormField<String>(
-                                  value: controller.selectedCustomerType.value.isEmpty
-                                      ? null
-                                      : controller.selectedCustomerType.value,
-                                  hint: Text(
-                                    'Pilih Tipe Pelanggan',
-                                    style: GoogleFonts.poppins(
+                                  enabledBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
                                       color: Colors.white,
                                     ),
                                   ),
+                                  focusedBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  errorBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 2.0,
+                                    ),
+                                  ),
+                                  focusedErrorBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 2.0,
+                                    ),
+                                  ),
+                                  hintText: "Nomor HP Anda",
+                                  hintStyle: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                  ),
+                                  errorText:
+                                      controller.phoneError.value.isNotEmpty
+                                          ? controller.phoneError.value
+                                          : null,
+                                  errorStyle: GoogleFonts.poppins(
+                                      color: Colors.redAccent)),
+                            ),
+                            const SizedBox(height: 20),
+                            Obx(
+                              () => DropdownButtonFormField<String>(
+                                value: controller
+                                        .selectedCustomerType.value.isEmpty
+                                    ? null
+                                    : controller.selectedCustomerType.value,
+                                hint: Text(
+                                  'Pilih Tipe Pelanggan',
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                decoration: InputDecoration(
+                                    enabledBorder: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    focusedBorder: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    errorBorder: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.red,
+                                        width: 2.0,
+                                      ),
+                                    ),
+                                    focusedErrorBorder:
+                                        const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.red,
+                                        width: 2.0,
+                                      ),
+                                    ),
+                                    errorText: controller
+                                            .customerTypeError.value.isNotEmpty
+                                        ? controller.customerTypeError.value
+                                        : null,
+                                    errorStyle: GoogleFonts.poppins(
+                                        color: Colors.redAccent)),
+                                dropdownColor: Color.fromARGB(255, 88, 122, 44),
+                                items: controller.customerTypes.map((type) {
+                                  return DropdownMenuItem<String>(
+                                    value: type,
+                                    child: Text(
+                                      type,
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  controller.selectedCustomerType.value =
+                                      value!;
+                                },
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            Obx(() => TextFormField(
+                                  controller: controller.passwordController,
+                                  cursorColor: Colors.white,
+                                  obscureText: controller.isObscured.value,
                                   decoration: InputDecoration(
                                     enabledBorder: const OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -273,59 +324,8 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                                         width: 2.0,
                                       ),
                                     ),
-                                    focusedErrorBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.red,
-                                        width: 2.0,
-                                      ),
-                                    ),
-                                    errorText: controller.customerTypeError.value.isNotEmpty
-                                        ? controller.customerTypeError.value
-                                        : null,
-                                    errorStyle: GoogleFonts.poppins(
-                                      color: Colors.redAccent
-                                    )
-                                  ),
-                                  dropdownColor: Color.fromARGB(255, 88, 122, 44),
-                                  items: controller.customerTypes.map((type) {
-                                    return DropdownMenuItem<String>(
-                                      value: type,
-                                      child: Text(
-                                        type,
-                                        style: GoogleFonts.poppins(
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    );
-                                  }).toList(),
-                                  onChanged: (value) {
-                                    controller.selectedCustomerType.value = value!;
-                                  },
-                                ),
-                              ),
-                            const SizedBox(height: 20),
-                            Obx(() => TextFormField(
-                                  controller: controller.passwordController,
-                                  cursorColor: Colors.white,
-                                  obscureText: controller.isObscured.value,
-                                  decoration: InputDecoration(
-                                    enabledBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Color.fromARGB(255, 20, 20, 20),
-                                      ),
-                                    ),
-                                    focusedBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                    errorBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.red,
-                                        width: 2.0,
-                                      ),
-                                    ),
-                                    focusedErrorBorder: const OutlineInputBorder(
+                                    focusedErrorBorder:
+                                        const OutlineInputBorder(
                                       borderSide: BorderSide(
                                         color: Colors.red,
                                         width: 2.0,
@@ -335,12 +335,12 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                                     hintStyle: GoogleFonts.poppins(
                                       color: Colors.white,
                                     ),
-                                    errorText: controller.passwordError.value.isNotEmpty
-                                      ? controller.passwordError.value
-                                      : null,
+                                    errorText: controller
+                                            .passwordError.value.isNotEmpty
+                                        ? controller.passwordError.value
+                                        : null,
                                     errorStyle: GoogleFonts.poppins(
-                                      color: Colors.redAccent
-                                    ),
+                                        color: Colors.redAccent),
                                     suffixIcon: IconButton(
                                       onPressed: () {
                                         controller.toggleObscure();
@@ -351,13 +351,13 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                                             : Icons.visibility,
                                         color: Colors.white,
                                       ),
-                                      
                                     ),
                                   ),
                                 )),
                             const SizedBox(height: 20),
                             Obx(() => TextFormField(
-                                  controller: controller.confirmPasswordController,
+                                  controller:
+                                      controller.confirmPasswordController,
                                   cursorColor: Colors.white,
                                   obscureText: controller.isObscured.value,
                                   decoration: InputDecoration(
@@ -377,7 +377,8 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                                         width: 2.0,
                                       ),
                                     ),
-                                    focusedErrorBorder: const OutlineInputBorder(
+                                    focusedErrorBorder:
+                                        const OutlineInputBorder(
                                       borderSide: BorderSide(
                                         color: Colors.red,
                                         width: 2.0,
@@ -387,12 +388,12 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                                     hintStyle: GoogleFonts.poppins(
                                       color: Colors.white,
                                     ),
-                                    errorText: controller.confirmPasswordError.value.isNotEmpty
-                                      ? controller.confirmPasswordError.value
-                                      : null,
+                                    errorText: controller.confirmPasswordError
+                                            .value.isNotEmpty
+                                        ? controller.confirmPasswordError.value
+                                        : null,
                                     errorStyle: GoogleFonts.poppins(
-                                      color: Colors.redAccent
-                                    ),
+                                        color: Colors.redAccent),
                                     suffixIcon: IconButton(
                                       onPressed: () {
                                         controller.toggleObscure();
@@ -420,7 +421,8 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                                 ),
                               ),
                               onPressed: () {
-                                controller.register(); // Call the register function
+                                controller
+                                    .register(); // Call the register function
                               },
                               child: Text(
                                 "Register",

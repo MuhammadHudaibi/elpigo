@@ -47,7 +47,7 @@ class LoginCustomerController extends GetxController {
           "Anda Berhasil Masuk.",
           backgroundColor: Colors.green,
         );
-        Get.offAllNamed(Routes.HOME_CUSTOMER);
+        Get.offAllNamed(Routes.LAYOUT_CUSTOMER);
       }
     } on FirebaseAuthException catch (e) {
       print(e.code);

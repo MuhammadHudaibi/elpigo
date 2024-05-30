@@ -101,7 +101,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.RIWAYAT_PEMESANAN,
-      page: () => RiwayatPemesananView(),
+      page: () => RiwayatPemesanan(),
       binding: RiwayatPemesananBinding(),
     ),
   ];

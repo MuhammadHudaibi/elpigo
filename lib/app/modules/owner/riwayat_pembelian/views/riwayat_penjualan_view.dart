@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../controllers/riwayat_penjualan_controller.dart';
-import 'package:elpigo/app/modules/owner/loginOwner/controllers/login_owner_controller.dart';
 
 class RiwayatPenjualanView extends StatelessWidget {
   @override

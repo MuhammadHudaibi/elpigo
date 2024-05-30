@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:elpigo/app/modules/customer/riwayat_pemesanan/controllers/riwayat_pemesanan_controller.dart';
 
 class RiwayatPemesanan extends StatelessWidget {
@@ -9,8 +11,25 @@ class RiwayatPemesanan extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Riwayat Pesanan'),
         backgroundColor: Colors.green,
+        title: Text(
+          "Riwayat Pemesanan",
+          style: GoogleFonts.poppins(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(
+              CupertinoIcons.cart,
+              size: 25,
+              color: Colors.white,
+            ),
+          ),
+        ],
       ),
       body: Obx(() {
         if (transactionController.transactions.isEmpty) {

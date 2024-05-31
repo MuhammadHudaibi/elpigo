@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:elpigo/app/modules/customer/Keranjang_Customer/controllers/keranjang_customer_controller.dart';
+import 'package:elpigo/app/modules/customer/Keranjang_Customer/views/keranjang_customer_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,7 +27,11 @@ class HomeCustomerView extends GetView<HomeCustomerController> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context,
+              MaterialPageRoute(builder:(context) => KeranjangCustomerView ())
+              );
+            },
             icon: Icon(
               CupertinoIcons.cart,
               size: 25,

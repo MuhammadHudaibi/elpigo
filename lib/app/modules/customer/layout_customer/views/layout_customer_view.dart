@@ -18,7 +18,7 @@ class LayoutCustomerView extends GetView<LayoutCustomerController> {
           index: controller.tabIndex.value,
           children: [
             HomeCustomerView(),
-            RiwayatPemesananView(),
+            RiwayatPemesanan(),
             Profileview(),
           ],
         ),

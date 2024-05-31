@@ -16,6 +16,7 @@ abstract class Routes {
   static const HOME_CUSTOMER = _Paths.HOME_CUSTOMER;
   static const LAYOUT_CUSTOMER = _Paths.LAYOUT_CUSTOMER;
   static const RIWAYAT_PEMESANAN = _Paths.RIWAYAT_PEMESANAN;
+  static const KERANJANG_CUSTOMER = _Paths.KERANJANG_CUSTOMER;
 }
 
 abstract class _Paths {
@@ -33,4 +34,5 @@ abstract class _Paths {
   static const HOME_CUSTOMER = '/home-customer';
   static const LAYOUT_CUSTOMER = '/layout-customer';
   static const RIWAYAT_PEMESANAN = '/riwayat-pemesanan';
+  static const KERANJANG_CUSTOMER = '/keranjang-customer';
 }

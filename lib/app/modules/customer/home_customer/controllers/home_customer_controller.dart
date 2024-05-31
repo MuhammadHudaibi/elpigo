@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class HomeCustomerController extends GetxController {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   var isLoading = true.obs;
   var userData = {}.obs;
 
@@ -11,6 +13,25 @@ class HomeCustomerController extends GetxController {
   void onInit() {
     super.onInit();
     fetchUserData();
+  }
+
+  Stream<QuerySnapshot> getRecipesStream() {
+    return _firestore.collection('products').snapshots();
+  }
+
+  Future<DocumentSnapshot<Map<String, dynamic>>> getRecipeById(
+      String productId) async {
+    try {
+      DocumentSnapshot<Map<String, dynamic>> productSnapshot =
+          await _firestore.collection('products').doc(productId).get();
+      if (productSnapshot.exists) {
+        return productSnapshot;
+      } else {
+        return Future.error("Product not found");
+      }
+    } catch (e) {
+      return Future.error(e.toString());
+    }
   }
 
   Future<void> fetchUserData() async {

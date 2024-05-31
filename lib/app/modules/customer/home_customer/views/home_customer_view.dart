@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:elpigo/app/modules/customer/Keranjang_Customer/controllers/keranjang_customer_controller.dart';
+import 'package:elpigo/app/modules/customer/Keranjang_Customer/views/keranjang_customer_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,7 +8,9 @@ import 'package:google_fonts/google_fonts.dart';
 import '../controllers/home_customer_controller.dart';
 
 class HomeCustomerView extends GetView<HomeCustomerController> {
-  final HomeCustomerController _controller = Get.put(HomeCustomerController());
+  HomeCustomerView({Key? key}) : super(key: key);
+
+  final HomeCustomerController controller = Get.put(HomeCustomerController());
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +27,11 @@ class HomeCustomerView extends GetView<HomeCustomerController> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context,
+              MaterialPageRoute(builder:(context) => KeranjangCustomerView ())
+              );
+            },
             icon: Icon(
               CupertinoIcons.cart,
               size: 25,
@@ -34,191 +43,141 @@ class HomeCustomerView extends GetView<HomeCustomerController> {
       body: SingleChildScrollView(
         child: Obx(
           () {
-            if (_controller.isLoading.value) {
-              return CircularProgressIndicator();
+            if (controller.isLoading.value) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
             } else {
-              final userData = _controller.userData;
+              final userData = controller.userData;
               return Center(
                 child: Padding(
                   padding: EdgeInsets.all(25),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Selamat Datang ${userData['name']}!",
-                        style: GoogleFonts.poppins(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        "Selamat Berbelanja",
-                        style: GoogleFonts.poppins(
-                          fontSize: 18,
-                          fontWeight: FontWeight.normal,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      SizedBox(height: 50),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Column(
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: controller.getRecipesStream(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset(
-                                'assets/3kg.png',
-                                width: 140,
-                                height: 140,
-                              ),
-                              SizedBox(height: 10),
+                              CircularProgressIndicator(),
+                              SizedBox(height: 20),
                               Text(
-                                "Tabung Gas 3 Kg",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              SizedBox(height: 6),
-                              Text(
-                                "Rp.30.000",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              SizedBox(height: 6),
-                              Text(
-                                "Stok : 1",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              SizedBox(height: 6),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.green,
-                                    minimumSize: Size(30, 30)),
-                                onPressed: () {},
-                                child: Icon(
-                                  CupertinoIcons.add,
-                                  size: 30,
-                                  color: Colors.white,
-                                ),
+                                'Loading data...',
+                                style: GoogleFonts.poppins(),
                               ),
                             ],
                           ),
-                          SizedBox(width: 30),
-                          Column(
-                            children: [
-                              Image.asset(
-                                'assets/12.png',
-                                width: 140,
-                                height: 140,
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        List<DocumentSnapshot> products = snapshot.data!.docs;
+                        return Column(
+                          children: [
+                            Text(
+                              "Selamat Datang ${userData['name']}!",
+                              style: GoogleFonts.poppins(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey,
                               ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Tabung Gas 12 Kg",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.grey,
-                                ),
+                            ),
+                            SizedBox(height: 8),
+                            Text(
+                              "Selamat Berbelanja",
+                              style: GoogleFonts.poppins(
+                                fontSize: 18,
+                                fontWeight: FontWeight.normal,
+                                color: Colors.grey,
                               ),
-                              SizedBox(height: 6),
-                              Text(
-                                "Rp.125.000",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.grey,
-                                ),
+                            ),
+                            SizedBox(height: 30),
+                            GridView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 10,
+                                childAspectRatio: 0.65,
                               ),
-                              SizedBox(height: 6),
-                              Text(
-                                "Stok : 100",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              SizedBox(height: 6),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.green,
-                                    minimumSize: Size(30, 30)),
-                                onPressed: () {},
-                                child: Icon(
-                                  CupertinoIcons.add,
-                                  size: 30,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 30),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Column(
-                            children: [
-                              Image.asset(
-                                'assets/bright_gas.png',
-                                width: 160,
-                                height: 160,
-                              ),
-                              SizedBox(height: 10),
-                              Text(
-                                "Tabung Gas Bright",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              SizedBox(height: 6),
-                              Text(
-                                "Rp.100.000",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              SizedBox(height: 6),
-                              Text(
-                                "Stok : 100",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              SizedBox(height: 6),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.green,
-                                    minimumSize: Size(30, 30)),
-                                onPressed: () {},
-                                child: Icon(
-                                  CupertinoIcons.add,
-                                  size: 30,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
+                              itemCount: products.length,
+                              itemBuilder: (context, index) {
+                                var product = products[index].data()
+                                    as Map<String, dynamic>;
+                                var productId = products[index].id;
+                                return Card(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Image.network(
+                                        product['imageUrl'],
+                                        width: double.infinity,
+                                        height: 125,
+                                        fit: BoxFit.fitHeight,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              product['title'],
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey,
+                                              ),
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            Text(
+                                              "Rp.${product['price']}",
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.normal,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                            Text(
+                                              "Stok : ${product['stok'] ?? 0}",
+                                              style: GoogleFonts.poppins(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.normal,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                            Center(
+                                              child: ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor: Colors.green,
+                                                  minimumSize: Size(25, 25),
+                                                ),
+                                                onPressed: () {},
+                                                child: Icon(
+                                                  CupertinoIcons.add,
+                                                  size: 25,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        );
+                      }
+                    },
                   ),
                 ),
               );

@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Profileview extends StatefulWidget {
@@ -24,9 +26,27 @@ class _ProfileScreenState extends State<Profileview> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(240, 37, 228, 34),
-        title: const Text('Profile',
-        style: TextStyle(fontSize: 36),),
+        backgroundColor: Colors.green,
+        title: Text(
+          "Riwayat Pemesanan",
+          style: GoogleFonts.poppins(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        actions: [
+          IconButton(
+             onPressed: () {
+                  Get.toNamed('/login-customer');
+},
+            icon: Icon(
+              CupertinoIcons.square_arrow_right,
+              size: 25,
+              color: Colors.white,
+            ),
+          ),
+        ],
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),

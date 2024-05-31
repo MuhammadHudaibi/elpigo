@@ -18,7 +18,7 @@ class LoginCustomerView extends GetView<LoginCustomerController> {
                   icon: Icon(Icons.arrow_back),
                   iconSize: 35,
                   onPressed: () {
-                    Get.back();
+                    Get.toNamed('/confirm');
                   },
                 ),
               ),

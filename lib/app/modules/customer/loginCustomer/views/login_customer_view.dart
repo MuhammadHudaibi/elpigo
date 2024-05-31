@@ -1,3 +1,4 @@
+import 'package:elpigo/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -114,7 +115,9 @@ class LoginCustomerView extends GetView<LoginCustomerController> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 13),
                             child: TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Get.toNamed(Routes.FORGOT_PASSWORD);
+                              },
                               child: Text(
                                 "Lupa Password?",
                                 style: GoogleFonts.poppins(

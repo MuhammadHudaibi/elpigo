@@ -36,7 +36,9 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                   const SizedBox(height: 15),
                   Form(
                     child: Container(
+                      margin: EdgeInsets.only(bottom: 40),
                       width: 340,
+                      height: 830,
                       decoration: BoxDecoration(
                         color: Color.fromARGB(255, 88, 122, 44),
                         borderRadius: BorderRadius.circular(15),

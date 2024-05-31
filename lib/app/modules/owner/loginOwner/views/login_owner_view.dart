@@ -22,7 +22,7 @@ class LoginOwnerView extends GetView<LoginOwnerController> {
                   icon: Icon(Icons.arrow_back),
                   iconSize: 35,
                   onPressed: () {
-                    Get.back();
+                    Get.toNamed('/confirm');
                   },
                 ),
               ),

@@ -12,11 +12,11 @@ class HomeOwnerController extends GetxController {
     super.onInit();
   }
 
-  Stream<QuerySnapshot> getRecipesStream() {
+  Stream<QuerySnapshot> getProductsStream() {
     return _firestore.collection('products').snapshots();
   }
 
-  Future<DocumentSnapshot<Map<String, dynamic>>> getRecipeById(String productId) async {
+  Future<DocumentSnapshot<Map<String, dynamic>>> getProductById(String productId) async {
     try {
       DocumentSnapshot<Map<String, dynamic>> productSnapshot = await _firestore.collection('products').doc(productId).get();
       if (productSnapshot.exists) {

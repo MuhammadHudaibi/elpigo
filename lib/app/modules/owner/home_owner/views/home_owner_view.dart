@@ -25,8 +25,8 @@ class _HomeViewState extends State<HomeOwnerView> {
           ),
         actions: [
           IconButton(
+            color: Colors.white,
             onPressed: () {
-              // Memanggil fungsi logout dari controller saat tombol logout ditekan
               logincontroller.logout();
             },
             icon: Icon(Icons.logout),
@@ -37,7 +37,7 @@ class _HomeViewState extends State<HomeOwnerView> {
         children: [
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
-              stream: controller.getRecipesStream(),
+              stream: controller.getProductsStream(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(

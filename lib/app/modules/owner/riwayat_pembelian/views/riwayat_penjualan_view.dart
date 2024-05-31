@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 
 class RiwayatPenjualanView extends StatelessWidget {
   @override
@@ -12,7 +14,13 @@ class RiwayatPenjualanView extends StatelessWidget {
           style: GoogleFonts.poppins(color: Colors.white),
           ),
         actions: [
-          
+          IconButton(
+            onPressed: () {
+
+              Get.toNamed('/confirm');
+            },
+            icon: Icon(Icons.logout),
+          ),
         ],
       ),
       body: Padding(

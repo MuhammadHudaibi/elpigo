@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:elpigo/app/modules/customer/Keranjang_Customer/controllers/keranjang_customer_controller.dart';
 import 'package:elpigo/app/modules/customer/Keranjang_Customer/views/keranjang_customer_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -109,6 +108,7 @@ class HomeCustomerView extends GetView<HomeCustomerController> {
                                     as Map<String, dynamic>;
                                 var productId = products[index].id;
                                 return Card(
+                                  
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
@@ -117,7 +117,7 @@ class HomeCustomerView extends GetView<HomeCustomerController> {
                                       Image.network(
                                         product['imageUrl'],
                                         width: double.infinity,
-                                        height: 125,
+                                        height: 110,
                                         fit: BoxFit.fitHeight,
                                       ),
                                       Padding(

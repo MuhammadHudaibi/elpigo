@@ -28,7 +28,7 @@ class _ProfileScreenState extends State<Profileview> {
       appBar: AppBar(
         backgroundColor: Colors.green,
         title: Text(
-          "Riwayat Pemesanan",
+          "Profil",
           style: GoogleFonts.poppins(
             fontSize: 25,
             fontWeight: FontWeight.bold,
@@ -37,7 +37,7 @@ class _ProfileScreenState extends State<Profileview> {
         ),
         actions: [
           IconButton(
-             onPressed: () {
+            onPressed: () {
                   Get.toNamed('/login-customer');
 },
             icon: Icon(

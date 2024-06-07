@@ -31,7 +31,7 @@ class LoginCustomerView extends GetView<LoginCustomerController> {
                     style: GoogleFonts.poppins(
                       fontSize: 40,
                       fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 88, 122, 44),
+                      color: Color.fromARGB(255, 82, 140, 75),
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -43,7 +43,7 @@ class LoginCustomerView extends GetView<LoginCustomerController> {
                   width: 340,
                   height: 420,
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 88, 122, 44),
+                    color: Color.fromARGB(255, 82, 140, 75),
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Padding(
@@ -153,7 +153,7 @@ class LoginCustomerView extends GetView<LoginCustomerController> {
                             style: GoogleFonts.poppins(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 88, 122, 44),
+                              color: Color.fromARGB(255, 82, 140, 75),
                             ),
                           ),
                         ),

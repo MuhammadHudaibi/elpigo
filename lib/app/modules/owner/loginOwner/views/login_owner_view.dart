@@ -33,7 +33,7 @@ class LoginOwnerView extends GetView<LoginOwnerController> {
                   style: GoogleFonts.poppins(
                     fontSize: 40,
                     fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 88, 122, 44),
+                    color: Color.fromARGB(255, 82, 140, 75),
                   ),
                 ),
               ),
@@ -43,7 +43,7 @@ class LoginOwnerView extends GetView<LoginOwnerController> {
                   width: 340,
                   height: 420,
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 88, 122, 44),
+                    color: Color.fromARGB(255, 82, 140, 75),
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Padding(
@@ -151,11 +151,10 @@ class LoginOwnerView extends GetView<LoginOwnerController> {
                             style: GoogleFonts.poppins(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color:Color.fromARGB(255, 88, 122, 44),
+                              color: Color.fromARGB(255, 82, 140, 75),
                             ),
                           ),
                         ),
-                      
                       ],
                     ),
                   ),

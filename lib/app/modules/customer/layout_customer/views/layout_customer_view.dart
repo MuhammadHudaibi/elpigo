@@ -9,8 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../controllers/layout_customer_controller.dart';
 
 class LayoutCustomerView extends GetView<LayoutCustomerController> {
-
-   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(
@@ -29,13 +28,14 @@ class LayoutCustomerView extends GetView<LayoutCustomerController> {
           onTap: (index) {
             controller.changeTabIndex(index);
           },
-          backgroundColor: Colors.green,
+          backgroundColor: Color.fromARGB(255, 82, 140, 75),
           selectedItemColor: Colors.white,
           unselectedItemColor: Colors.white70,
           selectedFontSize: 14,
           unselectedFontSize: 12,
           selectedLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.bold),
-          unselectedLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.normal),
+          unselectedLabelStyle:
+              GoogleFonts.poppins(fontWeight: FontWeight.normal),
           type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(

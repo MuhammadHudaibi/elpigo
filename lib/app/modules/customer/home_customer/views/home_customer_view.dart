@@ -15,7 +15,7 @@ class HomeCustomerView extends GetView<HomeCustomerController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green,
+        backgroundColor: Color.fromARGB(255, 82, 140, 75),
         title: Text(
           "Home",
           style: GoogleFonts.poppins(
@@ -27,8 +27,11 @@ class HomeCustomerView extends GetView<HomeCustomerController> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.push(context,
-              MaterialPageRoute(builder:(context) => KeranjangCustomerView ())
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => KeranjangCustomerView(),
+                ),
               );
             },
             icon: Icon(
@@ -79,7 +82,7 @@ class HomeCustomerView extends GetView<HomeCustomerController> {
                               style: GoogleFonts.poppins(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.grey,
+                                color: Colors.black,
                               ),
                             ),
                             SizedBox(height: 8),
@@ -88,7 +91,7 @@ class HomeCustomerView extends GetView<HomeCustomerController> {
                               style: GoogleFonts.poppins(
                                 fontSize: 18,
                                 fontWeight: FontWeight.normal,
-                                color: Colors.grey,
+                                color: Colors.black,
                               ),
                             ),
                             SizedBox(height: 30),
@@ -108,7 +111,6 @@ class HomeCustomerView extends GetView<HomeCustomerController> {
                                     as Map<String, dynamic>;
                                 var productId = products[index].id;
                                 return Card(
-                                  
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
@@ -131,7 +133,7 @@ class HomeCustomerView extends GetView<HomeCustomerController> {
                                               style: GoogleFonts.poppins(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.bold,
-                                                color: Colors.grey,
+                                                color: Colors.black,
                                               ),
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
@@ -141,7 +143,7 @@ class HomeCustomerView extends GetView<HomeCustomerController> {
                                               style: GoogleFonts.poppins(
                                                 fontSize: 13,
                                                 fontWeight: FontWeight.normal,
-                                                color: Colors.grey,
+                                                color: Colors.black,
                                               ),
                                             ),
                                             Text(
@@ -149,16 +151,39 @@ class HomeCustomerView extends GetView<HomeCustomerController> {
                                               style: GoogleFonts.poppins(
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.normal,
-                                                color: Colors.grey,
+                                                color: Colors.black,
                                               ),
                                             ),
+                                            SizedBox(height: 10),
                                             Center(
                                               child: ElevatedButton(
                                                 style: ElevatedButton.styleFrom(
-                                                  backgroundColor: Colors.green,
-                                                  minimumSize: Size(25, 25),
+                                                  backgroundColor:
+                                                      Color.fromARGB(
+                                                          255, 82, 140, 75),
+                                                  minimumSize: Size(25, 35),
                                                 ),
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      backgroundColor:
+                                                          Color.fromARGB(255,
+                                                              151, 182, 153),
+                                                      content: Text(
+                                                        "Produk berhasil ditambahkan!",
+                                                        style:
+                                                            GoogleFonts.poppins(
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                      duration:
+                                                          Duration(seconds: 3),
+                                                    ),
+                                                  );
+                                                },
                                                 child: Icon(
                                                   CupertinoIcons.add,
                                                   size: 25,

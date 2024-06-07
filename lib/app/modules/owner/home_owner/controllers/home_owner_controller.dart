@@ -6,7 +6,7 @@ class HomeOwnerController extends GetxController {
 
   var priceChanges = <String, String>{}.obs;
   var stockChanges = <String, int>{}.obs;
-  var titleChanges = <String, String>{}.obs; // Added to track title changes
+  var titleChanges = <String, String>{}.obs; 
 
   @override
   void onInit() {

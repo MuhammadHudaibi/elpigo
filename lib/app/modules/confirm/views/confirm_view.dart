@@ -18,7 +18,7 @@ class ConfirmView extends GetView<ConfirmController> {
                 style: GoogleFonts.poppins(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 88, 122, 44),
+                  color: Color.fromARGB(255, 82, 140, 75),
                 ),
               ),
               const SizedBox(height: 10),
@@ -33,13 +33,13 @@ class ConfirmView extends GetView<ConfirmController> {
                 style: GoogleFonts.poppins(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 88, 122, 44),
+                  color: Color.fromARGB(255, 82, 140, 75),
                 ),
               ),
               const SizedBox(height: 70),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 88, 122, 44),
+                  backgroundColor: Color.fromARGB(255, 82, 140, 75),
                   minimumSize: const Size(150, 80),
                   padding: const EdgeInsets.symmetric(
                     vertical: 10,
@@ -75,7 +75,7 @@ class ConfirmView extends GetView<ConfirmController> {
               const SizedBox(height: 60),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 88, 122, 44),
+                  backgroundColor: Color.fromARGB(255, 82, 140, 75),
                   minimumSize: const Size(170, 80),
                   padding: const EdgeInsets.symmetric(
                     vertical: 10,

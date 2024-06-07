@@ -6,6 +6,7 @@ class HomeOwnerController extends GetxController {
 
   var priceChanges = <String, String>{}.obs;
   var stockChanges = <String, int>{}.obs;
+  var titleChanges = <String, String>{}.obs; // Added to track title changes
 
   @override
   void onInit() {
@@ -41,6 +42,12 @@ class HomeOwnerController extends GetxController {
     });
   }
 
+  Future<void> updateTitle(String docId, String newTitle) async {
+    await _firestore.collection('products').doc(docId).update({
+      'title': newTitle,
+    });
+  }
+
   Future<void> saveAllChanges() async {
     final batch = _firestore.batch();
     priceChanges.forEach((docId, newPrice) {
@@ -50,6 +57,10 @@ class HomeOwnerController extends GetxController {
     stockChanges.forEach((docId, newStock) {
       final docRef = _firestore.collection('products').doc(docId);
       batch.update(docRef, {'stok': newStock});
+    });
+    titleChanges.forEach((docId, newTitle) { // Added for title changes
+      final docRef = _firestore.collection('products').doc(docId);
+      batch.update(docRef, {'title': newTitle});
     });
     await batch.commit();
   }

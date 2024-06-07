@@ -22,7 +22,7 @@ class _HomeViewState extends State<HomeOwnerView> {
         title: Text(
           'Produk Manajemen',
           style: GoogleFonts.poppins(color: Colors.white),
-          ),
+        ),
         actions: [
           IconButton(
             color: Colors.white,
@@ -81,12 +81,18 @@ class _HomeViewState extends State<HomeOwnerView> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    product['title'],
+                                  TextFormField(
+                                    initialValue: product['title'],
                                     style: GoogleFonts.poppins(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                     ),
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                    ),
+                                    onChanged: (value) {
+                                      controller.titleChanges[productId] = value;
+                                    },
                                   ),
                                   SizedBox(height: 4.0),
                                   Row(
@@ -117,7 +123,6 @@ class _HomeViewState extends State<HomeOwnerView> {
                                         'Stok: ${product['stok']}',
                                         style: GoogleFonts.poppins(fontSize: 16),
                                       ),
-                                      
                                     ],
                                   ),
                                 ],
@@ -178,13 +183,12 @@ class _HomeViewState extends State<HomeOwnerView> {
               },
             ),
           ),
-          
           ElevatedButton(
-          onPressed: () async {
+            onPressed: () async {
               try {
                 await controller.saveAllChanges();
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Perubahan disimpan', style: GoogleFonts.poppins(),)),
+                  SnackBar(content: Text('Perubahan disimpan', style: GoogleFonts.poppins())),
                 );
               } catch (e) {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -193,13 +197,14 @@ class _HomeViewState extends State<HomeOwnerView> {
               }
             },
             style: ElevatedButton.styleFrom(
-              foregroundColor: Colors.white, backgroundColor: Colors.blueGrey,
+              foregroundColor: Colors.white,
+              backgroundColor: Colors.blueGrey,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.0),
               ),
               padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 24.0),
             ),
-            child: Text('Simpan Perubahan', style: GoogleFonts.poppins(),),
+            child: Text('Simpan Perubahan', style: GoogleFonts.poppins()),
           ),
           SizedBox(height: 20)
         ],

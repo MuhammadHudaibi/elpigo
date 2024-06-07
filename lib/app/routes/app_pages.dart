@@ -2,15 +2,14 @@ import 'package:get/get.dart';
 
 import 'package:elpigo/app/modules/customer/forgot_password/bindings/forgot_password_binding.dart';
 import 'package:elpigo/app/modules/customer/forgot_password/views/forgot_password_view.dart';
-
 import '../modules/confirm/bindings/confirm_binding.dart';
 import '../modules/confirm/views/confirm_view.dart';
-import '../modules/customer/Keranjang_Customer/bindings/keranjang_customer_binding.dart';
-import '../modules/customer/Keranjang_Customer/views/keranjang_customer_view.dart';
 import '../modules/customer/Profile/bindings/profile_binding.dart';
 import '../modules/customer/Profile/views/profile_view.dart';
 import '../modules/customer/home_customer/bindings/home_customer_binding.dart';
 import '../modules/customer/home_customer/views/home_customer_view.dart';
+import '../modules/customer/keranjang/bindings/keranjang_customer_binding.dart';
+import '../modules/customer/keranjang/views/keranjang_view.dart';
 import '../modules/customer/layout_customer/bindings/layout_customer_binding.dart';
 import '../modules/customer/layout_customer/views/layout_customer_view.dart';
 import '../modules/customer/loginCustomer/bindings/login_customer_binding.dart';

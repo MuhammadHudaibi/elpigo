@@ -11,20 +11,19 @@ class LoginOwnerController extends GetxController {
 
   Future<void> signIn(String idPangkalan, String password) async {
     try {
-      DocumentSnapshot userSnapshot = await _firestore
-          .collection('owner')
-          .doc(idPangkalan)
-          .get();
+      DocumentSnapshot userSnapshot =
+          await _firestore.collection('owner').doc(idPangkalan).get();
 
       if (userSnapshot.exists) {
-        Map<String, dynamic> userData = userSnapshot.data() as Map<String, dynamic>;
+        Map<String, dynamic> userData =
+            userSnapshot.data() as Map<String, dynamic>;
 
         if (userData['password'] == password) {
           Get.offAll(LayoutOwnerView());
           Get.snackbar(
             "Berhasil",
             "Anda Berhasil Masuk.",
-            backgroundColor: Colors.green
+            backgroundColor: Color.fromARGB(255, 151, 182, 153),
           );
         } else {
           Get.snackbar(

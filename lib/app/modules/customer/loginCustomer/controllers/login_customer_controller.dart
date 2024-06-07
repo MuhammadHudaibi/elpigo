@@ -14,7 +14,8 @@ class LoginCustomerController extends GetxController {
     isObscured.toggle();
   }
 
-  Stream<User?> get streamAuthStatus => FirebaseAuth.instance.authStateChanges();
+  Stream<User?> get streamAuthStatus =>
+      FirebaseAuth.instance.authStateChanges();
 
   Future<void> login(String identifier, String password) async {
     try {
@@ -45,7 +46,7 @@ class LoginCustomerController extends GetxController {
         Get.snackbar(
           "Berhasil",
           "Anda Berhasil Masuk.",
-          backgroundColor: Colors.green,
+          backgroundColor: Color.fromARGB(255, 151, 182, 153),
         );
         Get.offAllNamed(Routes.LAYOUT_CUSTOMER);
       }

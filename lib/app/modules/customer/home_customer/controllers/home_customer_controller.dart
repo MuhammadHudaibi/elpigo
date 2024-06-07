@@ -2,12 +2,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elpigo/app/routes/app_pages.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import '../../keranjang/controllers/keranjang_customer_controller.dart';
 
 class HomeCustomerController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   var isLoading = true.obs;
   var userData = {}.obs;
+
+  final KeranjangCustomerController cartController =
+      Get.put(KeranjangCustomerController());
 
   @override
   void onInit() {
@@ -17,6 +21,10 @@ class HomeCustomerController extends GetxController {
 
   Stream<QuerySnapshot> getRecipesStream() {
     return _firestore.collection('products').snapshots();
+  }
+
+  void addToCart(Map<String, dynamic> product) {
+    cartController.addToCart(product);
   }
 
   Future<DocumentSnapshot<Map<String, dynamic>>> getRecipeById(

@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:elpigo/app/modules/customer/Keranjang_Customer/views/keranjang_customer_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../keranjang/views/keranjang_view.dart';
 import '../controllers/home_customer_controller.dart';
 
 class HomeCustomerView extends GetView<HomeCustomerController> {
@@ -164,6 +164,7 @@ class HomeCustomerView extends GetView<HomeCustomerController> {
                                                   minimumSize: Size(25, 35),
                                                 ),
                                                 onPressed: () {
+                                                  controller.addToCart(product);
                                                   ScaffoldMessenger.of(context)
                                                       .showSnackBar(
                                                     SnackBar(

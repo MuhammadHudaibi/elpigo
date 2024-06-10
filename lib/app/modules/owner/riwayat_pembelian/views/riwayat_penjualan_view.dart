@@ -54,6 +54,16 @@ class RiwayatPenjualanView extends StatelessWidget {
                   leading: userData['ownerPhotoUrl'] != null
                       ? CircleAvatar(
                           backgroundImage: NetworkImage(userData['ownerPhotoUrl']),
+                          onBackgroundImageError: (_, __) => Icon(Icons.person),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: Colors.grey.withOpacity(0.5),
+                                width: 2,
+                              ),
+                            ),
+                          ),
                         )
                       : CircleAvatar(
                           child: Icon(Icons.person),

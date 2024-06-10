@@ -81,6 +81,32 @@ class _HomeViewState extends State<HomeOwnerView> {
                                   width: 100,
                                   height: 100,
                                   fit: BoxFit.cover,
+                                  loadingBuilder: (context, child, loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return Container(
+                                      width: 100,
+                                      height: 100,
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                          value: loadingProgress.expectedTotalBytes != null
+                                              ? loadingProgress.cumulativeBytesLoaded /
+                                                  (loadingProgress.expectedTotalBytes ?? 1)
+                                              : null,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Container(
+                                      width: 100,
+                                      height: 100,
+                                      color: Colors.grey,
+                                      child: Icon(
+                                        Icons.error,
+                                        color: Colors.red,
+                                      ),
+                                    );
+                                  },
                                 ),
                               ),
                               SizedBox(width: 16.0),

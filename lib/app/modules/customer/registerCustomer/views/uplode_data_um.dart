@@ -100,7 +100,19 @@ class UploadUMKMDataView extends GetView<RegisterCustomerController> {
                                 ),
                               ),
                               onPressed: () {
-                                controller.uploadData();
+                                if (controller.ktpPhoto.value == null ||
+                                    controller.kkPhoto.value == null ||
+                                    controller.businessPhoto.value == null ||
+                                    controller.ownerPhoto.value == null ||
+                                    controller.location.value.isEmpty) {
+                                  Get.snackbar(
+                                    'Incomplete Data',
+                                    'Please upload all photos and choose a location.',
+                                    snackPosition: SnackPosition.TOP,
+                                  );
+                                } else {
+                                  controller.uploadData();
+                                }
                               },
                               child: Text(
                                 "Upload",

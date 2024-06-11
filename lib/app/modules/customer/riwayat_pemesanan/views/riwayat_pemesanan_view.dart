@@ -23,7 +23,7 @@ class RiwayatPemesanan extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-               Get.toNamed('/keranjang-customer');
+              Get.toNamed('/keranjang-customer');
             },
             icon: Icon(
               CupertinoIcons.cart,

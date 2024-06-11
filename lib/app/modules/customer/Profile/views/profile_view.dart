@@ -39,7 +39,7 @@ class _ProfileScreenState extends State<Profileview> {
           IconButton(
             onPressed: () {
                   Get.toNamed('/login-customer');
-},
+                },
             icon: Icon(
               CupertinoIcons.square_arrow_right,
               size: 25,

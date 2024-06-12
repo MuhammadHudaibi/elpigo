@@ -114,16 +114,18 @@ class _HomeViewState extends State<HomeOwnerView> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Container(
-                                      child: Text(
-                                        product['title'],
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
+                                    TextFormField(
+                                      initialValue: product['title'],
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
                                       ),
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                      ),
+                                      onChanged: (value) {
+                                        controller.titleChanges[productId] = value;
+                                      },
                                     ),
                                     SizedBox(height: 4.0),
                                     Row(
@@ -191,6 +193,34 @@ class _HomeViewState extends State<HomeOwnerView> {
                                     ),
                                     child: Icon(
                                       Icons.remove,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  SizedBox(height: 8.0),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Get.defaultDialog(
+                                        title: "Konfirmasi",
+                                        middleText: "Apa anda yakin ingin menghapus produk ini?",
+                                        textConfirm: "Ya",
+                                        textCancel: "Tidak",
+                                        confirmTextColor: Colors.white,
+                                        onConfirm: () {
+                                          controller.deleteProduct(productId);
+                                          Get.back();
+                                        },
+                                        onCancel: () {},
+                                      );
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.grey,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                    ),
+                                    child: Icon(
+                                      Icons.delete,
                                       color: Colors.white,
                                     ),
                                   ),

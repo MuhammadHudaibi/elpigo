@@ -74,7 +74,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.PROFILE,
-      page: () => Profileview(),
+      page: () => ProfileView(),
       binding: ProfileBinding(),
     ),
     GetPage(

@@ -18,7 +18,7 @@ class LayoutCustomerView extends GetView<LayoutCustomerController> {
           children: [
             HomeCustomerView(),
             RiwayatPemesanan(),
-            Profileview(),
+            ProfileView(),
           ],
         ),
       ),

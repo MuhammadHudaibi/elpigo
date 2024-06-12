@@ -1,3 +1,4 @@
+import 'package:elpigo/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -193,25 +194,28 @@ class UploadUMKMDataView extends GetView<RegisterCustomerController> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Choose Location',
+            'Pilih Lokasi',
             style: GoogleFonts.poppins(
               color: Colors.white,
               fontSize: 16,
             ),
           ),
           const SizedBox(height: 10),
-          Container(
-            height: 150,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Center(
-              child: IconButton(
-                icon: Icon(Icons.map, color: Colors.white),
-                onPressed: () {
-                  
-                },
+          InkWell(
+            onTap: () async {
+              Get.toNamed(Routes.MAPS);
+            },
+            child: Container(
+              height: 150,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.white),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Center(
+                child: Icon(
+                  Icons.map,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),

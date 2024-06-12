@@ -51,7 +51,6 @@ class LoginCustomerController extends GetxController {
         Get.offAllNamed(Routes.LAYOUT_CUSTOMER);
       }
     } on FirebaseAuthException catch (e) {
-      print(e.code);
       Get.snackbar('Error', e.message ?? 'An error occurred');
     } finally {
       isLoading.value = false;

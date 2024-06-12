@@ -2,6 +2,9 @@ import 'package:get/get.dart';
 
 import 'package:elpigo/app/modules/customer/forgot_password/bindings/forgot_password_binding.dart';
 import 'package:elpigo/app/modules/customer/forgot_password/views/forgot_password_view.dart';
+import 'package:elpigo/app/modules/customer/maps/bindings/maps_binding.dart';
+import 'package:elpigo/app/modules/customer/maps/views/maps_view.dart';
+
 import '../modules/confirm/bindings/confirm_binding.dart';
 import '../modules/confirm/views/confirm_view.dart';
 import '../modules/customer/Profile/bindings/profile_binding.dart';
@@ -116,6 +119,11 @@ class AppPages {
       name: _Paths.FORGOT_PASSWORD,
       page: () => ForgotPasswordView(),
       binding: ForgotPasswordBinding(),
+    ),
+    GetPage(
+      name: _Paths.MAPS,
+      page: () => MapsView(),
+      binding: MapsBinding(),
     ),
   ];
 }

@@ -1,10 +1,12 @@
 import 'package:elpigo/app/modules/customer/loginCustomer/views/login_customer_view.dart';
+import 'package:elpigo/app/modules/customer/maps/controllers/maps_controller.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class RegisterCustomerController extends GetxController {
   var ktpPhoto = Rx<File?>(null);
@@ -18,7 +20,6 @@ class RegisterCustomerController extends GetxController {
   var phoneController = TextEditingController();
   var passwordController = TextEditingController();
   var confirmPasswordController = TextEditingController();
-  var location = ''.obs;
 
   var isObscured = true.obs;
   var selectedCustomerType = ''.obs;
@@ -34,6 +35,8 @@ class RegisterCustomerController extends GetxController {
   var passwordError = ''.obs;
   var confirmPasswordError = ''.obs;
   var customerTypeError = ''.obs;
+
+  final MapsController mapsController = Get.put(MapsController());
 
   void toggleObscure() {
     isObscured.toggle();
@@ -92,11 +95,11 @@ class RegisterCustomerController extends GetxController {
     }
 
     if (selectedCustomerType.value.isEmpty) {
-    customerTypeError.value = 'Tipe pelanggan harus dipilih';
-    isValid = false;
-  } else {
-    customerTypeError.value = '';
-  }
+      customerTypeError.value = 'Tipe pelanggan harus dipilih';
+      isValid = false;
+    } else {
+      customerTypeError.value = '';
+    }
     return isValid;
   }
 
@@ -169,7 +172,9 @@ class RegisterCustomerController extends GetxController {
           );
         }
 
-        await FirebaseFirestore.instance.collection('customers').doc(user.uid).set({
+        LatLng? location = mapsController.location;
+
+        Map<String, dynamic> customerData = {
           'name': nameController.text,
           'address': addressController.text,
           'nik': nikController.text,
@@ -180,9 +185,21 @@ class RegisterCustomerController extends GetxController {
           'ktpPhotoUrl': ktpPhotoUrl,
           'kkPhotoUrl': kkPhotoUrl,
           'ownerPhotoUrl': ownerPhotoUrl,
-          if (businessPhotoUrl != null) 'businessPhotoUrl': businessPhotoUrl,
-          'location': location.value,
-        });
+          'timestamp': FieldValue.serverTimestamp(),
+        };
+
+        if (businessPhotoUrl != null) {
+          customerData['businessPhotoUrl'] = businessPhotoUrl;
+        }
+
+        if (location != null) {
+          customerData['location'] = {
+            'latitude': location.latitude,
+            'longitude': location.longitude,
+          };
+        }
+
+        await FirebaseFirestore.instance.collection('customers').doc(user.uid).set(customerData);
 
         Get.snackbar('Success', 'Data registered successfully');
 

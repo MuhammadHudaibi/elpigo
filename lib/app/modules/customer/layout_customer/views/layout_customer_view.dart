@@ -9,6 +9,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../controllers/layout_customer_controller.dart';
 
 class LayoutCustomerView extends GetView<LayoutCustomerController> {
+  const LayoutCustomerView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +39,7 @@ class LayoutCustomerView extends GetView<LayoutCustomerController> {
           unselectedLabelStyle:
               GoogleFonts.poppins(fontWeight: FontWeight.normal),
           type: BottomNavigationBarType.fixed,
-          items: [
+          items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: 'Home',

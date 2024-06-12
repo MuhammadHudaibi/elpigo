@@ -18,6 +18,7 @@ abstract class Routes {
   static const RIWAYAT_PEMESANAN = _Paths.RIWAYAT_PEMESANAN;
   static const KERANJANG_CUSTOMER = _Paths.KERANJANG_CUSTOMER;
   static const FORGOT_PASSWORD = _Paths.FORGOT_PASSWORD;
+  static const MAPS = _Paths.MAPS;
 }
 
 abstract class _Paths {
@@ -37,4 +38,5 @@ abstract class _Paths {
   static const RIWAYAT_PEMESANAN = '/riwayat-pemesanan';
   static const KERANJANG_CUSTOMER = '/keranjang-customer';
   static const FORGOT_PASSWORD = '/forgot-password';
+  static const MAPS = '/maps';
 }

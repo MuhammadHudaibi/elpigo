@@ -71,7 +71,6 @@ class HomeCustomerController extends GetxController {
       await FirebaseAuth.instance.signOut();
       Get.offAllNamed(Routes.CONFIRM);
     } catch (e) {
-      print('Error while logging out: $e');
       Get.snackbar('Error', 'Failed to logout: $e');
     }
   }

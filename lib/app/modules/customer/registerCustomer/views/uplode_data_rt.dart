@@ -1,3 +1,4 @@
+import 'package:elpigo/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -105,7 +106,7 @@ class UploadRTDataView extends GetView<RegisterCustomerController> {
                                 ),
                               ),
                             );
-                           }
+                          }
                         }),
                         SizedBox(height: 20),
                       ],
@@ -187,29 +188,28 @@ class UploadRTDataView extends GetView<RegisterCustomerController> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Choose Location',
+            'Pilih Lokasi',
             style: GoogleFonts.poppins(
               color: Colors.white,
               fontSize: 16,
             ),
           ),
           const SizedBox(height: 10),
-          Container(
-            height: 150,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Center(
-              child: IconButton(
-                icon: Icon(Icons.map, color: Colors.white),
-                onPressed: () async {
-                  // This is where you would integrate a map picker
-                  // For now, we just simulate picking a location
-                  // You would set the location value here
-                  controller.location.value = 'Example Location';
-                  Get.snackbar('Location picked', 'Location has been set');
-                },
+          InkWell(
+            onTap: () async {
+              Get.toNamed(Routes.MAPS);
+            },
+            child: Container(
+              height: 150,
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.white),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Center(
+                child: Icon(
+                  Icons.map,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),

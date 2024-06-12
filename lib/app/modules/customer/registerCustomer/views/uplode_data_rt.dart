@@ -77,10 +77,10 @@ class UploadRTDataView extends GetView<RegisterCustomerController> {
                         const SizedBox(height: 20),
                         _buildGoogleMapsField(context),
                         const SizedBox(height: 40),
-                        Obx((){
+                        Obx(() {
                           if (controller.isLoading.value) {
                             return CircularProgressIndicator();
-                          } else{
+                          } else {
                             return ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.white,
@@ -94,7 +94,18 @@ class UploadRTDataView extends GetView<RegisterCustomerController> {
                                 ),
                               ),
                               onPressed: () {
-                                controller.uploadData();
+                                if (controller.ktpPhoto.value == null ||
+                                    controller.kkPhoto.value == null ||
+                                    controller.ownerPhoto.value == null ||
+                                    controller.location.value.isEmpty) {
+                                  Get.snackbar(
+                                   'Data belum lengkap!',
+                                    'Silahkan lengkapi semua foto yang di perlukan berikut lokasi anda.',
+                                    snackPosition: SnackPosition.TOP,
+                                  );
+                                } else {
+                                  controller.uploadData();
+                                }
                               },
                               child: Text(
                                 "Upload",
@@ -105,7 +116,7 @@ class UploadRTDataView extends GetView<RegisterCustomerController> {
                                 ),
                               ),
                             );
-                           }
+                          }
                         }),
                         SizedBox(height: 20),
                       ],
@@ -204,9 +215,7 @@ class UploadRTDataView extends GetView<RegisterCustomerController> {
               child: IconButton(
                 icon: Icon(Icons.map, color: Colors.white),
                 onPressed: () async {
-                  // This is where you would integrate a map picker
-                  // For now, we just simulate picking a location
-                  // You would set the location value here
+                 
                   controller.location.value = 'Example Location';
                   Get.snackbar('Location picked', 'Location has been set');
                 },

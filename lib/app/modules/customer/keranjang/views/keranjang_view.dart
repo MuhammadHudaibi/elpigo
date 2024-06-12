@@ -37,7 +37,7 @@ class KeranjangCustomerView extends GetView<KeranjangCustomerController> {
       ),
       body: Obx(
         () {
-          if (cartController.isEmpty) {
+          if (cartController.cartItems.isEmpty) {
             return Center(
               child: Text(
                 'Belum ada produk yang ditambahkan',
@@ -52,7 +52,7 @@ class KeranjangCustomerView extends GetView<KeranjangCustomerController> {
             return ListView.builder(
               itemCount: cartController.cartItems.length,
               itemBuilder: (context, index) {
-                var product = cartController.cartItems[index];
+                var product = controller.cartItems[index];
                 return Container(
                   margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   padding: EdgeInsets.all(10),
@@ -62,11 +62,6 @@ class KeranjangCustomerView extends GetView<KeranjangCustomerController> {
                   ),
                   child: Row(
                     children: [
-                      Radio(
-                          value: "",
-                          groupValue: "",
-                          activeColor: Color.fromARGB(255, 82, 140, 75),
-                          onChanged: (Index) {}),
                       Image.network(
                         product['imageUrl'],
                         width: 100,
@@ -85,7 +80,7 @@ class KeranjangCustomerView extends GetView<KeranjangCustomerController> {
                               color: Colors.black,
                             ),
                           ),
-                          SizedBox(height: 12),
+                          SizedBox(height: 24),
                           Text(
                             "Rp.${product['price']}",
                             style: GoogleFonts.poppins(
@@ -104,13 +99,45 @@ class KeranjangCustomerView extends GetView<KeranjangCustomerController> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                cartController.removeFromCart(product);
+                              },
                               icon: Icon(
                                 Icons.delete,
                                 color: Colors.red,
                                 size: 28,
                               ),
                             ),
+                            Row(
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    cartController.decreaseQuantity(product);
+                                  },
+                                  icon: Icon(
+                                    CupertinoIcons.minus_circled,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                                Text(
+                                  '${product['quantity'] ?? 1}',
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    cartController.increaseQuantity(product);
+                                  },
+                                  icon: Icon(
+                                    CupertinoIcons.add_circled,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                              ],
+                            )
                           ],
                         ),
                       ),

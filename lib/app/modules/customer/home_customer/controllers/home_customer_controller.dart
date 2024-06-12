@@ -4,6 +4,22 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import '../../keranjang/controllers/keranjang_customer_controller.dart';
 
+class Product {
+  final String id;
+  final String title;
+  final String imageUrl;
+  final int price;
+  final int stock;
+
+  Product({
+    required this.id,
+    required this.title,
+    required this.imageUrl,
+    required this.price,
+    required this.stock,
+  });
+}
+
 class HomeCustomerController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -21,10 +37,6 @@ class HomeCustomerController extends GetxController {
 
   Stream<QuerySnapshot> getRecipesStream() {
     return _firestore.collection('products').snapshots();
-  }
-
-  void addToCart(Map<String, dynamic> product) {
-    cartController.addToCart(product);
   }
 
   Future<DocumentSnapshot<Map<String, dynamic>>> getRecipeById(
@@ -63,6 +75,38 @@ class HomeCustomerController extends GetxController {
       Get.snackbar('Error', 'Failed to fetch user data: $e');
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  void addProductToCart(Map<String, dynamic> product) async {
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+    CollectionReference cart = FirebaseFirestore.instance
+        .collection('customers')
+        .doc(userId)
+        .collection('pemesanan');
+
+    QuerySnapshot existingProductSnapshot =
+        await cart.where('id', isEqualTo: product['id']).limit(1).get();
+
+    if (existingProductSnapshot.docs.isNotEmpty) {
+      DocumentSnapshot existingProduct = existingProductSnapshot.docs.first;
+
+      if (existingProduct['title'] == product['title']) {
+        // Jika ya, tambahkan jumlahnya
+        cart.doc(existingProduct.id).update({
+          'quantity': FieldValue.increment(1),
+        });
+      } else {
+        cart.add({
+          ...product,
+          'quantity': 1,
+        });
+      }
+    } else {
+      cart.add({
+        ...product,
+        'quantity': 1,
+      });
     }
   }
 

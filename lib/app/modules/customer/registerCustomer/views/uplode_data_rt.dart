@@ -78,10 +78,10 @@ class UploadRTDataView extends GetView<RegisterCustomerController> {
                         const SizedBox(height: 20),
                         _buildGoogleMapsField(context),
                         const SizedBox(height: 40),
-                        Obx((){
+                        Obx(() {
                           if (controller.isLoading.value) {
                             return CircularProgressIndicator();
-                          } else{
+                          } else {
                             return ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.white,
@@ -95,7 +95,17 @@ class UploadRTDataView extends GetView<RegisterCustomerController> {
                                 ),
                               ),
                               onPressed: () {
-                                controller.uploadData();
+                                if (controller.ktpPhoto.value == null ||
+                                    controller.kkPhoto.value == null ||
+                                    controller.ownerPhoto.value == null) {
+                                  Get.snackbar(
+                                  'Data belum lengkap!',
+                                    'Silahkan lengkapi semua foto yang di perlukan berikut lokasi anda.',
+                                    snackPosition: SnackPosition.TOP,
+                                  );
+                                } else {
+                                  controller.uploadData();
+                                }
                               },
                               child: Text(
                                 "Upload",

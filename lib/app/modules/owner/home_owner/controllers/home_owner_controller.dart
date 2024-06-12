@@ -48,6 +48,14 @@ class HomeOwnerController extends GetxController {
     });
   }
 
+  Future<void> deleteProduct(String docId) async {
+    try {
+      await _firestore.collection('products').doc(docId).delete();
+    } catch (e) {
+      Future.error("Failed to delete product: $e");
+    }
+  }
+
   Future<void> saveAllChanges() async {
     final batch = _firestore.batch();
     priceChanges.forEach((docId, newPrice) {
@@ -58,7 +66,7 @@ class HomeOwnerController extends GetxController {
       final docRef = _firestore.collection('products').doc(docId);
       batch.update(docRef, {'stok': newStock});
     });
-    titleChanges.forEach((docId, newTitle) { // Added for title changes
+    titleChanges.forEach((docId, newTitle) { 
       final docRef = _firestore.collection('products').doc(docId);
       batch.update(docRef, {'title': newTitle});
     });

@@ -1,23 +1,33 @@
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class ProfileController extends GetxController {
-  //TODO: Implement ProfileController
+  var profileData = {}.obs;
+  var isLoading = false.obs;
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  // Method untuk memperbarui data profil
+  void updateProfileData(String key, String value) {
+    profileData[key] = value;
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  // Method untuk mengganti foto profil
+  Future<void> updateProfilePhoto() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      updateProfileData('ownerPhotoUrl', pickedFile.path);
+    }
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
+  // Method untuk mengganti foto dokumen
+  Future<void> updateDocumentPhoto(String key) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-  void increment() => count.value++;
+    if (pickedFile != null) {
+      updateProfileData(key, pickedFile.path);
+    }
+  }
 }

@@ -90,9 +90,18 @@ class HomeCustomerController extends GetxController {
 
     if (existingProductSnapshot.docs.isNotEmpty) {
       DocumentSnapshot existingProduct = existingProductSnapshot.docs.first;
-      cart.doc(existingProduct.id).update({
-        'quantity': FieldValue.increment(1),
-      });
+
+      if (existingProduct['title'] == product['title']) {
+        // Jika ya, tambahkan jumlahnya
+        cart.doc(existingProduct.id).update({
+          'quantity': FieldValue.increment(1),
+        });
+      } else {
+        cart.add({
+          ...product,
+          'quantity': 1,
+        });
+      }
     } else {
       cart.add({
         ...product,

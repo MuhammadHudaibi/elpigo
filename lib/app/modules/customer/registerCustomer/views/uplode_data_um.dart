@@ -106,8 +106,8 @@ class UploadUMKMDataView extends GetView<RegisterCustomerController> {
                                     controller.ownerPhoto.value == null ||
                                     controller.location.value.isEmpty) {
                                   Get.snackbar(
-                                    'Incomplete Data',
-                                    'Please upload all photos and choose a location.',
+                                    'Data belum lengkap!',
+                                    'Silahkan lengkapi semua foto yang di perlukan berikut lokasi anda.',
                                     snackPosition: SnackPosition.TOP,
                                   );
                                 } else {

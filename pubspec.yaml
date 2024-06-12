@@ -18,6 +18,7 @@ dependencies:
   firebase_storage: ^11.7.6
   firebase_auth: ^4.19.6
   url_launcher: ^6.0.9
+  google_maps_flutter: ^2.7.0
 
 dev_dependencies: 
   flutter_lints: ^3.0.0

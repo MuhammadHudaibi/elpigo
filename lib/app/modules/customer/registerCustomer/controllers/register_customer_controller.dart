@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class RegisterCustomerController extends GetxController {
+  LatLng? location;
   var ktpPhoto = Rx<File?>(null);
   var kkPhoto = Rx<File?>(null);
   var businessPhoto = Rx<File?>(null);
@@ -172,7 +173,7 @@ class RegisterCustomerController extends GetxController {
           );
         }
 
-        LatLng? location = mapsController.location;
+        location = mapsController.location;
 
         Map<String, dynamic> customerData = {
           'name': nameController.text,
@@ -186,17 +187,14 @@ class RegisterCustomerController extends GetxController {
           'kkPhotoUrl': kkPhotoUrl,
           'ownerPhotoUrl': ownerPhotoUrl,
           'timestamp': FieldValue.serverTimestamp(),
+          'location': {
+            'latitude': location?.latitude,
+            'longitude': location?.longitude,
+          },
         };
 
         if (businessPhotoUrl != null) {
           customerData['businessPhotoUrl'] = businessPhotoUrl;
-        }
-
-        if (location != null) {
-          customerData['location'] = {
-            'latitude': location.latitude,
-            'longitude': location.longitude,
-          };
         }
 
         await FirebaseFirestore.instance.collection('customers').doc(user.uid).set(customerData);

@@ -1,13 +1,23 @@
+import 'package:elpigo/app/modules/customer/maps/controllers/maps_controller.dart';
 import 'package:elpigo/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import '../controllers/register_customer_controller.dart';
 
-class UploadUMKMDataView extends GetView<RegisterCustomerController> {
+class UploadUMKMDataView extends StatefulWidget {
   const UploadUMKMDataView({Key? key}) : super(key: key);
+
+  @override
+  _UploadUMKMDataViewState createState() => _UploadUMKMDataViewState();
+}
+
+class _UploadUMKMDataViewState extends State<UploadUMKMDataView> {
+  final RegisterCustomerController controller = Get.find();
+  final MapsController mapsController = Get.find();
 
   Future<void> _pickImage(ImageSource source, Rx<File?> imageFile) async {
     final pickedFile = await ImagePicker().pickImage(source: source);
@@ -36,7 +46,7 @@ class UploadUMKMDataView extends GetView<RegisterCustomerController> {
               Padding(
                 padding: const EdgeInsets.only(top: 2, left: 20, right: 20),
                 child: Text(
-                  "UPLOAD UMKM DATA",
+                  "UNGGAH DATA UMKM",
                   style: GoogleFonts.poppins(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
@@ -60,34 +70,34 @@ class UploadUMKMDataView extends GetView<RegisterCustomerController> {
                       children: [
                         _buildUploadField(
                           context,
-                          'Upload KTP Photo',
+                          'Unggah Foto KTP',
                           controller.ktpPhoto,
                         ),
                         const SizedBox(height: 20),
                         _buildUploadField(
                           context,
-                          'Upload KK Photo',
+                          'Unggah Foto KK',
                           controller.kkPhoto,
                         ),
                         const SizedBox(height: 20),
                         _buildUploadField(
                           context,
-                          'Upload Business Photo',
+                          'Unggah Foto Usaha',
                           controller.businessPhoto,
                         ),
                         const SizedBox(height: 20),
                         _buildUploadField(
                           context,
-                          'Upload Owner Photo',
+                          'Unggah Foto Pemilik',
                           controller.ownerPhoto,
                         ),
                         const SizedBox(height: 20),
-                        _buildGoogleMapsField(context),
+                        _buildGoogleMapsField(context, mapsController),
                         const SizedBox(height: 40),
-                        Obx((){
+                        Obx(() {
                           if (controller.isLoading.value) {
                             return CircularProgressIndicator();
-                          } else{
+                          } else {
                             return ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.white,
@@ -107,7 +117,7 @@ class UploadUMKMDataView extends GetView<RegisterCustomerController> {
                                     controller.ownerPhoto.value == null) {
                                   Get.snackbar(
                                     'Data belum lengkap!',
-                                    'Silahkan lengkapi semua foto yang di perlukan berikut lokasi anda.',
+                                    'Silakan lengkapi semua foto yang diperlukan beserta lokasi Anda.',
                                     snackPosition: SnackPosition.TOP,
                                   );
                                 } else {
@@ -115,7 +125,7 @@ class UploadUMKMDataView extends GetView<RegisterCustomerController> {
                                 }
                               },
                               child: Text(
-                                "Upload",
+                                "Unggah",
                                 style: GoogleFonts.poppins(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
@@ -123,15 +133,15 @@ class UploadUMKMDataView extends GetView<RegisterCustomerController> {
                                 ),
                               ),
                             );
-                           }
+                          }
                         }),
-                        const SizedBox(height: 20), 
+                        const SizedBox(height: 20),
                       ],
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 20), 
+              const SizedBox(height: 20),
             ],
           ),
         ),
@@ -198,39 +208,79 @@ class UploadUMKMDataView extends GetView<RegisterCustomerController> {
     );
   }
 
-  Widget _buildGoogleMapsField(BuildContext context) {
-    return Container(
-      width: 300,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Pilih Lokasi',
-            style: GoogleFonts.poppins(
-              color: Colors.white,
-              fontSize: 16,
-            ),
-          ),
-          const SizedBox(height: 10),
-          InkWell(
-            onTap: () async {
-              Get.toNamed(Routes.MAPS);
-            },
-            child: Container(
-              height: 150,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.white),
-                borderRadius: BorderRadius.circular(8),
+  Widget _buildGoogleMapsField(BuildContext context, MapsController mapsController) {
+    return GestureDetector(
+      onTap: () {
+        Get.toNamed(Routes.MAPS);
+      },
+      child: Container(
+        width: 300,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Pilih Lokasi',
+              style: GoogleFonts.poppins(
+                color: Colors.white,
+                fontSize: 16,
               ),
-              child: Center(
-                child: Icon(
-                  Icons.map,
-                  color: Colors.white,
+            ),
+            SizedBox(height: 10),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Container(
+                height: 150,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Colors.white),
+                ),
+                child: Obx(() {
+                  if (mapsController.location == null) {
+                    return Center(
+                      child: Icon(
+                        Icons.map,
+                        color: Colors.white,
+                      ),
+                    );
+                  } else {
+                    return GoogleMap(
+                      initialCameraPosition: CameraPosition(
+                        target: mapsController.location!,
+                        zoom: 15,
+                      ),
+                      markers: {
+                        Marker(
+                          markerId: MarkerId('current_location'),
+                          position: mapsController.location!,
+                        ),
+                      },
+                      zoomGesturesEnabled: false,
+                      zoomControlsEnabled: false,
+                      onMapCreated: (GoogleMapController controller) {
+                        controller.animateCamera(
+                          CameraUpdate.newLatLngZoom(
+                            mapsController.location!,
+                            15,
+                          ),
+                        );
+                      },
+                    );
+                  }
+                }),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Text(
+                  "Atur Lokasi",
+                  style: GoogleFonts.poppins(color: Colors.white),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -7,8 +6,6 @@ class MapsController extends GetxController {
   final Rx<LatLng?> _location = Rx<LatLng?>(null);
 
   LatLng? get location => _location.value;
-
-  Stream<LatLng?> get locationStream => _location.stream;
 
   void getLocation() async {
     bool serviceEnabled;

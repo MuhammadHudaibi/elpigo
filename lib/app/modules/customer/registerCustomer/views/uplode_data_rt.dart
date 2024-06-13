@@ -60,7 +60,7 @@ class _UploadRTDataViewState extends State<UploadRTDataView> {
               Form(
                 child: Container(
                   width: 340,
-                  height: 970,
+                  height: 1000,
                   decoration: BoxDecoration(
                     color: Color.fromARGB(255, 88, 122, 44),
                     borderRadius: BorderRadius.circular(15),

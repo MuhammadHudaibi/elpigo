@@ -1,9 +1,11 @@
 import 'dart:io';
-import 'package:elpigo/app/modules/owner/home_owner/controllers/home_owner_controller.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../controllers/home_owner_controller.dart';
 
 class AddProductPage extends StatefulWidget {
   @override
@@ -38,10 +40,10 @@ class _AddProductPageState extends State<AddProductPage> {
         );
         Get.back();
       } catch (e) {
-        Get.snackbar('Error', 'Failed to add product: $e');
+        Get.snackbar('Error', 'Gagal menambahkan produk: $e');
       }
     } else {
-      Get.snackbar('Error', 'Please fill all fields and select an image');
+      Get.snackbar('Error', 'Silakan lengkapi semua kolom dan pilih gambar');
     }
   }
 
@@ -49,11 +51,12 @@ class _AddProductPageState extends State<AddProductPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tambah Produk', style: GoogleFonts.poppins()),
+        title: Text('Tambah Produk', style: GoogleFonts.poppins(color: Colors.white)),
         backgroundColor: Color.fromARGB(255, 82, 140, 75),
+        iconTheme: IconThemeData(color: Colors.white),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,7 +64,7 @@ class _AddProductPageState extends State<AddProductPage> {
               TextField(
                 controller: titleController,
                 decoration: InputDecoration(
-                  labelText: 'Title',
+                  labelText: 'Judul',
                   labelStyle: GoogleFonts.poppins(),
                   border: OutlineInputBorder(),
                 ),
@@ -70,7 +73,7 @@ class _AddProductPageState extends State<AddProductPage> {
               TextField(
                 controller: priceController,
                 decoration: InputDecoration(
-                  labelText: 'Price',
+                  labelText: 'Harga',
                   labelStyle: GoogleFonts.poppins(),
                   border: OutlineInputBorder(),
                 ),
@@ -80,41 +83,68 @@ class _AddProductPageState extends State<AddProductPage> {
               TextField(
                 controller: stockController,
                 decoration: InputDecoration(
-                  labelText: 'Stock',
+                  labelText: 'Stok',
                   labelStyle: GoogleFonts.poppins(),
                   border: OutlineInputBorder(),
                 ),
                 keyboardType: TextInputType.number,
               ),
               SizedBox(height: 16.0),
-              _image == null
-                  ? Text('No image selected.', style: GoogleFonts.poppins())
-                  : Image.file(File(_image!.path), height: 150),
-              SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: _pickImage,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 82, 140, 75),
-                  shape: RoundedRectangleBorder(
+              Center(
+                child: Container(
+                  height: 200,
+                  width: 200,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey.shade400),
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 24.0),
+                  child: _image == null
+                      ? Center(
+                          child: Text(
+                            'Belum ada gambar dipilih.',
+                            style: GoogleFonts.poppins(),
+                          ),
+                        )
+                      : ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: Image.file(
+                            File(_image!.path),
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                          ),
+                        ),
                 ),
-                child: Text('Pick Image', style: GoogleFonts.poppins(color: Colors.white)),
               ),
               SizedBox(height: 16.0),
-              Center(
-                child: ElevatedButton(
-                  onPressed: _submit,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 82, 140, 75),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: _pickImage,
+                    icon: Icon(Icons.image, color: Colors.white,),
+                    label: Text('Pick Image', style: GoogleFonts.poppins(color: Colors.white)),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 82, 140, 75),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 24.0),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 24.0),
                   ),
-                  child: Text('Add Product', style: GoogleFonts.poppins(color: Colors.white)),
-                ),
+                  SizedBox(width: 16.0),
+                  ElevatedButton.icon(
+                    onPressed: _submit,
+                    icon: Icon(Icons.add, color: Colors.white),
+                    label: Text('Add Product', style: GoogleFonts.poppins(color: Colors.white)),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 82, 140, 75),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 24.0),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

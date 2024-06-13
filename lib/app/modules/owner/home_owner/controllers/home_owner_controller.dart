@@ -56,12 +56,9 @@ class HomeOwnerController extends GetxController {
 
   Future<void> deleteProduct(String docId, String imageUrl) async {
     try {
-      // Delete image from Firebase Storage
       if (imageUrl.isNotEmpty) {
         await _storage.refFromURL(imageUrl).delete();
       }
-
-      // Delete product from Firestore
       await _firestore.collection('products').doc(docId).delete();
     } catch (e) {
       Future.error("Failed to delete product: $e");
@@ -89,7 +86,6 @@ class HomeOwnerController extends GetxController {
     try {
       String imageUrl = await _uploadImage(image);
 
-      // Add product to Firestore
       await _firestore.collection('products').add({
         'title': title,
         'price': price,

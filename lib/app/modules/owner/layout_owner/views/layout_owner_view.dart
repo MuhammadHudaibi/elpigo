@@ -28,7 +28,7 @@ class LayoutOwnerView extends StatelessWidget {
           onTap: (index) {
             controller.changeTabIndex(index);
           },
-          backgroundColor: Colors.blueGrey,
+          backgroundColor:  Color.fromARGB(255, 82, 140, 75),
           selectedItemColor: Colors.white,
           unselectedItemColor: Colors.white70,
           selectedFontSize: 14,

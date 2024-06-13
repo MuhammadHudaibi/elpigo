@@ -18,7 +18,7 @@ class _HomeViewState extends State<HomeOwnerView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey,
+        backgroundColor:  Color.fromARGB(255, 82, 140, 75),
         title: Text(
           'Produk Manajemen',
           style: GoogleFonts.poppins(color: Colors.white),
@@ -100,7 +100,7 @@ class _HomeViewState extends State<HomeOwnerView> {
                                     return Container(
                                       width: 100,
                                       height: 100,
-                                      color: Colors.grey,
+                                      color:  Color.fromARGB(255, 82, 140, 75),
                                       child: Icon(
                                         Icons.error,
                                         color: Colors.red,
@@ -213,7 +213,7 @@ class _HomeViewState extends State<HomeOwnerView> {
                                       );
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.grey,
+                                      backgroundColor:  Color.fromARGB(255, 82, 140, 75),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(5),
                                       ),
@@ -253,7 +253,7 @@ class _HomeViewState extends State<HomeOwnerView> {
               },
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,
-                backgroundColor: Colors.blueGrey,
+                backgroundColor:   Color.fromARGB(255, 82, 140, 75),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),

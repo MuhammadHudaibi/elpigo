@@ -52,7 +52,7 @@ class _UploadRTDataViewState extends State<UploadRTDataView> {
                   style: GoogleFonts.poppins(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
-                    color: Color.fromARGB(255, 88, 122, 44),
+                    color:  Color.fromARGB(255, 82, 140, 75),
                   ),
                 ),
               ),
@@ -62,7 +62,7 @@ class _UploadRTDataViewState extends State<UploadRTDataView> {
                   width: 340,
                   height: 1000,
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 88, 122, 44),
+                    color:  Color.fromARGB(255, 82, 140, 75),
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Padding(

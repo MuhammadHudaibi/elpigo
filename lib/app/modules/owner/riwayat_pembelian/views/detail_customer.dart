@@ -23,7 +23,7 @@ class DetailCustomer extends StatelessWidget {
             'Riwayat Penjualan',
             style: GoogleFonts.poppins(color: Colors.white),
           ),
-          backgroundColor: Colors.blueGrey,
+          backgroundColor:  Color.fromARGB(255, 82, 140, 75),
           bottom: TabBar(
             labelColor: Colors.greenAccent,
             indicatorColor: Colors.greenAccent,
@@ -162,7 +162,7 @@ class DetailPelanggan extends StatelessWidget {
                                   errorBuilder: (context, error, stackTrace) => Icon(
                                     Icons.error_outline,
                                     size: 100,
-                                    color: Colors.grey,
+                                    color:  Color.fromARGB(255, 82, 140, 75),
                                   ),
                                 ),
                               ),
@@ -234,7 +234,7 @@ class DetailPelanggan extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
+                    color:  Color.fromARGB(255, 82, 140, 75).withOpacity(0.5),
                     spreadRadius: 2,
                     blurRadius: 7,
                     offset: Offset(0, 3),
@@ -287,7 +287,7 @@ class DetailPelanggan extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
+                    color:  Color.fromARGB(255, 82, 140, 75).withOpacity(0.5),
                     spreadRadius: 2,
                     blurRadius: 7,
                     offset: Offset(0, 3), // changes position of shadow

@@ -11,7 +11,7 @@ class RiwayatPemesanan extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.green,
+        backgroundColor:  Color.fromARGB(255, 82, 140, 75),
         title: Text(
           "Riwayat Pemesanan",
           style: GoogleFonts.poppins(

@@ -13,7 +13,7 @@ class RiwayatPenjualanView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Riwayat Penjualan', style: GoogleFonts.poppins(color: Colors.white)),
-        backgroundColor:   Color.fromARGB(255, 82, 140, 75),
+        backgroundColor:  Color.fromARGB(255, 82, 140, 75),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: controller.getUsersStream(),

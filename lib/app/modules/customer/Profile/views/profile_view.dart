@@ -1,10 +1,7 @@
 import 'package:elpigo/app/modules/customer/Profile/controllers/profile_controller.dart';
-import 'package:elpigo/app/modules/customer/keranjang/views/keranjang_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:io';
 
 class ProfileView extends StatelessWidget {
   final ProfileController controller = Get.put(ProfileController());
@@ -15,11 +12,11 @@ class ProfileView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.green,
         title: Text('Profile',
-          style: GoogleFonts.poppins(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          )),
+            style: GoogleFonts.poppins(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            )),
         actions: [
           IconButton(
             onPressed: () {
@@ -59,7 +56,7 @@ class ProfileView extends StatelessWidget {
                       child: CircleAvatar(
                         radius: 60,
                         backgroundImage: controller.profileData['ownerPhotoUrl'] != null
-                            ? FileImage(File(controller.profileData['ownerPhotoUrl']))
+                            ? NetworkImage(controller.profileData['ownerPhotoUrl'])
                             : null,
                         child: controller.profileData['ownerPhotoUrl'] == null
                             ? Icon(

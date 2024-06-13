@@ -52,7 +52,7 @@ class KeranjangCustomerView extends GetView<KeranjangCustomerController> {
             return ListView.builder(
               itemCount: cartController.cartItems.length,
               itemBuilder: (context, index) {
-                var product = controller.cartItems[index];
+                var product = cartController.cartItems[index];
                 return Container(
                   margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   padding: EdgeInsets.all(10),
@@ -75,14 +75,16 @@ class KeranjangCustomerView extends GetView<KeranjangCustomerController> {
                           Text(
                             product['title'],
                             style: GoogleFonts.poppins(
-                              fontSize: 16,
+                              fontSize: 15,
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                             ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
                           SizedBox(height: 24),
                           Text(
-                            "Rp.${product['price']}",
+                            "Rp.${product['totalPrice'] is int ? product['totalPrice'] : product['totalPrice'].toStringAsFixed(0)}",
                             style: GoogleFonts.poppins(
                               fontSize: 14,
                               fontWeight: FontWeight.normal,

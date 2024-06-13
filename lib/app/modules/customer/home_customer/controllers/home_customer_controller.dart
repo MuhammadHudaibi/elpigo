@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:elpigo/app/routes/app_pages.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import '../../keranjang/controllers/keranjang_customer_controller.dart';
@@ -78,44 +77,16 @@ class HomeCustomerController extends GetxController {
     }
   }
 
-  void addProductToCart(Map<String, dynamic> product) async {
+  void addProductToCart(Map<String, dynamic> product) {
     String userId = FirebaseAuth.instance.currentUser!.uid;
-    CollectionReference cart = FirebaseFirestore.instance
+
+    FirebaseFirestore.instance
         .collection('customers')
         .doc(userId)
-        .collection('pemesanan');
-
-    QuerySnapshot existingProductSnapshot =
-        await cart.where('id', isEqualTo: product['id']).limit(1).get();
-
-    if (existingProductSnapshot.docs.isNotEmpty) {
-      DocumentSnapshot existingProduct = existingProductSnapshot.docs.first;
-
-      if (existingProduct['title'] == product['title']) {
-        // Jika ya, tambahkan jumlahnya
-        cart.doc(existingProduct.id).update({
-          'quantity': FieldValue.increment(1),
-        });
-      } else {
-        cart.add({
-          ...product,
-          'quantity': 1,
-        });
-      }
-    } else {
-      cart.add({
-        ...product,
-        'quantity': 1,
-      });
-    }
-  }
-
-  Future<void> logout() async {
-    try {
-      await FirebaseAuth.instance.signOut();
-      Get.offAllNamed(Routes.CONFIRM);
-    } catch (e) {
-      Get.snackbar('Error', 'Failed to logout: $e');
-    }
+        .collection('pemesanan')
+        .add({
+      ...product,
+      'quantity': 1,
+    });
   }
 }

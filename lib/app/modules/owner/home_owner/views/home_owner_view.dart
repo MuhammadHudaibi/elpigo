@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elpigo/app/modules/owner/home_owner/controllers/home_owner_controller.dart';
+import 'package:elpigo/app/modules/owner/home_owner/views/add_product.dart';
 import 'package:elpigo/app/modules/owner/loginOwner/controllers/login_owner_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,7 +19,7 @@ class _HomeViewState extends State<HomeOwnerView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:  Color.fromARGB(255, 82, 140, 75),
+        backgroundColor: Color.fromARGB(255, 82, 140, 75),
         title: Text(
           'Produk Manajemen',
           style: GoogleFonts.poppins(color: Colors.white),
@@ -67,6 +68,7 @@ class _HomeViewState extends State<HomeOwnerView> {
                     itemBuilder: (context, index) {
                       var product = products[index].data() as Map<String, dynamic>;
                       var productId = products[index].id;
+                      var imageUrl = product['imageUrl'] ?? '';
                       return Card(
                         margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                         child: Padding(
@@ -100,7 +102,7 @@ class _HomeViewState extends State<HomeOwnerView> {
                                     return Container(
                                       width: 100,
                                       height: 100,
-                                      color:  Color.fromARGB(255, 82, 140, 75),
+                                      color: Color.fromARGB(255, 82, 140, 75),
                                       child: Icon(
                                         Icons.error,
                                         color: Colors.red,
@@ -114,20 +116,23 @@ class _HomeViewState extends State<HomeOwnerView> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    TextFormField(
-                                      initialValue: product['title'],
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
+                                    Padding(
+                                      padding: EdgeInsets.only(bottom: 4.0),
+                                      child: TextFormField(
+                                        initialValue: product['title'],
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        maxLines: 2,
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                        ),
+                                        onChanged: (value) {
+                                          controller.titleChanges[productId] = value;
+                                        },
                                       ),
-                                      decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                      ),
-                                      onChanged: (value) {
-                                        controller.titleChanges[productId] = value;
-                                      },
                                     ),
-                                    SizedBox(height: 4.0),
                                     Row(
                                       children: [
                                         Text(
@@ -206,14 +211,14 @@ class _HomeViewState extends State<HomeOwnerView> {
                                         textCancel: "Tidak",
                                         confirmTextColor: Colors.white,
                                         onConfirm: () {
-                                          controller.deleteProduct(productId);
+                                          controller.deleteProduct(productId, imageUrl);
                                           Get.back();
                                         },
                                         onCancel: () {},
                                       );
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor:  Color.fromARGB(255, 82, 140, 75),
+                                      backgroundColor: Color.fromARGB(255, 82, 140, 75),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(5),
                                       ),
@@ -238,28 +243,52 @@ class _HomeViewState extends State<HomeOwnerView> {
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: ElevatedButton(
-              onPressed: () async {
-                try {
-                  await controller.saveAllChanges();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Perubahan disimpan', style: GoogleFonts.poppins())),
-                  );
-                } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Error: ${e.toString()}')),
-                  );
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white,
-                backgroundColor:   Color.fromARGB(255, 82, 140, 75),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    // Add your logic to open a dialog or navigate to a new page to add a product
+                    Get.to(() => AddProductPage());
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Color.fromARGB(255, 82, 140, 75),
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                      side: BorderSide(
+                        color: Color.fromARGB(255, 82, 140, 75),
+                        width: 0.5,
+                      ),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 24.0),
+                  ),
+                  child: Text('Tambah Produk', style: GoogleFonts.poppins()),
                 ),
-                padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 24.0),
-              ),
-              child: Text('Simpan Perubahan', style: GoogleFonts.poppins()),
+                ElevatedButton(
+                  onPressed: () async {
+                    try {
+                      await controller.saveAllChanges();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Perubahan disimpan', style: GoogleFonts.poppins())),
+                      );
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Error: ${e.toString()}')),
+                      );
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: Color.fromARGB(255, 82, 140, 75),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 24.0),
+                  ),
+                  child: Text('Simpan Perubahan', style: GoogleFonts.poppins()),
+                ),
+              ],
             ),
           ),
         ],

@@ -24,6 +24,10 @@ class KeranjangCustomerController extends GetxController {
           var data = doc.data() as Map<String, dynamic>;
           data['id'] = doc.id;
           data['quantity'] = data['quantity'] ?? 1;
+          data['price'] = data['price'] is String
+              ? double.tryParse(data['price']) ?? 0
+              : data['price'];
+          data['totalPrice'] = data['price'] * data['quantity'];
           return data;
         }).toList();
       });
@@ -40,7 +44,16 @@ class KeranjangCustomerController extends GetxController {
             .collection('pemesanan')
             .get();
 
-        cartItems.value = querySnapshot.docs.map((doc) => doc.data()).toList();
+        cartItems.value = querySnapshot.docs.map((doc) {
+          var data = doc.data() as Map<String, dynamic>;
+          data['id'] = doc.id;
+          data['quantity'] = data['quantity'] ?? 1;
+          data['price'] = data['price'] is String
+              ? double.tryParse(data['price']) ?? 0
+              : data['price'];
+          data['totalPrice'] = data['price'] * data['quantity'];
+          return data;
+        }).toList();
       }
     } catch (e) {
       print('Error fetching cart items: $e');
@@ -49,16 +62,25 @@ class KeranjangCustomerController extends GetxController {
 
   void increaseQuantity(Map<String, dynamic> product) {
     String userId = FirebaseAuth.instance.currentUser!.uid;
+    double price = product['price'] is String
+        ? double.tryParse(product['price']) ?? 0
+        : product['price'];
     FirebaseFirestore.instance
         .collection('customers')
         .doc(userId)
         .collection('pemesanan')
         .doc(product['id'])
-        .update({'quantity': FieldValue.increment(1)});
+        .update({
+      'quantity': FieldValue.increment(1),
+      'totalPrice': FieldValue.increment(price)
+    });
   }
 
   void decreaseQuantity(Map<String, dynamic> product) {
     String userId = FirebaseAuth.instance.currentUser!.uid;
+    double price = product['price'] is String
+        ? double.tryParse(product['price']) ?? 0
+        : product['price'];
     FirebaseFirestore.instance
         .collection('customers')
         .doc(userId)
@@ -68,7 +90,10 @@ class KeranjangCustomerController extends GetxController {
         .then((DocumentSnapshot doc) {
       int currentQuantity = doc['quantity'] ?? 1;
       if (currentQuantity > 1) {
-        doc.reference.update({'quantity': currentQuantity - 1});
+        doc.reference.update({
+          'quantity': currentQuantity - 1,
+          'totalPrice': FieldValue.increment(-price)
+        });
       } else {
         removeFromCart(product);
       }

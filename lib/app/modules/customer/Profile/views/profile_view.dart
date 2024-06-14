@@ -110,9 +110,9 @@ class ProfileView extends StatelessWidget {
               if (controller.profileData['customerType'] == 'UMKM') ...[
                 SizedBox(height: 10),
                 buildDocumentPhoto('Usaha', 'usahaPhotoUrl'),
-                SizedBox(height: 10),
-                buildDocumentPhoto('Pemilik', 'ownerPhotoUrl'),
               ],
+              SizedBox(height: 10),
+                buildDocumentPhoto('Pemilik', 'ownerPhotoUrl'),
               SizedBox(height: 10),
               buildLocationMap('Lokasi', 'location'), 
             ],

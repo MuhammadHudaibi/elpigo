@@ -64,7 +64,7 @@ class _AddProductPageState extends State<AddProductPage> {
               TextField(
                 controller: titleController,
                 decoration: InputDecoration(
-                  labelText: 'Judul',
+                  labelText: 'Nama Produk',
                   labelStyle: GoogleFonts.poppins(),
                   border: OutlineInputBorder(),
                 ),

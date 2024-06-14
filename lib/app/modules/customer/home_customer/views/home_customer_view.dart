@@ -195,7 +195,7 @@ class HomeCustomerView extends GetView<HomeCustomerController> {
                                                         backgroundColor:
                                                             Colors.red,
                                                         content: Text(
-                                                          "Stok barang habis!",
+                                                          "Stok produk habis!",
                                                           style: GoogleFonts
                                                               .poppins(
                                                             fontWeight:

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 class KeranjangCustomerController extends GetxController {
   var cartItems = [].obs;
+  var selectedItems = {}.obs;
 
   @override
   void onInit() {
@@ -73,6 +74,13 @@ class KeranjangCustomerController extends GetxController {
         .update({
       'quantity': FieldValue.increment(1),
       'totalPrice': FieldValue.increment(price)
+    }).then((_) {
+      // Update selected item if it's selected
+      if (selectedItems.containsKey(product['id'])) {
+        selectedItems[product['id']]['quantity'] += 1;
+        selectedItems[product['id']]['totalPrice'] += price;
+        selectedItems.refresh();
+      }
     });
   }
 
@@ -87,17 +95,26 @@ class KeranjangCustomerController extends GetxController {
         .collection('pemesanan')
         .doc(product['id'])
         .get()
-        .then((DocumentSnapshot doc) {
-      int currentQuantity = doc['quantity'] ?? 1;
-      if (currentQuantity > 1) {
-        doc.reference.update({
-          'quantity': currentQuantity - 1,
-          'totalPrice': FieldValue.increment(-price)
-        });
-      } else {
-        removeFromCart(product);
-      }
-    });
+        .then(
+      (DocumentSnapshot doc) {
+        int currentQuantity = doc['quantity'] ?? 1;
+        if (currentQuantity > 1) {
+          doc.reference.update({
+            'quantity': currentQuantity - 1,
+            'totalPrice': FieldValue.increment(-price)
+          }).then((_) {
+            // Update selected item if it's selected
+            if (selectedItems.containsKey(product['id'])) {
+              selectedItems[product['id']]['quantity'] -= 1;
+              selectedItems[product['id']]['totalPrice'] -= price;
+              selectedItems.refresh();
+            }
+          });
+        } else {
+          removeFromCart(product);
+        }
+      },
+    );
   }
 
   void removeFromCart(Map<String, dynamic> product) {
@@ -107,7 +124,25 @@ class KeranjangCustomerController extends GetxController {
         .doc(userId)
         .collection('pemesanan')
         .doc(product['id'])
-        .delete();
+        .delete()
+        .then((_) {
+      selectedItems.remove(product['id']);
+      selectedItems.refresh();
+    });
+  }
+
+  void toggleSelection(Map<String, dynamic> product, bool isSelected) {
+    if (isSelected) {
+      selectedItems[product['id']] = product;
+    } else {
+      selectedItems.remove(product['id']);
+    }
+    selectedItems.refresh();
+  }
+
+  double get totalSelectedPrice {
+    return selectedItems.values
+        .fold(0, (sum, item) => sum + item['totalPrice']);
   }
 
   bool get isEmpty => cartItems.isEmpty;

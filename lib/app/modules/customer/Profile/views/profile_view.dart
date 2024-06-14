@@ -2,6 +2,7 @@ import 'package:elpigo/app/modules/customer/Profile/controllers/profile_controll
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ProfileView extends StatelessWidget {
   final ProfileController controller = Get.put(ProfileController());
@@ -19,8 +20,8 @@ class ProfileView extends StatelessWidget {
             )),
         actions: [
           IconButton(
-            onPressed: () {
-              Get.toNamed('/login-customer');
+            onPressed: () async {
+              await controller.signOut();
             },
             icon: Icon(
               Icons.logout,
@@ -106,8 +107,16 @@ class ProfileView extends StatelessWidget {
               buildDocumentPhoto('KK', 'kkPhotoUrl'),
               SizedBox(height: 10),
               buildDocumentPhoto('KTP', 'ktpPhotoUrl'),
-              // Tambahkan gambar dokumen lain jika ada
+              if (controller.profileData['customerType'] == 'UMKM') ...[
+                SizedBox(height: 10),
+                buildDocumentPhoto('Usaha', 'usahaPhotoUrl'),
+                SizedBox(height: 10),
+                buildDocumentPhoto('Pemilik', 'ownerPhotoUrl'),
+              ],
+              SizedBox(height: 10),
+              buildLocationMap('Lokasi', 'location'), 
             ],
+            
           ),
         );
       }),
@@ -142,12 +151,59 @@ class ProfileView extends StatelessWidget {
             border: Border.all(color: Colors.grey),
             borderRadius: BorderRadius.circular(8),
           ),
-          child: controller.profileData[key] != null
+          child: controller.profileData[key] != null && controller.profileData[key] is String
               ? Image.network(
                   controller.profileData[key],
                   fit: BoxFit.cover,
                 )
               : Center(child: Text('No image available', style: GoogleFonts.poppins())),
+        ),
+      ],
+    );
+  }
+
+  Widget buildLocationMap(String label, String key) {
+    LatLng initialLocation = LatLng(37.7749, -122.4194); // Default location (San Francisco)
+
+    if (controller.profileData[key] != null && controller.profileData[key] is String) {
+      String locationString = controller.profileData[key];
+      List<String> coordinates = locationString.split(',');
+      double latitude = double.parse(coordinates[0]);
+      double longitude = double.parse(coordinates[1]);
+      initialLocation = LatLng(latitude, longitude);
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('$label:', style: GoogleFonts.poppins()),
+        SizedBox(height: 5),
+        Container(
+          height: 300,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey),
+            borderRadius: BorderRadius.circular(8),
+          ),
+         
+
+          child: GoogleMap(
+            initialCameraPosition: CameraPosition(
+              target: initialLocation,
+              zoom: 14.0,
+            ),
+            markers: {
+              Marker(
+                markerId: MarkerId('location'),
+                position: initialLocation,
+                draggable: true,
+                onDragEnd: (newPosition) {
+                  String newLocation = '${newPosition.latitude},${newPosition.longitude}';
+                  controller.updateProfileData(key, newLocation);
+                },
+              ),
+            },
+          ),
         ),
       ],
     );
@@ -159,6 +215,8 @@ class ProfileView extends StatelessWidget {
     Get.dialog(
       AlertDialog(
         title: Text('Edit $key', style: GoogleFonts.poppins()),
+       
+
         content: TextField(
           controller: textController,
           decoration: InputDecoration(

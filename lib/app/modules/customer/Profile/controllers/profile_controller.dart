@@ -56,17 +56,26 @@ class ProfileController extends GetxController {
         File imageFile = File(pickedFile.path);
         User? user = FirebaseAuth.instance.currentUser;
         if (user != null) {
-          // Upload image to your preferred storage solution and get the URL
-          // Example: final imageUrl = await uploadImage(imageFile);
-
-          final imageUrl = 'URL_of_uploaded_image'; // Replace with actual upload function
-
+          final imageUrl = 'URL_of_uploaded_image'; // Replace with your image upload logic
           await FirebaseFirestore.instance.collection('customers').doc(user.uid).update({'ownerPhotoUrl': imageUrl});
           profileData['ownerPhotoUrl'] = imageUrl;
         }
       }
     } catch (e) {
       print("Error updating profile photo: $e");
+    }
+  }
+
+  Future<void> signOut() async {
+    isLoading.value = true;
+    try {
+      await FirebaseAuth.instance.signOut(); // Sign out the user
+      profileData.clear();
+      Get.offAllNamed('/login-customer');
+    } catch (e) {
+      Get.snackbar('Error', 'Sign-out failed');
+    } finally {
+      isLoading.value = false;
     }
   }
 }

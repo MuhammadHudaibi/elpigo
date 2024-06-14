@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 class ForgotPasswordView extends StatelessWidget {
   final ForgotPasswordController controller = Get.put(ForgotPasswordController());
+  final Color greenColor = Color.fromARGB(255, 82, 140, 75); 
 
   @override
   Widget build(BuildContext context) {
@@ -14,15 +15,15 @@ class ForgotPasswordView extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Icon(Icons.lock, size: 100, color: Colors.blue),
+              Icon(Icons.lock, size: 100, color: greenColor),
               SizedBox(height: 20),
               Text(
-                'Forgot password',
+                'Lupa password',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10),
               Text(
-                'Enter the email associated with your account.\nWe\'ll send you the reset link.',
+                'Masukkan email yang terhubung dengan akunmu!\nKami akan mengirim link untuk pembaharuan.',
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 16),
               ),
@@ -31,7 +32,15 @@ class ForgotPasswordView extends StatelessWidget {
                 controller: controller.emailController,
                 decoration: InputDecoration(
                   labelText: 'Email',
-                  border: OutlineInputBorder(),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(color: greenColor), 
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: greenColor), 
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: greenColor), 
+                  ),
                 ),
               ),
               SizedBox(height: 20),
@@ -40,12 +49,21 @@ class ForgotPasswordView extends StatelessWidget {
                   controller.resetPassword(controller.emailController.text);
                 },
                 child: Text('Reset Password'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: greenColor, 
+                  foregroundColor: Colors.white, 
+                ),
               ),
-              TextButton(
+              SizedBox(height: 10), 
+              ElevatedButton(
                 onPressed: () {
                   Get.back();
                 },
                 child: Text('Back to sign in'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: greenColor, 
+                  foregroundColor: Colors.white, 
+                ),
               ),
             ],
           ),

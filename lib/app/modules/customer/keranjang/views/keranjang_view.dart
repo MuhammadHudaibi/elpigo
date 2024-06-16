@@ -7,7 +7,6 @@ import '../controllers/keranjang_customer_controller.dart';
 class KeranjangCustomerView extends GetView<KeranjangCustomerController> {
   final KeranjangCustomerController cartController =
       Get.find<KeranjangCustomerController>();
-
   final TextEditingController catatanController = TextEditingController();
 
   @override
@@ -184,6 +183,28 @@ class KeranjangCustomerView extends GetView<KeranjangCustomerController> {
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: TextField(
+                                  controller: catatanController,
+                                  cursorColor: Colors.black,
+                                  decoration: InputDecoration(
+                                    hintText: 'Catatan',
+                                    fillColor: Colors.white,
+                                    filled: true,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide:
+                                          BorderSide(color: Colors.white),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                    ),
+                                  ),
+                                ),
+                              ),
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -218,6 +239,7 @@ class KeranjangCustomerView extends GetView<KeranjangCustomerController> {
                                     child: Text(
                                       "Checkout",
                                       style: GoogleFonts.poppins(
+                                        fontSize: 16,
                                         fontWeight: FontWeight.w500,
                                         color: Color.fromARGB(255, 82, 140, 75),
                                       ),

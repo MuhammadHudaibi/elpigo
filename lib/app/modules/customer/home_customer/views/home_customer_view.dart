@@ -164,50 +164,8 @@ class HomeCustomerView extends GetView<HomeCustomerController> {
                                                   minimumSize: Size(25, 35),
                                                 ),
                                                 onPressed: () {
-                                                  if (product['stok'] > 0) {
-                                                    controller.addProductToCart(
-                                                        product);
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                      SnackBar(
-                                                        backgroundColor:
-                                                            Color.fromARGB(255,
-                                                                151, 182, 153),
-                                                        content: Text(
-                                                          "Produk berhasil ditambahkan!",
-                                                          style: GoogleFonts
-                                                              .poppins(
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            color: Colors.black,
-                                                          ),
-                                                        ),
-                                                        duration: Duration(
-                                                            seconds: 3),
-                                                      ),
-                                                    );
-                                                  } else {
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                      SnackBar(
-                                                        backgroundColor:
-                                                            Colors.red,
-                                                        content: Text(
-                                                          "Stok produk habis!",
-                                                          style: GoogleFonts
-                                                              .poppins(
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            color: Colors.white,
-                                                          ),
-                                                        ),
-                                                        duration: Duration(
-                                                            seconds: 3),
-                                                      ),
-                                                    );
-                                                  }
+                                                  controller.addProductToCart(
+                                                      product, context);
                                                 },
                                                 child: Icon(
                                                   CupertinoIcons.add,

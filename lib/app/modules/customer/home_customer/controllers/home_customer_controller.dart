@@ -1,23 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../keranjang/controllers/keranjang_customer_controller.dart';
-
-class Product {
-  final String id;
-  final String title;
-  final String imageUrl;
-  final int price;
-  final int stock;
-
-  Product({
-    required this.id,
-    required this.title,
-    required this.imageUrl,
-    required this.price,
-    required this.stock,
-  });
-}
 
 class HomeCustomerController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -77,16 +63,99 @@ class HomeCustomerController extends GetxController {
     }
   }
 
-  void addProductToCart(Map<String, dynamic> product) {
+  void addProductToCart(
+      Map<String, dynamic> product, BuildContext context) async {
     String userId = FirebaseAuth.instance.currentUser!.uid;
+    int stok = product['stok'] ?? 0;
+    int quantityInCart = 0;
 
-    FirebaseFirestore.instance
-        .collection('customers')
-        .doc(userId)
-        .collection('pemesanan')
-        .add({
-      ...product,
-      'quantity': 1,
-    });
+    try {
+      QuerySnapshot cartSnapshot = await FirebaseFirestore.instance
+          .collection('customers')
+          .doc(userId)
+          .collection('pemesanan')
+          .where('title', isEqualTo: product['title'])
+          .get();
+
+      if (cartSnapshot.docs.isNotEmpty) {
+        quantityInCart = cartSnapshot.docs.first['quantity'];
+      }
+
+      if (quantityInCart + 1 <= stok) {
+        if (cartSnapshot.docs.isNotEmpty) {
+          DocumentReference productDocRef = cartSnapshot.docs.first.reference;
+          productDocRef.update({
+            'quantity': FieldValue.increment(1),
+            'totalPrice': FieldValue.increment(product['price'] is String
+                ? double.tryParse(product['price']) ?? 0
+                : product['price'])
+          });
+        } else {
+          // Add new item to cart
+          FirebaseFirestore.instance
+              .collection('customers')
+              .doc(userId)
+              .collection('pemesanan')
+              .add({
+            ...product,
+            'quantity': 1,
+            'totalPrice': product['price'] is String
+                ? double.tryParse(product['price']) ?? 0
+                : product['price']
+          });
+        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Color.fromARGB(255, 151, 182, 153),
+            content: Text(
+              'Produk berhasil ditambahkan!',
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w400,
+                color: Colors.black,
+              ),
+            ),
+          ),
+        );
+      } else if (stok == 0) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red,
+            content: Text(
+              'Stok produk habis!',
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w400,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red,
+            content: Text(
+              'Stok produk tidak cukup!',
+              style: GoogleFonts.poppins(
+                fontWeight: FontWeight.w400,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          content: Text(
+            'Failed to add product to cart: $e',
+            style: GoogleFonts.poppins(
+              fontWeight: FontWeight.w400,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      );
+    }
   }
 }

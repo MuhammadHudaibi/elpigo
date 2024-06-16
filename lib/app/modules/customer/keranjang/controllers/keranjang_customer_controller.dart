@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class KeranjangCustomerController extends GetxController {
@@ -66,22 +67,33 @@ class KeranjangCustomerController extends GetxController {
     double price = product['price'] is String
         ? double.tryParse(product['price']) ?? 0
         : product['price'];
-    FirebaseFirestore.instance
-        .collection('customers')
-        .doc(userId)
-        .collection('pemesanan')
-        .doc(product['id'])
-        .update({
-      'quantity': FieldValue.increment(1),
-      'totalPrice': FieldValue.increment(price)
-    }).then((_) {
-      // Update selected item if it's selected
-      if (selectedItems.containsKey(product['id'])) {
-        selectedItems[product['id']]['quantity'] += 1;
-        selectedItems[product['id']]['totalPrice'] += price;
-        selectedItems.refresh();
-      }
-    });
+    int stock = product['stok'];
+
+    if (product['quantity'] < stock) {
+      FirebaseFirestore.instance
+          .collection('customers')
+          .doc(userId)
+          .collection('pemesanan')
+          .doc(product['id'])
+          .update({
+        'quantity': FieldValue.increment(1),
+        'totalPrice': FieldValue.increment(price)
+      }).then((_) {
+        if (selectedItems.containsKey(product['id'])) {
+          selectedItems[product['id']]['quantity'] += 1;
+          selectedItems[product['id']]['totalPrice'] += price;
+          selectedItems.refresh();
+        }
+      });
+    } else {
+      Get.snackbar(
+        'Stok tidak cukup',
+        'Jumlah produk melebihi stok yang tersedia',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
   }
 
   void decreaseQuantity(Map<String, dynamic> product) {
@@ -103,7 +115,6 @@ class KeranjangCustomerController extends GetxController {
             'quantity': currentQuantity - 1,
             'totalPrice': FieldValue.increment(-price)
           }).then((_) {
-            // Update selected item if it's selected
             if (selectedItems.containsKey(product['id'])) {
               selectedItems[product['id']]['quantity'] -= 1;
               selectedItems[product['id']]['totalPrice'] -= price;

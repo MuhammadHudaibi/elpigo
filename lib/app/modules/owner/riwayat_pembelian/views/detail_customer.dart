@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class DetailCustomer extends StatelessWidget {
   final String userId;
@@ -23,7 +22,7 @@ class DetailCustomer extends StatelessWidget {
             'Riwayat Penjualan',
             style: GoogleFonts.poppins(color: Colors.white),
           ),
-          backgroundColor:  Color.fromARGB(255, 82, 140, 75),
+          backgroundColor: Color.fromARGB(255, 82, 140, 75),
           bottom: TabBar(
             labelColor: Colors.greenAccent,
             indicatorColor: Colors.greenAccent,
@@ -90,16 +89,15 @@ class DetailPelanggan extends StatelessWidget {
 
           final location = data['location'];
 
-          // Validate location data
-          Widget content;
+          Widget contentMaps;
           if (location == null ||
               location['latitude'] == null ||
               location['longitude'] == null ||
               double.tryParse(location['latitude'].toString()) == null ||
               double.tryParse(location['longitude'].toString()) == null) {
-            content = _buildGoogleMapsFieldError();
+            contentMaps = _buildGoogleMapsFieldError();
           } else {
-            content = _buildGoogleMapsField(context, double.parse(location['latitude'].toString()), double.parse(location['longitude'].toString()));
+            contentMaps = _buildGoogleMapsField(context, double.parse(location['latitude'].toString()), double.parse(location['longitude'].toString()));
           }
 
           return SingleChildScrollView(
@@ -129,15 +127,8 @@ class DetailPelanggan extends StatelessWidget {
                     itemCount: photos.length,
                     itemBuilder: (context, index) {
                       return GestureDetector(
-                        onTap: () async {
-                          final url = photos[index]['url'];
-                          if (url != null && await canLaunch(url)) {
-                            await launch(url, forceSafariVC: false, forceWebView: false);
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Could not launch $url')),
-                            );
-                          }
+                        onTap: () {
+                          controller.showImageDialog(context, photos[index]['url'], photos[index]['caption'] ?? '');
                         },
                         child: Column(
                           children: [
@@ -162,7 +153,7 @@ class DetailPelanggan extends StatelessWidget {
                                   errorBuilder: (context, error, stackTrace) => Icon(
                                     Icons.error_outline,
                                     size: 100,
-                                    color:  Color.fromARGB(255, 82, 140, 75),
+                                    color: Color.fromARGB(255, 82, 140, 75),
                                   ),
                                 ),
                               ),
@@ -178,7 +169,7 @@ class DetailPelanggan extends StatelessWidget {
                     },
                   ),
                   SizedBox(height: 20),
-                  content,
+                  contentMaps,
                 ],
               ),
             ),
@@ -234,7 +225,7 @@ class DetailPelanggan extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color:  Color.fromARGB(255, 82, 140, 75).withOpacity(0.5),
+                    color: Color.fromARGB(255, 82, 140, 75).withOpacity(0.5),
                     spreadRadius: 2,
                     blurRadius: 7,
                     offset: Offset(0, 3),
@@ -287,10 +278,10 @@ class DetailPelanggan extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color:  Color.fromARGB(255, 82, 140, 75).withOpacity(0.5),
+                    color: Color.fromARGB(255, 82, 140, 75).withOpacity(0.5),
                     spreadRadius: 2,
                     blurRadius: 7,
-                    offset: Offset(0, 3), // changes position of shadow
+                    offset: Offset(0, 3),
                   ),
                 ],
               ),

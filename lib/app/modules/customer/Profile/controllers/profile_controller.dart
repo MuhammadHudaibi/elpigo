@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 
 class ProfileController extends GetxController {
@@ -56,9 +57,16 @@ class ProfileController extends GetxController {
         File imageFile = File(pickedFile.path);
         User? user = FirebaseAuth.instance.currentUser;
         if (user != null) {
-          final imageUrl = 'URL_of_uploaded_image'; // Replace with your image upload logic
-          await FirebaseFirestore.instance.collection('customers').doc(user.uid).update({'ownerPhotoUrl': imageUrl});
-          profileData['ownerPhotoUrl'] = imageUrl;
+          // Upload the image to Firebase Storage
+          String fileName = 'profile_photos/${user.uid}_${DateTime.now().millisecondsSinceEpoch}.jpg';
+          Reference storageRef = FirebaseStorage.instance.ref().child(fileName);
+          UploadTask uploadTask = storageRef.putFile(imageFile);
+          TaskSnapshot snapshot = await uploadTask;
+          String downloadUrl = await snapshot.ref.getDownloadURL();
+
+          // Update Firestore with the download URL
+          await FirebaseFirestore.instance.collection('customers').doc(user.uid).update({'ownerPhotoUrl': downloadUrl});
+          profileData['ownerPhotoUrl'] = downloadUrl;
         }
       }
     } catch (e) {

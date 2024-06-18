@@ -128,7 +128,12 @@ class DetailPelanggan extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
-                          controller.showImageDialog(context, photos[index]['url'], photos[index]['caption'] ?? '');
+                          controller.showImageDialog(
+                            context,
+                            photos[index]['url'],
+                            photos[index]['caption'] ?? '',
+                            userId,
+                          );
                         },
                         child: Column(
                           children: [

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
@@ -8,50 +7,39 @@ import 'package:image_picker/image_picker.dart';
 class HomeOwnerController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
-  final ImagePicker picker = ImagePicker();
 
   var priceChanges = <String, String>{}.obs;
   var stockChanges = <String, int>{}.obs;
   var titleChanges = <String, String>{}.obs;
+  var products = <DocumentSnapshot>[].obs;
+
+  get picker => null;
 
   @override
   void onInit() {
     super.onInit();
+    getProductsStream().listen((snapshot) {
+      products.value = snapshot.docs;
+    });
   }
 
   Stream<QuerySnapshot> getProductsStream() {
     return _firestore.collection('products').snapshots();
   }
 
-  Future<DocumentSnapshot<Map<String, dynamic>>> getProductById(String productId) async {
-    try {
-      DocumentSnapshot<Map<String, dynamic>> productSnapshot = await _firestore.collection('products').doc(productId).get();
-      if (productSnapshot.exists) {
-        return productSnapshot;
-      } else {
-        return Future.error("Product not found");
-      }
-    } catch (e) {
-      return Future.error(e.toString());
-    }
+  // Update local map without directly updating Firestore
+  void updatePrice(String docId, String newPrice) {
+    priceChanges[docId] = newPrice;
   }
 
-  Future<void> updatePrice(String docId, String newPrice) async {
-    await _firestore.collection('products').doc(docId).update({
-      'price': newPrice,
-    });
+  // Update local map without directly updating Firestore
+  void updateStock(String docId, int newStock) {
+    stockChanges[docId] = newStock;
   }
 
-  Future<void> updateStock(String docId, int newStock) async {
-    await _firestore.collection('products').doc(docId).update({
-      'stok': newStock,
-    });
-  }
-
-  Future<void> updateTitle(String docId, String newTitle) async {
-    await _firestore.collection('products').doc(docId).update({
-      'title': newTitle,
-    });
+  // Update local map without directly updating Firestore
+  void updateTitle(String docId, String newTitle) {
+    titleChanges[docId] = newTitle;
   }
 
   Future<void> deleteProduct(String docId, String imageUrl) async {
@@ -61,12 +49,14 @@ class HomeOwnerController extends GetxController {
       }
       await _firestore.collection('products').doc(docId).delete();
     } catch (e) {
-      Future.error("Failed to delete product: $e");
+      throw Exception("Failed to delete product: $e");
     }
   }
 
   Future<void> saveAllChanges() async {
     final batch = _firestore.batch();
+    
+    // Update Firestore with changes from local maps
     priceChanges.forEach((docId, newPrice) {
       final docRef = _firestore.collection('products').doc(docId);
       batch.update(docRef, {'price': newPrice});
@@ -79,13 +69,21 @@ class HomeOwnerController extends GetxController {
       final docRef = _firestore.collection('products').doc(docId);
       batch.update(docRef, {'title': newTitle});
     });
-    await batch.commit();
+
+    try {
+      await batch.commit();
+      // Clear local changes after successful commit
+      priceChanges.clear();
+      stockChanges.clear();
+      titleChanges.clear();
+    } catch (e) {
+      throw Exception("Failed to save changes: $e");
+    }
   }
 
   Future<void> addProduct(String title, String price, int stock, XFile image) async {
     try {
       String imageUrl = await _uploadImage(image);
-
       await _firestore.collection('products').add({
         'title': title,
         'price': price,
@@ -93,7 +91,7 @@ class HomeOwnerController extends GetxController {
         'imageUrl': imageUrl,
       });
     } catch (e) {
-      Future.error("Failed to add product: $e");
+      throw Exception("Failed to add product: $e");
     }
   }
 
@@ -103,12 +101,15 @@ class HomeOwnerController extends GetxController {
       var snapshot = await _storage.ref().child('produk/${image.name}').putFile(file);
       return await snapshot.ref.getDownloadURL();
     } catch (e) {
-      return Future.error("Failed to upload image: $e");
+      throw Exception("Failed to upload image: $e");
     }
   }
 
-  @override
-  void dispose() {
-    super.dispose();
+  Future<void> updateProductImage(String productId, String imageUrl) async {
+    try {
+      await _firestore.collection('products').doc(productId).update({'imageUrl': imageUrl});
+    } catch (e) {
+      throw Exception("Failed to update product image: $e");
+    }
   }
 }

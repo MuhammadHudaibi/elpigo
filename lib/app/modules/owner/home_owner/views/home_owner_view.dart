@@ -1,10 +1,13 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:elpigo/app/modules/owner/home_owner/controllers/home_owner_controller.dart';
 import 'package:elpigo/app/modules/owner/home_owner/views/add_product.dart';
 import 'package:elpigo/app/modules/owner/loginOwner/controllers/login_owner_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 
 class HomeOwnerView extends StatefulWidget {
   @override
@@ -14,6 +17,26 @@ class HomeOwnerView extends StatefulWidget {
 class _HomeViewState extends State<HomeOwnerView> {
   final HomeOwnerController controller = Get.put(HomeOwnerController());
   final LoginOwnerController logincontroller = Get.put(LoginOwnerController());
+
+  Future<void> _pickImage(String productId) async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      try {
+        String fileName = image.name;
+        Reference storageRef = FirebaseStorage.instance.ref().child('product_images').child(fileName);
+        await storageRef.putFile(File(image.path));
+        String downloadUrl = await storageRef.getDownloadURL();
+        await controller.updateProductImage(productId, downloadUrl);
+      } catch (e) {
+        print('Error uploading image: $e');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error uploading image: $e', style: GoogleFonts.poppins())),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,39 +99,42 @@ class _HomeViewState extends State<HomeOwnerView> {
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(8.0),
-                                child: Image.network(
-                                  product['imageUrl'],
-                                  width: 100,
-                                  height: 100,
-                                  fit: BoxFit.cover,
-                                  loadingBuilder: (context, child, loadingProgress) {
-                                    if (loadingProgress == null) return child;
-                                    return Container(
-                                      width: 100,
-                                      height: 100,
-                                      child: Center(
-                                        child: CircularProgressIndicator(
-                                          value: loadingProgress.expectedTotalBytes != null
-                                              ? loadingProgress.cumulativeBytesLoaded /
-                                                  (loadingProgress.expectedTotalBytes ?? 1)
-                                              : null,
+                              GestureDetector(
+                                onTap: () => _pickImage(productId),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: Image.network(
+                                    product['imageUrl'],
+                                    width: 100,
+                                    height: 100,
+                                    fit: BoxFit.cover,
+                                    loadingBuilder: (context, child, loadingProgress) {
+                                      if (loadingProgress == null) return child;
+                                      return Container(
+                                        width: 100,
+                                        height: 100,
+                                        child: Center(
+                                          child: CircularProgressIndicator(
+                                            value: loadingProgress.expectedTotalBytes != null
+                                                ? loadingProgress.cumulativeBytesLoaded /
+                                                    (loadingProgress.expectedTotalBytes ?? 1)
+                                                : null,
+                                          ),
                                         ),
-                                      ),
-                                    );
-                                  },
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return Container(
-                                      width: 100,
-                                      height: 100,
-                                      color: Color.fromARGB(255, 82, 140, 75),
-                                      child: Icon(
-                                        Icons.error,
-                                        color: Colors.red,
-                                      ),
-                                    );
-                                  },
+                                      );
+                                    },
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Container(
+                                        width: 100,
+                                        height: 100,
+                                        color: Color.fromARGB(255, 82, 140, 75),
+                                        child: Icon(
+                                          Icons.error,
+                                          color: Colors.red,
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
                               SizedBox(width: 16.0),
@@ -129,7 +155,7 @@ class _HomeViewState extends State<HomeOwnerView> {
                                           border: InputBorder.none,
                                         ),
                                         onChanged: (value) {
-                                          controller.titleChanges[productId] = value;
+                                          controller.updateTitle(productId, value);
                                         },
                                       ),
                                     ),
@@ -147,7 +173,7 @@ class _HomeViewState extends State<HomeOwnerView> {
                                               border: InputBorder.none,
                                             ),
                                             onChanged: (value) {
-                                              controller.priceChanges[productId] = value;
+                                              controller.updatePrice(productId, value);
                                             },
                                             keyboardType: TextInputType.number,
                                           ),
@@ -248,7 +274,6 @@ class _HomeViewState extends State<HomeOwnerView> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    // Add your logic to open a dialog or navigate to a new page to add a product
                     Get.to(() => AddProductPage());
                   },
                   style: ElevatedButton.styleFrom(

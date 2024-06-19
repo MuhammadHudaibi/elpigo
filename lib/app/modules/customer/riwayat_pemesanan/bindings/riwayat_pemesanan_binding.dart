@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-
 import '../controllers/riwayat_pemesanan_controller.dart';
 
 class RiwayatPemesananBinding extends Bindings {

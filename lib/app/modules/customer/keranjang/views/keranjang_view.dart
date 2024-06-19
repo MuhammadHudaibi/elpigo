@@ -7,7 +7,8 @@ import '../controllers/keranjang_customer_controller.dart';
 class KeranjangCustomerView extends GetView<KeranjangCustomerController> {
   final KeranjangCustomerController cartController =
       Get.find<KeranjangCustomerController>();
-  final TextEditingController catatanController = TextEditingController();
+  final TextEditingController catatanController =
+      Get.find<KeranjangCustomerController>().catatanController;
 
   @override
   Widget build(BuildContext context) {
@@ -227,6 +228,28 @@ class KeranjangCustomerView extends GetView<KeranjangCustomerController> {
                                   ),
                                 ],
                               ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Jumlah Produk',
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  Text(
+                                    '${cartController.totalSelectedQuantity}',
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
                               Padding(
                                 padding: EdgeInsets.only(top: 5),
                                 child: Center(
@@ -235,7 +258,9 @@ class KeranjangCustomerView extends GetView<KeranjangCustomerController> {
                                       backgroundColor: Colors.white,
                                       minimumSize: Size(30, 35),
                                     ),
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      cartController.checkout();
+                                    },
                                     child: Text(
                                       "Checkout",
                                       style: GoogleFonts.poppins(

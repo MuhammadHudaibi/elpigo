@@ -6,10 +6,16 @@ import 'package:get/get.dart';
 class KeranjangCustomerController extends GetxController {
   var cartItems = [].obs;
   var selectedItems = {}.obs;
+  var catatan = ''.obs;
+  TextEditingController catatanController = TextEditingController();
 
   @override
   void onInit() {
     super.onInit();
+    catatanController.text = catatan.value;
+    catatanController.addListener(() {
+      catatan.value = catatanController.text;
+    });
     listenToCartChanges();
   }
 
@@ -154,6 +160,45 @@ class KeranjangCustomerController extends GetxController {
   double get totalSelectedPrice {
     return selectedItems.values
         .fold(0, (sum, item) => sum + item['totalPrice']);
+  }
+
+  int get totalSelectedQuantity {
+    return selectedItems.values
+        .fold(0, (int sum, item) => sum + (item['quantity'] as int));
+  }
+
+  void checkout() async {
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+    var batch = FirebaseFirestore.instance.batch();
+
+    selectedItems.forEach((key, product) {
+      var docRef = FirebaseFirestore.instance
+          .collection('customers')
+          .doc(userId)
+          .collection('riwayat_pemesanan')
+          .doc();
+
+      batch.set(docRef, {
+        'title': product['title'],
+        'imageUrl': product['imageUrl'],
+        'quantity': product['quantity'],
+        'price': product['price'],
+        'totalPrice': product['totalPrice'],
+        'timestamp': DateTime.now(),
+        'catatan': catatan.value,
+      });
+
+      FirebaseFirestore.instance
+          .collection('customers')
+          .doc(userId)
+          .collection('pemesanan')
+          .doc(product['id'])
+          .delete();
+    });
+
+    await batch.commit();
+    selectedItems.clear();
+    Get.offNamed('/riwayat-pemesanan');
   }
 
   bool get isEmpty => cartItems.isEmpty;

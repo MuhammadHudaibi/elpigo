@@ -4,14 +4,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:elpigo/app/modules/customer/riwayat_pemesanan/controllers/riwayat_pemesanan_controller.dart';
 
-class RiwayatPemesanan extends StatelessWidget {
-  final RiwayatPemesananController transactionController = Get.put(RiwayatPemesananController());
+class RiwayatPemesanan extends GetView<RiwayatPemesananController> {
+  final RiwayatPemesananController cartController =
+      Get.put(RiwayatPemesananController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:  Color.fromARGB(255, 82, 140, 75),
+        backgroundColor: Color.fromARGB(255, 82, 140, 75),
         title: Text(
           "Riwayat Pemesanan",
           style: GoogleFonts.poppins(
@@ -33,45 +34,136 @@ class RiwayatPemesanan extends StatelessWidget {
           ),
         ],
       ),
-      body: Obx(() {
-        if (transactionController.transactions.isEmpty) {
-          return const Center(child: Text("Belum ada transaksi"));
-        }
-
-        return ListView.builder(
-          itemCount: transactionController.transactions.length,
-          itemBuilder: (context, index) {
-            final transaction = transactionController.transactions[index];
-            return Card(
-              margin: const EdgeInsets.all(8.0),
-              child: const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "nama barang",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                          "status",
-                          style: TextStyle(fontSize: 14, color: Colors.grey),
-                        ),
-                      
-                    SizedBox(height: 8),
-                    Text("Tanggal Pembelian:"),
-                    Text("Status: "),
-                    Text("Jumlah:"),
-                    Text("Harga: Rp"),
-                    Text("Catatan:"),
-                    ],
-                    ),
-      
+      body: Obx(
+        () {
+          if (controller.riwayatItems.isEmpty) {
+            return Center(
+              child: Text(
+                'Belum ada riwayat pemesanan',
+                style: GoogleFonts.poppins(
+                  fontSize: 14,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.black,
                 ),
+              ),
             );
-          },
-        );
-      }),
+          } else {
+            return ListView.builder(
+              itemCount: controller.riwayatItems.length,
+              itemBuilder: (context, index) {
+                var product = controller.riwayatItems[index];
+                return Container(
+                  margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10),
+                              ),
+                            ),
+                            child: Text(
+                              "${controller.formatDateTime(product['timestamp'])}",
+                              style: GoogleFonts.poppins(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: Text(
+                              "Status",
+                              style: GoogleFonts.poppins(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        children: [
+                          Image.network(
+                            product['imageUrl'],
+                            width: 54,
+                            height: 80,
+                            fit: BoxFit.fitHeight,
+                          ),
+                          SizedBox(width: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                product['title'],
+                                style: GoogleFonts.poppins(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              SizedBox(height: 24),
+                              Text(
+                                "Rp.${product['totalPrice'] is int ? product['totalPrice'] : product['totalPrice'].toStringAsFixed(0)}",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        "Jumlah Produk : ${product['quantity']}",
+                        style: GoogleFonts.poppins(
+                          fontSize: 14,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.black,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        "Catatan : ${product['catatan']}",
+                        style: GoogleFonts.poppins(
+                          fontSize: 14,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+          }
+        },
+      ),
     );
   }
 }

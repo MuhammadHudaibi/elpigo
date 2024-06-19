@@ -1,53 +1,38 @@
 import 'package:get/get.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 
 class RiwayatPemesananController extends GetxController {
-  var transactions = <Transaction>[].obs;
+  var riwayatItems = [].obs;
 
   @override
   void onInit() {
     super.onInit();
-    fetchTransactions();
+    fetchRiwayatItems();
   }
 
-  void fetchTransactions() {
-    var transactionList = [
-      Transaction(
-        itemName: "Laptop",
-        purchaseDate: "2023-05-20",
-        status: "Selesai",
-        quantity: 1,
-        price: 15000000,
-        note: "Pembelian pertama",
-      ),
-      Transaction(
-        itemName: "Smartphone",
-        purchaseDate: "2023-04-18",
-        status: "Dikirim",
-        quantity: 2,
-        price: 7000000,
-        note: "Hadiah ulang tahun",
-      ),
-      // Tambahkan transaksi lain di sini
-    ];
+  void fetchRiwayatItems() {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      FirebaseFirestore.instance
+          .collection('customers')
+          .doc(user.uid)
+          .collection('riwayat_pemesanan')
+          .orderBy('timestamp', descending: true)
+          .snapshots()
+          .listen((QuerySnapshot snapshot) {
+        riwayatItems.value = snapshot.docs.map((doc) {
+          var data = doc.data() as Map<String, dynamic>;
+          data['id'] = doc.id;
+          data['timestamp'] = (doc['timestamp'] as Timestamp).toDate();
+          return data;
+        }).toList();
+      });
+    }
+  }
 
-    transactions.addAll(transactionList);
+  String formatDateTime(DateTime date) {
+    return DateFormat('dd/MM/yyyy HH:mm').format(date);
   }
 }
-class Transaction {
-  final String itemName;
-  final String purchaseDate;
-  final String status;
-  final int quantity;
-  final int price;
-  final String note;
-
-  Transaction({
-    required this.itemName,
-    required this.purchaseDate,
-    required this.status,
-    required this.quantity,
-    required this.price,
-    required this.note,
-  });
-}
-

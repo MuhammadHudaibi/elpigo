@@ -73,7 +73,7 @@ class ProfileView extends StatelessWidget {
                       right: 0,
                       child: GestureDetector(
                         onTap: () {
-                          controller.updateProfilePhoto();
+                          controller.updateProfilePhoto;();
                         },
                         child: CircleAvatar(
                           backgroundColor: Colors.green,
@@ -112,11 +112,10 @@ class ProfileView extends StatelessWidget {
                 buildDocumentPhoto('Usaha', 'usahaPhotoUrl'),
               ],
               SizedBox(height: 10),
-                buildDocumentPhoto('Pemilik', 'ownerPhotoUrl'),
+              buildDocumentPhoto('Pemilik', 'PemilikPhotoUrl', isPemilik: true),
               SizedBox(height: 10),
               buildLocationMap('Lokasi', 'location'), 
             ],
-            
           ),
         );
       }),
@@ -138,25 +137,28 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-  Widget buildDocumentPhoto(String label, String key) {
+  Widget buildDocumentPhoto(String label, String key, {bool isPemilik = false}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('$label:', style: GoogleFonts.poppins()),
         SizedBox(height: 5),
-        Container(
-          height: 150,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey),
-            borderRadius: BorderRadius.circular(8),
+        GestureDetector(
+          onTap: isPemilik ? () => controller.updatePemilikPhoto() : null,
+          child: Container(
+            height: 150,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: controller.profileData[key] != null && controller.profileData[key] is String
+                ? Image.network(
+                    controller.profileData[key],
+                    fit: BoxFit.cover,
+                  )
+                : Center(child: Text('No image available', style: GoogleFonts.poppins())),
           ),
-          child: controller.profileData[key] != null && controller.profileData[key] is String
-              ? Image.network(
-                  controller.profileData[key],
-                  fit: BoxFit.cover,
-                )
-              : Center(child: Text('No image available', style: GoogleFonts.poppins())),
         ),
       ],
     );
@@ -185,8 +187,6 @@ class ProfileView extends StatelessWidget {
             border: Border.all(color: Colors.grey),
             borderRadius: BorderRadius.circular(8),
           ),
-         
-
           child: GoogleMap(
             initialCameraPosition: CameraPosition(
               target: initialLocation,
@@ -215,8 +215,6 @@ class ProfileView extends StatelessWidget {
     Get.dialog(
       AlertDialog(
         title: Text('Edit $key', style: GoogleFonts.poppins()),
-       
-
         content: TextField(
           controller: textController,
           decoration: InputDecoration(

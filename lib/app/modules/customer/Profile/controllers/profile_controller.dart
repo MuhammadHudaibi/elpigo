@@ -50,27 +50,26 @@ class ProfileController extends GetxController {
     }
   }
 
-  Future<void> updateProfilePhoto() async {
+  Future<void> updatePemilikPhoto() async {
     try {
       final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (pickedFile != null) {
         File imageFile = File(pickedFile.path);
         User? user = FirebaseAuth.instance.currentUser;
         if (user != null) {
-          // Upload the image to Firebase Storage
-          String fileName = 'profile_photos/${user.uid}_${DateTime.now().millisecondsSinceEpoch}.jpg';
-          Reference storageRef = FirebaseStorage.instance.ref().child(fileName);
-          UploadTask uploadTask = storageRef.putFile(imageFile);
-          TaskSnapshot snapshot = await uploadTask;
-          String downloadUrl = await snapshot.ref.getDownloadURL();
+          String filePath = 'pemilik_images/${user.uid}.jpg';
+          TaskSnapshot uploadTask = await FirebaseStorage.instance.ref(filePath).putFile(imageFile);
 
-          // Update Firestore with the download URL
-          await FirebaseFirestore.instance.collection('customers').doc(user.uid).update({'ownerPhotoUrl': downloadUrl});
-          profileData['ownerPhotoUrl'] = downloadUrl;
+          // Get the download URL
+          String imageUrl = await uploadTask.ref.getDownloadURL();
+
+          // Update Firestore with the new image URL
+          await FirebaseFirestore.instance.collection('customers').doc(user.uid).update({'PemilikPhotoUrl': imageUrl});
+          profileData['PemilikPhotoUrl'] = imageUrl;
         }
       }
     } catch (e) {
-      print("Error updating profile photo: $e");
+      print("Error updating Pemilik photo: $e");
     }
   }
 
@@ -86,4 +85,6 @@ class ProfileController extends GetxController {
       isLoading.value = false;
     }
   }
+
+  void updateProfilePhoto() {}
 }

@@ -153,6 +153,9 @@ class KeranjangCustomerController extends GetxController {
       selectedItems[product['id']] = product;
     } else {
       selectedItems.remove(product['id']);
+      if (selectedItems.isEmpty) {
+        catatanController.clear();
+      }
     }
     selectedItems.refresh();
   }
@@ -198,6 +201,7 @@ class KeranjangCustomerController extends GetxController {
 
     await batch.commit();
     selectedItems.clear();
+    catatanController.clear();
     Get.offNamed('/riwayat-pemesanan');
   }
 

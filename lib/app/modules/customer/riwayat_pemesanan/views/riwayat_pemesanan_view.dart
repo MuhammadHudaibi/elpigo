@@ -125,7 +125,7 @@ class RiwayatPemesanan extends GetView<RiwayatPemesananController> {
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                               ),
-                              SizedBox(height: 24),
+                              SizedBox(height: 15),
                               Text(
                                 "Rp.${product['totalPrice'] is int ? product['totalPrice'] : product['totalPrice'].toStringAsFixed(0)}",
                                 style: GoogleFonts.poppins(

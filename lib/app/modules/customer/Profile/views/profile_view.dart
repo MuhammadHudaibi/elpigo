@@ -56,10 +56,10 @@ class ProfileView extends StatelessWidget {
                       ),
                       child: CircleAvatar(
                         radius: 60,
-                        backgroundImage: controller.profileData['ownerPhotoUrl'] != null
-                            ? NetworkImage(controller.profileData['ownerPhotoUrl'])
+                        backgroundImage: controller.profileData['profilePhotoUrl'] != null
+                            ? NetworkImage(controller.profileData['profilePhotoUrl'])
                             : null,
-                        child: controller.profileData['ownerPhotoUrl'] == null
+                        child: controller.profileData['profilePhotoUrl'] == null
                             ? Icon(
                                 Icons.person,
                                 size: 60,
@@ -73,7 +73,7 @@ class ProfileView extends StatelessWidget {
                       right: 0,
                       child: GestureDetector(
                         onTap: () {
-                          controller.updateProfilePhoto;();
+                          controller.updateProfilePhoto();
                         },
                         child: CircleAvatar(
                           backgroundColor: Colors.green,

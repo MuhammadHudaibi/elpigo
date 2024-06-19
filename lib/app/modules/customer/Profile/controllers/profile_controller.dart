@@ -73,6 +73,29 @@ class ProfileController extends GetxController {
     }
   }
 
+  Future<void> updateProfilePhoto() async {
+    try {
+      final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        File imageFile = File(pickedFile.path);
+        User? user = FirebaseAuth.instance.currentUser;
+        if (user != null) {
+          String filePath = 'profile_images/${user.uid}.jpg';
+          TaskSnapshot uploadTask = await FirebaseStorage.instance.ref(filePath).putFile(imageFile);
+
+          // Get the download URL
+          String imageUrl = await uploadTask.ref.getDownloadURL();
+
+          // Update Firestore with the new image URL
+          await FirebaseFirestore.instance.collection('customers').doc(user.uid).update({'profilePhotoUrl': imageUrl});
+          profileData['profilePhotoUrl'] = imageUrl;
+        }
+      }
+    } catch (e) {
+      print("Error updating profile photo: $e");
+    }
+  }
+
   Future<void> signOut() async {
     isLoading.value = true;
     try {
@@ -85,6 +108,4 @@ class ProfileController extends GetxController {
       isLoading.value = false;
     }
   }
-
-  void updateProfilePhoto() {}
 }

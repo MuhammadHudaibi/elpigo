@@ -38,7 +38,7 @@ class RiwayatPenjualanView extends StatelessWidget {
           }
 
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(child: Text('No users found', style: GoogleFonts.poppins()));
+            return Center(child: Text('User tidak di temukan', style: GoogleFonts.poppins()));
           }
 
           return ListView.builder(
@@ -80,11 +80,11 @@ class RiwayatPenjualanView extends StatelessWidget {
                     children: [
                       SizedBox(height: 8),
                       Text(
-                        'NIK: ${userData['nik'] ?? 'No NIK'}',
+                        'NIK: ${userData['nik'] ?? 'Tidak ada NIK'}',
                         style: GoogleFonts.poppins(),
                       ),
                       Text(
-                        'Phone: ${userData['phone'] ?? 'No Phone'}',
+                        'No hp: ${userData['phone'] ?? 'Tidak ada Phone'}',
                         style: GoogleFonts.poppins(),
                       ),
                     ],

@@ -157,7 +157,7 @@ class ProfileView extends StatelessWidget {
                     controller.profileData[key],
                     fit: BoxFit.cover,
                   )
-                : Center(child: Text('No image available', style: GoogleFonts.poppins())),
+                : Center(child: Text('Gambar tidak tersedia', style: GoogleFonts.poppins())),
           ),
         ),
       ],
@@ -253,14 +253,14 @@ class ProfileView extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Get.back(),
-            child: Text('Cancel', style: GoogleFonts.poppins()),
+            child: Text('Batalkan', style: GoogleFonts.poppins()),
           ),
           TextButton(
             onPressed: () {
               controller.updateProfileData(key, textController.text);
               Get.back();
             },
-            child: Text('Save', style: GoogleFonts.poppins()),
+            child: Text('Simpan', style: GoogleFonts.poppins()),
           ),
         ],
       ),

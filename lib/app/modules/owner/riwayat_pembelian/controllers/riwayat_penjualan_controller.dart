@@ -22,7 +22,7 @@ class RiwayatPenjualanController extends GetxController {
       if (userSnapshot.exists) {
         return userSnapshot;
       } else {
-        return Future.error("User not found");
+        return Future.error("User tidak ditemukan");
       }
     } catch (e) {
       return Future.error(e.toString());

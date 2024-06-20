@@ -49,7 +49,7 @@ class HomeOwnerController extends GetxController {
       }
       await _firestore.collection('products').doc(docId).delete();
     } catch (e) {
-      throw Exception("Failed to delete product: $e");
+      throw Exception("Gagal menghapus product: $e");
     }
   }
 
@@ -77,7 +77,7 @@ class HomeOwnerController extends GetxController {
       stockChanges.clear();
       titleChanges.clear();
     } catch (e) {
-      throw Exception("Failed to save changes: $e");
+      throw Exception("Gagal menyimpan pembaharuan: $e");
     }
   }
 
@@ -91,7 +91,7 @@ class HomeOwnerController extends GetxController {
         'imageUrl': imageUrl,
       });
     } catch (e) {
-      throw Exception("Failed to add product: $e");
+      throw Exception("Gagal menambahkan product: $e");
     }
   }
 
@@ -101,7 +101,7 @@ class HomeOwnerController extends GetxController {
       var snapshot = await _storage.ref().child('produk/${image.name}').putFile(file);
       return await snapshot.ref.getDownloadURL();
     } catch (e) {
-      throw Exception("Failed to upload image: $e");
+      throw Exception("Gagal mengunggah foto: $e");
     }
   }
 
@@ -109,7 +109,7 @@ class HomeOwnerController extends GetxController {
     try {
       await _firestore.collection('products').doc(productId).update({'imageUrl': imageUrl});
     } catch (e) {
-      throw Exception("Failed to update product image: $e");
+      throw Exception("Gagal memperbaharui: $e");
     }
   }
 }

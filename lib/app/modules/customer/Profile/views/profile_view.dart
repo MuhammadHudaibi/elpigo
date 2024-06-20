@@ -56,10 +56,10 @@ class ProfileView extends StatelessWidget {
                       ),
                       child: CircleAvatar(
                         radius: 60,
-                        backgroundImage: controller.profileData['profilePhotoUrl'] != null
-                            ? NetworkImage(controller.profileData['profilePhotoUrl'])
+                        backgroundImage: controller.profileData['ownerPhotoUrl'] != null
+                            ? NetworkImage(controller.profileData['ownerPhotoUrl'])
                             : null,
-                        child: controller.profileData['profilePhotoUrl'] == null
+                        child: controller.profileData['ownerPhotoUrl'] == null
                             ? Icon(
                                 Icons.person,
                                 size: 60,
@@ -114,7 +114,7 @@ class ProfileView extends StatelessWidget {
               SizedBox(height: 10),
               buildDocumentPhoto('Pemilik', 'PemilikPhotoUrl', isPemilik: true),
               SizedBox(height: 10),
-              buildLocationMap('Lokasi', 'location'), 
+              buildLocationMap('Lokasi', controller.profileData['location']),
             ],
           ),
         );
@@ -164,48 +164,60 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-  Widget buildLocationMap(String label, String key) {
-    LatLng initialLocation = LatLng(37.7749, -122.4194); // Default location (San Francisco)
+  Widget buildLocationMap(String label, Map<String, dynamic> location) {
+    // Default location (San Francisco)
+    LatLng initialLocation = LatLng(37.7749, -122.4194);
+    bool locationFound = false;
 
-    if (controller.profileData[key] != null && controller.profileData[key] is String) {
-      String locationString = controller.profileData[key];
-      List<String> coordinates = locationString.split(',');
-      double latitude = double.parse(coordinates[0]);
-      double longitude = double.parse(coordinates[1]);
+    if (location != null && location['latitude'] != null && location['longitude'] != null) {
+      double latitude = location['latitude'];
+      double longitude = location['longitude'];
       initialLocation = LatLng(latitude, longitude);
+      locationFound = true;
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('$label:', style: GoogleFonts.poppins()),
-        SizedBox(height: 5),
-        Container(
-          height: 300,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey),
-            borderRadius: BorderRadius.circular(8),
+    return Container(
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: Text('$label:', style: GoogleFonts.poppins()),
           ),
-          child: GoogleMap(
-            initialCameraPosition: CameraPosition(
-              target: initialLocation,
-              zoom: 14.0,
-            ),
-            markers: {
-              Marker(
-                markerId: MarkerId('location'),
-                position: initialLocation,
-                draggable: true,
-                onDragEnd: (newPosition) {
-                  String newLocation = '${newPosition.latitude},${newPosition.longitude}';
-                  controller.updateProfileData(key, newLocation);
-                },
+          SizedBox(height: 10),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Container(
+              height: 150,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color.fromARGB(255, 82, 140, 75).withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 7,
+                    offset: Offset(0, 3),
+                  ),
+                ],
               ),
-            },
+              child: GoogleMap(
+                initialCameraPosition: CameraPosition(
+                  target: initialLocation,
+                  zoom: 15,
+                ),
+                markers: {
+                  Marker(
+                    markerId: MarkerId('current_location'),
+                    position: initialLocation,
+                  ),
+                },
+                zoomControlsEnabled: false,
+              ),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

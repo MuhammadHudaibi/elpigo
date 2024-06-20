@@ -56,10 +56,10 @@ class ProfileView extends StatelessWidget {
                       ),
                       child: CircleAvatar(
                         radius: 60,
-                        backgroundImage: controller.profileData['ownerPhotoUrl'] != null
-                            ? NetworkImage(controller.profileData['ownerPhotoUrl'])
+                        backgroundImage: controller.profileData['profilePhotoUrl'] != null
+                            ? NetworkImage(controller.profileData['profilePhotoUrl'])
                             : null,
-                        child: controller.profileData['ownerPhotoUrl'] == null
+                        child: controller.profileData['profilePhotoUrl'] == null
                             ? Icon(
                                 Icons.person,
                                 size: 60,
@@ -104,15 +104,15 @@ class ProfileView extends StatelessWidget {
               SizedBox(height: 20),
               Text('Foto:', style: GoogleFonts.poppins()),
               SizedBox(height: 10),
-              buildDocumentPhoto('KK', 'kkPhotoUrl'),
+              buildDocumentPhoto('KK', 'kkPhotoUrl', key: 'kkPhotoUrl'),
               SizedBox(height: 10),
-              buildDocumentPhoto('KTP', 'ktpPhotoUrl'),
+              buildDocumentPhoto('KTP', 'ktpPhotoUrl', key: 'ktpPhotoUrl'),
               if (controller.profileData['customerType'] == 'UMKM') ...[
                 SizedBox(height: 10),
-                buildDocumentPhoto('Usaha', 'usahaPhotoUrl'),
+                buildDocumentPhoto('Usaha', 'usahaPhotoUrl', key: 'usahaPhotoUrl'),
               ],
               SizedBox(height: 10),
-              buildDocumentPhoto('Pemilik', 'PemilikPhotoUrl', isPemilik: true),
+              buildDocumentPhoto('Pemilik', 'PemilikPhotoUrl', key: 'PemilikPhotoUrl', isPemilik: true),
               SizedBox(height: 10),
               buildLocationMap('Lokasi', controller.profileData['location']),
             ],
@@ -137,14 +137,14 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-  Widget buildDocumentPhoto(String label, String key, {bool isPemilik = false}) {
+  Widget buildDocumentPhoto(String label, String imageUrlKey, {bool isPemilik = false, required String key}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('$label:', style: GoogleFonts.poppins()),
         SizedBox(height: 5),
         GestureDetector(
-          onTap: isPemilik ? () => controller.updatePemilikPhoto() : null,
+          onTap: isPemilik ? () => controller.updatePemilikPhoto() : () => controller.updateField(key),
           child: Container(
             height: 150,
             width: double.infinity,
@@ -152,9 +152,9 @@ class ProfileView extends StatelessWidget {
               border: Border.all(color: Colors.grey),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: controller.profileData[key] != null && controller.profileData[key] is String
+            child: controller.profileData[imageUrlKey] != null && controller.profileData[imageUrlKey] is String
                 ? Image.network(
-                    controller.profileData[key],
+                    controller.profileData[imageUrlKey],
                     fit: BoxFit.cover,
                   )
                 : Center(child: Text('Gambar tidak tersedia', style: GoogleFonts.poppins())),
@@ -174,7 +174,6 @@ class ProfileView extends StatelessWidget {
       initialLocation = LatLng(latitude, longitude);
       locationFound = true;
     } else {
-
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

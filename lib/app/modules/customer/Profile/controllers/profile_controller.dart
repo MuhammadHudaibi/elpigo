@@ -50,50 +50,39 @@ class ProfileController extends GetxController {
     }
   }
 
-  Future<void> updatePemilikPhoto() async {
+  Future<void> updateField(String fieldName) async {
     try {
       final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (pickedFile != null) {
         File imageFile = File(pickedFile.path);
         User? user = FirebaseAuth.instance.currentUser;
         if (user != null) {
-          String filePath = 'pemilik_images/${user.uid}.jpg';
+          String filePath = '${fieldName}_images/${user.uid}.jpg';
           TaskSnapshot uploadTask = await FirebaseStorage.instance.ref(filePath).putFile(imageFile);
 
           // Get the download URL
           String imageUrl = await uploadTask.ref.getDownloadURL();
 
           // Update Firestore with the new image URL
-          await FirebaseFirestore.instance.collection('customers').doc(user.uid).update({'PemilikPhotoUrl': imageUrl});
-          profileData['PemilikPhotoUrl'] = imageUrl;
+          await FirebaseFirestore.instance.collection('customers').doc(user.uid).update({fieldName: imageUrl});
+          profileData[fieldName] = imageUrl;
         }
       }
     } catch (e) {
-      print("Error updating Pemilik photo: $e");
+      print("Error updating $fieldName: $e");
     }
   }
 
+  Future<void> updatePemilikPhoto() async {
+    await updateField('PemilikPhotoUrl');
+  }
+
   Future<void> updateProfilePhoto() async {
-    try {
-      final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (pickedFile != null) {
-        File imageFile = File(pickedFile.path);
-        User? user = FirebaseAuth.instance.currentUser;
-        if (user != null) {
-          String filePath = 'profile_images/${user.uid}.jpg';
-          TaskSnapshot uploadTask = await FirebaseStorage.instance.ref(filePath).putFile(imageFile);
+    await updateField('profilePhotoUrl');
+  }
 
-          // Get the download URL
-          String imageUrl = await uploadTask.ref.getDownloadURL();
-
-          // Update Firestore with the new image URL
-          await FirebaseFirestore.instance.collection('customers').doc(user.uid).update({'profilePhotoUrl': imageUrl});
-          profileData['profilePhotoUrl'] = imageUrl;
-        }
-      }
-    } catch (e) {
-      print("Error updating profile photo: $e");
-    }
+  Future<void> updateKK() async {
+    await updateField('kk');
   }
 
   Future<void> signOut() async {

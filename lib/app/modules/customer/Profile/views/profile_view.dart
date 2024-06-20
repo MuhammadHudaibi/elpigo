@@ -164,16 +164,32 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-  Widget buildLocationMap(String label, Map<String, dynamic> location) {
-    // Default location (San Francisco)
-    LatLng initialLocation = LatLng(37.7749, -122.4194);
+  Widget buildLocationMap(String label, Map<String, dynamic>? location) {
+    LatLng initialLocation;
     bool locationFound = false;
 
-    if (location != null && location['latitude'] != null && location['longitude'] != null) {
-      double latitude = location['latitude'];
-      double longitude = location['longitude'];
+    if (location?['latitude'] != null && location?['longitude'] != null) {
+      double latitude = location?['latitude'];
+      double longitude = location?['longitude'];
       initialLocation = LatLng(latitude, longitude);
       locationFound = true;
+    } else {
+
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('$label:', style: GoogleFonts.poppins()),
+          Container(
+            height: 150,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Center(child: Text('Lokasi Tidak ditemukan', style: GoogleFonts.poppins())),
+          ),
+        ],
+      );
     }
 
     return Container(

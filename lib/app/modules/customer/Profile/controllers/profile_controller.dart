@@ -101,7 +101,7 @@ class ProfileController extends GetxController {
     try {
       await FirebaseAuth.instance.signOut(); // Sign out the user
       profileData.clear();
-      Get.offAllNamed('/login-customer');
+      Get.offAllNamed('/confirm');
     } catch (e) {
       Get.snackbar('Error', 'Sign-out failed');
     } finally {

@@ -63,8 +63,7 @@ class HomeCustomerController extends GetxController {
     }
   }
 
-  void addProductToCart(
-      Map<String, dynamic> product, BuildContext context) async {
+  void addProductToCart(Map<String, dynamic> product, BuildContext context) async {
     String userId = FirebaseAuth.instance.currentUser!.uid;
     int stok = product['stok'] ?? 0;
     int quantityInCart = 0;
@@ -96,7 +95,9 @@ class HomeCustomerController extends GetxController {
               .collection('customers')
               .doc(userId)
               .collection('pemesanan')
-              .add({
+              .doc(product['title'])
+              .set
+              ({
             ...product,
             'quantity': 1,
             'totalPrice': product['price'] is String

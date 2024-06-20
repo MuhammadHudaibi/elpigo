@@ -20,10 +20,18 @@ class _AddProductPageState extends State<AddProductPage> {
   XFile? _image;
 
   Future<void> _pickImage() async {
-    final pickedImage = await controller.picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      _image = pickedImage;
-    });
+    try {
+      final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (pickedImage != null) {
+        setState(() {
+          _image = pickedImage;
+        });
+      } else {
+        Get.snackbar('No Image Selected', 'Please select an image.');
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to pick image: $e');
+    }
   }
 
   Future<void> _submit() async {

@@ -27,17 +27,14 @@ class HomeOwnerController extends GetxController {
     return _firestore.collection('products').snapshots();
   }
 
-  // Update local map without directly updating Firestore
   void updatePrice(String docId, String newPrice) {
     priceChanges[docId] = newPrice;
   }
 
-  // Update local map without directly updating Firestore
   void updateStock(String docId, int newStock) {
     stockChanges[docId] = newStock;
   }
 
-  // Update local map without directly updating Firestore
   void updateTitle(String docId, String newTitle) {
     titleChanges[docId] = newTitle;
   }
@@ -84,7 +81,7 @@ class HomeOwnerController extends GetxController {
   Future<void> addProduct(String title, String price, int stock, XFile image) async {
     try {
       String imageUrl = await _uploadImage(image);
-      await _firestore.collection('products').add({
+      await FirebaseFirestore.instance.collection('products').doc(title).set({
         'title': title,
         'price': price,
         'stok': stock,

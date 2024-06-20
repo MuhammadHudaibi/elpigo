@@ -173,15 +173,30 @@ class KeranjangCustomerController extends GetxController {
   void checkout() async {
     String userId = FirebaseAuth.instance.currentUser!.uid;
     var batch = FirebaseFirestore.instance.batch();
+    bool allProductsExist = true;
+    List<String> missingProducts = [];
 
-    selectedItems.forEach((key, product) {
-      var docRef = FirebaseFirestore.instance
+    for (var key in selectedItems.keys) {
+      var product = selectedItems[key];
+      var productDocRef = FirebaseFirestore.instance.collection('products').doc(product['id']);
+
+      var productSnapshot = await productDocRef.get();
+      if (!productSnapshot.exists) {
+        allProductsExist = false;
+        missingProducts.add(product['title']);
+      }
+    }
+
+    for (var key in selectedItems.keys) {
+      var product = selectedItems[key];
+      String productID;
+      var orderHistoryDocRef = FirebaseFirestore.instance
           .collection('customers')
           .doc(userId)
           .collection('riwayat_pemesanan')
           .doc();
 
-      batch.set(docRef, {
+      batch.set(orderHistoryDocRef, {
         'title': product['title'],
         'imageUrl': product['imageUrl'],
         'quantity': product['quantity'],
@@ -191,19 +206,36 @@ class KeranjangCustomerController extends GetxController {
         'catatan': catatan.value,
       });
 
-      FirebaseFirestore.instance
+      // Remove item from cart
+      var cartDocRef = FirebaseFirestore.instance
           .collection('customers')
           .doc(userId)
           .collection('pemesanan')
-          .doc(product['id'])
-          .delete();
-    });
+          .doc(product['id']);
+      batch.delete(cartDocRef);
+      
+      var productDocRef = FirebaseFirestore.instance
+          .collection('products')
+          .doc(product['id']);
+      batch.update(productDocRef, {
+        'stok': FieldValue.increment(-product['quantity']),
+      });
+    }
 
-    await batch.commit();
-    selectedItems.clear();
-    catatanController.clear();
-    Get.offNamed('/riwayat-pemesanan');
+    try {
+      await batch.commit();
+      selectedItems.clear();
+      catatanController.clear();
+      Get.offNamed('/riwayat-pemesanan');
+    } catch (e) {
+      Get.snackbar(
+        'Checkout Failed',
+        'There was an error processing your checkout. Please try again.',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
   }
-
   bool get isEmpty => cartItems.isEmpty;
 }

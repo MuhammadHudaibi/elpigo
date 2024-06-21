@@ -152,9 +152,20 @@ class RiwayatPenjualan extends StatelessWidget {
                               ),
                             );
                           }).toList(),
-                          onChanged: (newValue) {
+                                   onChanged: (newValue) {
                             if (newValue != null) {
-                              _controller.updateStatus(snapshot.data!.docs[index], newValue);
+                              Get.defaultDialog(
+                                title: "Konfirmasi",
+                                middleText: "Apakah anda ingin memperbarui status menjadi $newValue?",
+                                textConfirm: "Ya",
+                                textCancel: "Tidak",
+                                confirmTextColor: Colors.white,
+                                onConfirm: () {
+                                  _controller.updateStatus(snapshot.data!.docs[index], newValue);
+                                  Get.back();
+                                },
+                                onCancel: () {},
+                              );
                             }
                           },
                         ),

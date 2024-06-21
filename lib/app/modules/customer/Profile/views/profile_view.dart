@@ -20,8 +20,8 @@ class ProfileView extends StatelessWidget {
             )),
         actions: [
           IconButton(
-            onPressed: () async {
-              await controller.signOut();
+            onPressed: () {
+              showLogoutConfirmationDialog();
             },
             icon: Icon(
               Icons.logout,
@@ -263,6 +263,19 @@ class ProfileView extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  void showLogoutConfirmationDialog() {
+    Get.defaultDialog(
+      title: "Konfirmasi Keluar Akun",
+      middleText: "Apakah Anda ingin keluar dari akun?",
+      textConfirm: "Ya",
+      textCancel: "Tidak",
+      onConfirm: () {
+        Get.back(); // Close the dialog
+        controller.signOut(); // Proceed with the sign-out
+      },
     );
   }
 }

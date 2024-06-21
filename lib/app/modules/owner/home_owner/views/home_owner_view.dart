@@ -48,10 +48,21 @@ class _HomeViewState extends State<HomeOwnerView> {
           style: GoogleFonts.poppins(color: Colors.white),
         ),
         actions: [
-          IconButton(
+           IconButton(
             color: Colors.white,
             onPressed: () {
-              logincontroller.logout();
+              Get.defaultDialog(
+                title: "Konfirmasi",
+                middleText: "Apakah Anda yakin ingin keluar?",
+                textConfirm: "Ya",
+                textCancel: "Tidak",
+                confirmTextColor: Colors.white,
+                onConfirm: () {
+                  logincontroller.logout();
+                  Get.back(); 
+                },
+                onCancel: () {},
+              );
             },
             icon: Icon(Icons.logout),
           ),

@@ -79,7 +79,7 @@ class HomeCustomerView extends GetView<HomeCustomerController> {
                           children: [
                             Center(
                               child: Text(
-                                "Selamat Datang ${userData['name']}!",
+                                "Selamat Datang \n${userData['name']}!",
                                 style: GoogleFonts.poppins(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,

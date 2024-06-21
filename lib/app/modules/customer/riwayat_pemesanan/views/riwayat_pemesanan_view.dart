@@ -92,7 +92,7 @@ class RiwayatPemesanan extends GetView<RiwayatPemesananController> {
                               borderRadius: BorderRadius.circular(5),
                             ),
                             child: Text(
-                              "Status",
+                              product['status'] ?? 'Unkown',
                               style: GoogleFonts.poppins(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,

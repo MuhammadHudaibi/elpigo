@@ -16,9 +16,11 @@ class RiwayatPenjualanController extends GetxController {
     return _firestore.collection('customers').snapshots();
   }
 
-  Future<DocumentSnapshot<Map<String, dynamic>>> getUserById(String userId) async {
+  Future<DocumentSnapshot<Map<String, dynamic>>> getUserById(
+      String userId) async {
     try {
-      DocumentSnapshot<Map<String, dynamic>> userSnapshot = await _firestore.collection('customers').doc(userId).get();
+      DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+          await _firestore.collection('customers').doc(userId).get();
       if (userSnapshot.exists) {
         return userSnapshot;
       } else {
@@ -34,6 +36,7 @@ class RiwayatPenjualanController extends GetxController {
         .collection('customers')
         .doc(userId)
         .collection('riwayat_pemesanan')
+        .orderBy('timestamp', descending: true)
         .snapshots();
   }
 
@@ -44,18 +47,22 @@ class RiwayatPenjualanController extends GetxController {
     });
   }
 
-  void showImageDialog(BuildContext context, String imageUrl, String caption, String userId) async {
+  void showImageDialog(BuildContext context, String imageUrl, String caption,
+      String userId) async {
     try {
-      DocumentSnapshot<Map<String, dynamic>> userSnapshot = await getUserById(userId);
+      DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+          await getUserById(userId);
       String nama = userSnapshot.data()?['name'] ?? 'Unknown';
 
       showGeneralDialog(
         context: context,
         barrierDismissible: true,
-        barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
+        barrierLabel:
+            MaterialLocalizations.of(context).modalBarrierDismissLabel,
         barrierColor: Colors.black87.withOpacity(0.5),
         transitionDuration: const Duration(milliseconds: 200),
-        pageBuilder: (BuildContext buildContext, Animation animation, Animation secondaryAnimation) {
+        pageBuilder: (BuildContext buildContext, Animation animation,
+            Animation secondaryAnimation) {
           return Scaffold(
             backgroundColor: Colors.black,
             body: SafeArea(
@@ -98,7 +105,8 @@ class RiwayatPenjualanController extends GetxController {
                           Row(
                             children: [
                               IconButton(
-                                icon: Icon(Icons.arrow_back, color: Colors.white),
+                                icon:
+                                    Icon(Icons.arrow_back, color: Colors.white),
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
@@ -118,7 +126,8 @@ class RiwayatPenjualanController extends GetxController {
                           IconButton(
                             icon: Icon(Icons.save, color: Colors.white),
                             onPressed: () {
-                              saveImageToGallery(context, imageUrl, caption, nama);
+                              saveImageToGallery(
+                                  context, imageUrl, caption, nama);
                             },
                             padding: EdgeInsets.all(0),
                             constraints: BoxConstraints(),
@@ -141,11 +150,13 @@ class RiwayatPenjualanController extends GetxController {
     }
   }
 
-  void saveImageToGallery(BuildContext context, String imageUrl, String caption, String nama) async {
+  void saveImageToGallery(BuildContext context, String imageUrl, String caption,
+      String nama) async {
     try {
       final response = await http.get(Uri.parse(imageUrl));
       final Uint8List bytes = response.bodyBytes;
-      final result = await ImageGallerySaver.saveImage(bytes, quality: 80, name: "$caption $nama");
+      final result = await ImageGallerySaver.saveImage(bytes,
+          quality: 80, name: "$caption $nama");
 
       if (result['isSuccess']) {
         ScaffoldMessenger.of(context).showSnackBar(

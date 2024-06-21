@@ -14,7 +14,8 @@ class KeranjangCustomerController extends GetxController {
     super.onInit();
     catatanController.text = catatan.value;
     catatanController.addListener(() {
-      catatan.value = catatanController.text;
+      catatan.value =
+          catatanController.text.isEmpty ? '-' : catatanController.text;
     });
     listenToCartChanges();
   }
@@ -176,9 +177,12 @@ class KeranjangCustomerController extends GetxController {
     bool allProductsExist = true;
     List<String> missingProducts = [];
 
+    String checkoutCatatan = catatan.value.isNotEmpty ? catatan.value : '-';
+
     for (var key in selectedItems.keys) {
       var product = selectedItems[key];
-      var productDocRef = FirebaseFirestore.instance.collection('products').doc(product['id']);
+      var productDocRef =
+          FirebaseFirestore.instance.collection('products').doc(product['id']);
 
       var productSnapshot = await productDocRef.get();
       if (!productSnapshot.exists) {
@@ -203,20 +207,18 @@ class KeranjangCustomerController extends GetxController {
         'price': product['price'],
         'totalPrice': product['totalPrice'],
         'timestamp': DateTime.now(),
-        'catatan': catatan.value,
+        'catatan': checkoutCatatan,
       });
 
-      // Remove item from cart
       var cartDocRef = FirebaseFirestore.instance
           .collection('customers')
           .doc(userId)
           .collection('pemesanan')
           .doc(product['id']);
       batch.delete(cartDocRef);
-      
-      var productDocRef = FirebaseFirestore.instance
-          .collection('products')
-          .doc(product['id']);
+
+      var productDocRef =
+          FirebaseFirestore.instance.collection('products').doc(product['id']);
       batch.update(productDocRef, {
         'stok': FieldValue.increment(-product['quantity']),
       });
@@ -237,5 +239,6 @@ class KeranjangCustomerController extends GetxController {
       );
     }
   }
+
   bool get isEmpty => cartItems.isEmpty;
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
 
 class DetailCustomer extends StatelessWidget {
   final String userId;
@@ -36,7 +37,7 @@ class DetailCustomer extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            FirstPage(),
+            RiwayatPenjualan(userId: userId),
             DetailPelanggan(userId: userId),
           ],
         ),
@@ -44,12 +45,186 @@ class DetailCustomer extends StatelessWidget {
     );
   }
 }
+class RiwayatPenjualan extends StatelessWidget {
+  final RiwayatPenjualanController _controller = Get.put(RiwayatPenjualanController());
+  final String userId;
 
-class FirstPage extends StatelessWidget {
+  RiwayatPenjualan({required this.userId});
+
+  String formatDateTime(Timestamp timestamp) {
+    return DateFormat('dd MMM yyyy, HH:mm').format(timestamp.toDate());
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('Ini adalah halaman data penjualan'),
+    return Scaffold(
+      body: StreamBuilder<QuerySnapshot>(
+        stream: _controller.getRiwayatPemesananStream(userId),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return Center(child: Text('No data available'));
+          }
+
+          var riwayatPemesanan = snapshot.data!.docs;
+
+          return ListView.builder(
+            itemCount: riwayatPemesanan.length,
+            itemBuilder: (context, index) {
+              var product = riwayatPemesanan[index].data() as Map<String, dynamic>;
+              DateTime dateTime = (product['timestamp'] as Timestamp).toDate();
+              String formattedDate = formatDateTime(product['timestamp']);
+
+              String status = product['status'] ?? 'Pending';
+              Color statusColor;
+
+              switch (status) {
+                case 'Completed':
+                  statusColor = Colors.green;
+                  break;
+                case 'Cancelled':
+                  statusColor = Colors.red;
+                  break;
+                default:
+                  statusColor = Colors.orange;
+              }
+
+              return Container(
+                margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                padding: EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: Colors.blueAccent,
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: Text(
+                            formattedDate,
+                            style: GoogleFonts.poppins(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        DropdownButton<String>(
+                          value: status,
+                          items: <String>['Pending', 'Completed', 'Cancelled'].map((String value) {
+                            Color color;
+                            switch (value) {
+                              case 'Completed':
+                                color = Colors.green;
+                                break;
+                              case 'Cancelled':
+                                color = Colors.red;
+                                break;
+                              default:
+                                color = Colors.orange;
+                            }
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: GoogleFonts.poppins(color: color),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (newValue) {
+                            if (newValue != null) {
+                              _controller.updateStatus(snapshot.data!.docs[index], newValue);
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      children: [
+                        product['imageUrl'] != null
+                            ? Image.network(
+                                product['imageUrl'],
+                                width: 60,
+                                height: 80,
+                                fit: BoxFit.cover,
+                              )
+                            : Icon(Icons.image, size: 60),
+                        SizedBox(width: 15),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                product['title'] ?? 'No Title',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              SizedBox(height: 8),
+                              Text(
+                                "Rp.${product['totalPrice'] is int ? product['totalPrice'] : product['totalPrice'].toStringAsFixed(0)}",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      "Jumlah Produk : ${product['quantity']}",
+                      style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      "Catatan : ${product['catatan'] ?? 'Tidak ada catatan'}",
+                      style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

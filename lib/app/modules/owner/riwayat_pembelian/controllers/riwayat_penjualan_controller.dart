@@ -8,6 +8,7 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 class RiwayatPenjualanController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -27,6 +28,21 @@ class RiwayatPenjualanController extends GetxController {
     } catch (e) {
       return Future.error(e.toString());
     }
+  }
+
+  Stream<QuerySnapshot> getRiwayatPemesananStream(String userId) {
+    return _firestore
+        .collection('customers')
+        .doc(userId)
+        .collection('riwayat_pemesanan')
+        .snapshots();
+  }
+
+  void updateStatus(DocumentSnapshot doc, String newStatus) {
+    FirebaseFirestore.instance.runTransaction((transaction) async {
+      DocumentSnapshot freshSnap = await transaction.get(doc.reference);
+      transaction.update(freshSnap.reference, {'status': newStatus});
+    });
   }
 
   void showImageDialog(BuildContext context, String imageUrl, String caption, String userId) async {

@@ -77,12 +77,15 @@ class HomeCustomerView extends GetView<HomeCustomerController> {
                         List<DocumentSnapshot> products = snapshot.data!.docs;
                         return Column(
                           children: [
-                            Text(
-                              "Selamat Datang ${userData['name']}!",
-                              style: GoogleFonts.poppins(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
+                            Center(
+                              child: Text(
+                                "Selamat Datang ${userData['name']}!",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                                textAlign: TextAlign.center,
                               ),
                             ),
                             SizedBox(height: 8),

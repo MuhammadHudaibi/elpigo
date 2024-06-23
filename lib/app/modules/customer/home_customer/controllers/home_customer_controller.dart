@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:elpigo/app/modules/customer/Profile/controllers/profile_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,11 +14,15 @@ class HomeCustomerController extends GetxController {
 
   final KeranjangCustomerController cartController =
       Get.put(KeranjangCustomerController());
+  final ProfileController profileController = Get.put(ProfileController());
 
   @override
   void onInit() {
     super.onInit();
     fetchUserData();
+    profileController.profileData.listen((profileData) {
+      userData.value = profileData;
+    });
   }
 
   Stream<QuerySnapshot> getRecipesStream() {
@@ -63,7 +68,8 @@ class HomeCustomerController extends GetxController {
     }
   }
 
-  void addProductToCart(Map<String, dynamic> product, BuildContext context) async {
+  void addProductToCart(
+      Map<String, dynamic> product, BuildContext context) async {
     String userId = FirebaseAuth.instance.currentUser!.uid;
     int stok = product['stok'] ?? 0;
     int quantityInCart = 0;
@@ -96,8 +102,7 @@ class HomeCustomerController extends GetxController {
               .doc(userId)
               .collection('pemesanan')
               .doc(product['title'])
-              .set
-              ({
+              .set({
             ...product,
             'quantity': 1,
             'totalPrice': product['price'] is String

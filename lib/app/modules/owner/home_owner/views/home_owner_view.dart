@@ -77,13 +77,13 @@ class _HomeViewState extends State<HomeOwnerView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 82, 140, 75),
+        backgroundColor: const Color.fromARGB(255, 82, 140, 75),
         title: Text(
           'Produk Manajemen',
           style: GoogleFonts.poppins(color: Colors.white),
         ),
         actions: [
-           IconButton(
+          IconButton(
             color: Colors.white,
             onPressed: () {
               Get.defaultDialog(
@@ -94,12 +94,12 @@ class _HomeViewState extends State<HomeOwnerView> {
                 confirmTextColor: Colors.white,
                 onConfirm: () {
                   logincontroller.logout();
-                  Get.back(); 
+                  Get.back();
                 },
                 onCancel: () {},
               );
             },
-            icon: Icon(Icons.logout),
+            icon: const Icon(Icons.logout),
           ),
         ],
       ),
@@ -114,8 +114,8 @@ class _HomeViewState extends State<HomeOwnerView> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CircularProgressIndicator(),
-                        SizedBox(height: 20),
+                        const CircularProgressIndicator(),
+                        const SizedBox(height: 20),
                         Text(
                           'Loading data...',
                           style: GoogleFonts.poppins(),
@@ -139,9 +139,9 @@ class _HomeViewState extends State<HomeOwnerView> {
                       var productId = products[index].id;
                       var imageUrl = product['imageUrl'] ?? '';
                       return Card(
-                        margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                        margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                         child: Padding(
-                          padding: EdgeInsets.all(12.0),
+                          padding: const EdgeInsets.all(12.0),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -173,8 +173,8 @@ class _HomeViewState extends State<HomeOwnerView> {
                                       return Container(
                                         width: 100,
                                         height: 100,
-                                        color: Color.fromARGB(255, 82, 140, 75),
-                                        child: Icon(
+                                        color: const Color.fromARGB(255, 82, 140, 75),
+                                        child: const Icon(
                                           Icons.error,
                                           color: Colors.red,
                                         ),
@@ -183,13 +183,13 @@ class _HomeViewState extends State<HomeOwnerView> {
                                   ),
                                 ),
                               ),
-                              SizedBox(width: 16.0),
+                              const SizedBox(width: 16.0),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding: EdgeInsets.only(bottom: 4.0),
+                                      padding: const EdgeInsets.only(bottom: 4.0),
                                       child: TextFormField(
                                         initialValue: product['title'],
                                         style: GoogleFonts.poppins(
@@ -197,7 +197,7 @@ class _HomeViewState extends State<HomeOwnerView> {
                                           fontWeight: FontWeight.bold,
                                         ),
                                         maxLines: 2,
-                                        decoration: InputDecoration(
+                                        decoration: const InputDecoration(
                                           border: InputBorder.none,
                                         ),
                                         onChanged: (value) {
@@ -215,7 +215,7 @@ class _HomeViewState extends State<HomeOwnerView> {
                                           child: TextFormField(
                                             initialValue: '${product['price']}',
                                             style: GoogleFonts.poppins(fontSize: 14),
-                                            decoration: InputDecoration(
+                                            decoration: const InputDecoration(
                                               border: InputBorder.none,
                                             ),
                                             onChanged: (value) {
@@ -226,54 +226,35 @@ class _HomeViewState extends State<HomeOwnerView> {
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: 4.0),
-                                    Text(
-                                      'Stok: ${product['stok']}',
-                                      style: GoogleFonts.poppins(fontSize: 16),
+                                    const SizedBox(height: 4.0),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          'Stok: ',
+                                          style: GoogleFonts.poppins(fontSize: 16),
+                                        ),
+                                        Expanded(
+                                          child: TextFormField(
+                                            initialValue: '${product['stok']}',
+                                            style: GoogleFonts.poppins(fontSize: 14),
+                                            decoration: const InputDecoration(
+                                              border: InputBorder.none,
+                                            ),
+                                            onChanged: (value) {
+                                              // Jika value kosong atau tidak valid, set stok menjadi 0
+                                              int stok = int.tryParse(value) ?? 0;
+                                              controller.updateStock(productId, stok);
+                                            },
+                                            keyboardType: TextInputType.number,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
                               ),
                               Column(
                                 children: [
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      int currentStock = product['stok'];
-                                      controller.updateStock(productId, currentStock + 1);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.green,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                                    ),
-                                    child: Icon(
-                                      Icons.add,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  SizedBox(height: 8.0),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      int currentStock = product['stok'];
-                                      if (currentStock > 0) {
-                                        controller.updateStock(productId, currentStock - 1);
-                                      }
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.red,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(5),
-                                      ),
-                                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                                    ),
-                                    child: Icon(
-                                      Icons.remove,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  SizedBox(height: 8.0),
                                   ElevatedButton(
                                     onPressed: () {
                                       Get.defaultDialog(
@@ -290,13 +271,13 @@ class _HomeViewState extends State<HomeOwnerView> {
                                       );
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: Color.fromARGB(255, 82, 140, 75),
+                                      backgroundColor: const Color.fromARGB(255, 82, 140, 75),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(5),
                                       ),
-                                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                     ),
-                                    child: Icon(
+                                    child: const Icon(
                                       Icons.delete,
                                       color: Colors.white,
                                     ),
@@ -323,16 +304,16 @@ class _HomeViewState extends State<HomeOwnerView> {
                     Get.to(() => AddProductPage());
                   },
                   style: ElevatedButton.styleFrom(
-                    foregroundColor: Color.fromARGB(255, 82, 140, 75),
+                    foregroundColor: const Color.fromARGB(255, 82, 140, 75),
                     backgroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
-                      side: BorderSide(
+                      side: const BorderSide(
                         color: Color.fromARGB(255, 82, 140, 75),
                         width: 0.5,
                       ),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 24.0),
+                    padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 24.0),
                   ),
                   child: Text('Tambah Produk', style: GoogleFonts.poppins()),
                 ),
@@ -353,11 +334,11 @@ class _HomeViewState extends State<HomeOwnerView> {
                   },
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
-                    backgroundColor: Color.fromARGB(255, 82, 140, 75),
+                    backgroundColor: const Color.fromARGB(255, 82, 140, 75),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 24.0),
+                    padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 24.0),
                   ),
                   child: Text('Simpan Perubahan', style: GoogleFonts.poppins()),
                 ),

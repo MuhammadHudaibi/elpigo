@@ -173,9 +173,9 @@ class RiwayatPemesanan extends GetView<RiwayatPemesananController> {
 
   Color getStatusColor(String status) {
     switch (status) {
-      case 'Selesai':
+      case 'Completed':
         return Colors.green;
-      case 'Dibatalkan':
+      case 'Cancelled':
         return Colors.red;
       default:
         return Colors.orange;

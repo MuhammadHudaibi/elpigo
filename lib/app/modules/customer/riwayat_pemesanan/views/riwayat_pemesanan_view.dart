@@ -53,7 +53,7 @@ class RiwayatPemesanan extends GetView<RiwayatPemesananController> {
               itemBuilder: (context, index) {
                 var product = controller.riwayatItems[index];
                 Color statusColor =
-                    getStatusColor(product['status'] ?? 'Unknown');
+                    getStatusColor(product['status'] ?? 'Diproses');
 
                 return Container(
                   margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
@@ -95,7 +95,7 @@ class RiwayatPemesanan extends GetView<RiwayatPemesananController> {
                               borderRadius: BorderRadius.circular(5),
                             ),
                             child: Text(
-                              product['status'] ?? 'Unknown',
+                              product['status'] ?? 'Diproses',
                               style: GoogleFonts.poppins(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
@@ -172,9 +172,9 @@ class RiwayatPemesanan extends GetView<RiwayatPemesananController> {
 
   Color getStatusColor(String status) {
     switch (status) {
-      case 'Completed':
+      case 'Selesai':
         return Colors.green;
-      case 'Cancelled':
+      case 'Dibatalkan':
         return Colors.red;
       default:
         return Colors.orange;

@@ -96,7 +96,7 @@ class RiwayatPemesanan extends GetView<RiwayatPemesananController> {
                               borderRadius: BorderRadius.circular(5),
                             ),
                             child: Text(
-                              product['status'] ?? 'Unknown',
+                              product['status'] ?? 'Diproses',
                               style: GoogleFonts.poppins(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
@@ -173,9 +173,9 @@ class RiwayatPemesanan extends GetView<RiwayatPemesananController> {
 
   Color getStatusColor(String status) {
     switch (status) {
-      case 'Completed':
+      case 'Selesai':
         return Colors.green;
-      case 'Cancelled':
+      case 'Dibatalkan':
         return Colors.red;
       default:
         return Colors.orange;

@@ -1,11 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:elpigo/app/modules/owner/riwayat_pembelian/controllers/riwayat_penjualan_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
+
+import 'package:elpigo/app/modules/owner/riwayat_pembelian/controllers/riwayat_penjualan_controller.dart';
 
 class DetailCustomer extends StatelessWidget {
   final String userId;
@@ -86,14 +85,14 @@ class RiwayatPenjualan extends StatelessWidget {
               DateTime dateTime = (product['timestamp'] as Timestamp).toDate();
               String formattedDate = formatDateTime(product['timestamp']);
 
-              String status = product['status'] ?? 'Pending';
+              String status = product['status'] ?? 'Diproses';
               Color statusColor;
 
               switch (status) {
-                case 'Completed':
+                case 'Selesai':
                   statusColor = Colors.green;
                   break;
-                case 'Cancelled':
+                case 'Dibatalkan':
                   statusColor = Colors.red;
                   break;
                 default:
@@ -139,14 +138,14 @@ class RiwayatPenjualan extends StatelessWidget {
                         ),
                         DropdownButton<String>(
                           value: status,
-                          items: <String>['Pending', 'Completed', 'Cancelled']
+                          items: <String>['Diproses', 'Selesai', 'Dibatalkan']
                               .map((String value) {
                             Color color;
                             switch (value) {
-                              case 'Completed':
+                              case 'Selesai':
                                 color = Colors.green;
                                 break;
-                              case 'Cancelled':
+                              case 'Dibatalkan':
                                 color = Colors.red;
                                 break;
                               default:
@@ -282,9 +281,9 @@ class DetailPelanggan extends StatelessWidget {
           final photos = [
             {'url': data['ktpPhotoUrl'], 'caption': 'Foto KTP'},
             {'url': data['kkPhotoUrl'], 'caption': 'Foto KK'},
-            {'url': data['ownerPhotoUrl'], 'caption': 'Foto Pemilik'},
+            {'url': data['PemilikPhotoUrl'], 'caption': 'Foto Pemilik'},
             if (data['customerType'] == "UMKM")
-              {'url': data['businessPhotoUrl'], 'caption': 'Foto Tempat Usaha'},
+              {'url': data['usahaPhotoUrl'], 'caption': 'Foto Tempat Usaha'},
           ];
 
           final location = data['location'];
@@ -320,73 +319,28 @@ class DetailPelanggan extends StatelessWidget {
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                   SizedBox(height: 10),
-                  GridView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                      childAspectRatio: 1.0,
-                    ),
-                    itemCount: photos.length,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          controller.showImageDialog(
-                            context,
-                            photos[index]['url'],
-                            photos[index]['caption'] ?? '',
-                            userId,
-                          );
-                        },
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                child: Image.network(
-                                  photos[index]['url'] ?? '',
-                                  fit: BoxFit.cover,
-                                  loadingBuilder:
-                                      (context, child, loadingProgress) {
-                                    if (loadingProgress == null) return child;
-                                    return Center(
-                                      child: CircularProgressIndicator(
-                                        value: loadingProgress
-                                                    .expectedTotalBytes !=
-                                                null
-                                            ? loadingProgress
-                                                    .cumulativeBytesLoaded /
-                                                loadingProgress
-                                                    .expectedTotalBytes!
-                                            : null,
-                                      ),
-                                    );
-                                  },
-                                  errorBuilder: (context, error, stackTrace) =>
-                                      Icon(
-                                    Icons.error_outline,
-                                    size: 100,
-                                    color: Color.fromARGB(255, 82, 140, 75),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 5),
-                            Text(
-                              photos[index]['caption']!,
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
+                  Wrap(
+                    spacing: 8.0, // gap between adjacent chips
+                    runSpacing: 4.0, // gap between lines
+                    children: photos.map((photo) {
+                      if (photo['url'] != null) {
+                        return Column(children: [
+                          Text(photo['caption']),
+                          Image.network(
+                            photo['url'],
+                            width: 100,
+                            height: 100,
+                          )
+                        ]);
+                      }
+                      return Container();
+                    }).toList(),
                   ),
                   SizedBox(height: 20),
+                  Text('Lokasi',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  SizedBox(height: 10),
                   contentMaps,
                 ],
               ),
@@ -397,121 +351,52 @@ class DetailPelanggan extends StatelessWidget {
     );
   }
 
-  Widget buildUserDetail(String title, String? value, [double fontSize = 16]) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '$title: ',
-            style: GoogleFonts.poppins(
-                fontSize: fontSize, fontWeight: FontWeight.bold),
-          ),
-          Expanded(
-            child: Text(
-              value ?? 'Tidak ada data',
-              style: GoogleFonts.poppins(fontSize: fontSize),
-            ),
-          ),
-        ],
-      ),
+  Widget buildUserDetail(String title, String value) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(height: 8),
+        Text(
+          value,
+          style: GoogleFonts.poppins(fontSize: 14),
+        ),
+        SizedBox(height: 10),
+      ],
     );
   }
 
-  Widget _buildGoogleMapsField(BuildContext context, double lat, double long) {
-    return SizedBox(
-      width: double.infinity,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4.0),
-            child: Text(
-              'Lokasi',
-              style: GoogleFonts.poppins(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          SizedBox(height: 10),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Container(
-              height: 150,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color.fromARGB(255, 82, 140, 75).withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 7,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: GoogleMap(
-                initialCameraPosition: CameraPosition(
-                  target: LatLng(lat, long),
-                  zoom: 15,
-                ),
-                markers: {
-                  Marker(
-                    markerId: MarkerId('current_location'),
-                    position: LatLng(lat, long),
-                    icon: BitmapDescriptor.defaultMarkerWithHue(
-                        BitmapDescriptor.hueAzure),
-                  ),
-                },
-                zoomControlsEnabled: false,
-              ),
-            ),
-          ),
-        ],
+  Widget _buildGoogleMapsField(BuildContext context, double lat, double lng) {
+    return Container(
+      height: 300,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
+        child: Image.network(
+          'https://maps.googleapis.com/maps/api/staticmap?center=$lat,$lng&zoom=13&size=600x300&maptype=roadmap&markers=color:red%7Clabel:C%7C$lat,$lng',
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
 
   Widget _buildGoogleMapsFieldError() {
-    return SizedBox(
-      width: double.infinity,
+    return Center(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4.0),
-            child: Text(
-              'Lokasi',
-              style: GoogleFonts.poppins(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          SizedBox(height: 10),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Container(
-              height: 150,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color.fromARGB(255, 82, 140, 75).withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 7,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: Center(
-                child: Text("Lokasi tidak ditemukan"),
-              ),
-            ),
-          ),
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Icon(Icons.error_outline, size: 60, color: Colors.red),
+          SizedBox(height: 16),
+          Text('Lokasi tidak tersedia',
+              style: GoogleFonts.poppins(fontSize: 20, color: Colors.red)),
+          SizedBox(height: 8),
+          Text('Harap periksa informasi lokasi pelanggan',
+              style: GoogleFonts.poppins(fontSize: 16, color: Colors.red)),
         ],
       ),
     );
   }
 }
+

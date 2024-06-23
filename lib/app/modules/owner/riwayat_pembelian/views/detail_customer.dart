@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 import 'package:elpigo/app/modules/owner/riwayat_pembelian/controllers/riwayat_penjualan_controller.dart';
@@ -370,7 +371,7 @@ class DetailPelanggan extends StatelessWidget {
   }
 
   Widget _buildGoogleMapsField(BuildContext context, double lat, double lng) {
-    return Container(
+    return SizedBox(
       height: 300,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),

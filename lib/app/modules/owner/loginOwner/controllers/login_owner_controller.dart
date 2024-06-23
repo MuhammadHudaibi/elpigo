@@ -9,6 +9,8 @@ class LoginOwnerController extends GetxController {
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  get userId => null;
+
   Future<void> signIn(String idPangkalan, String password) async {
     try {
       DocumentSnapshot userSnapshot =

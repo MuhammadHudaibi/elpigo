@@ -24,11 +24,38 @@ class _HomeViewState extends State<HomeOwnerView> {
 
     if (image != null) {
       try {
-        String fileName = image.name;
-        Reference storageRef = FirebaseStorage.instance.ref().child('product_images').child(fileName);
-        await storageRef.putFile(File(image.path));
-        String downloadUrl = await storageRef.getDownloadURL();
-        await controller.updateProductImage(productId, downloadUrl);
+        // Menampilkan dialog konfirmasi sebelum mengunggah gambar baru
+        bool confirmChange = await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Konfirmasi'),
+              content: Text('Apakah Anda yakin ingin mengganti foto produk ini?'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(false); // Batal
+                  },
+                  child: Text('Tidak'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(true); // Konfirmasi
+                  },
+                  child: Text('Ya'),
+                ),
+              ],
+            );
+          },
+        );
+
+        if (confirmChange != null && confirmChange) {
+          String fileName = image.name;
+          Reference storageRef = FirebaseStorage.instance.ref().child('product_images').child(fileName);
+          await storageRef.putFile(File(image.path));
+          String downloadUrl = await storageRef.getDownloadURL();
+          await controller.updateProductImage(productId, downloadUrl);
+        }
       } catch (e) {
         print('Error uploading image: $e');
         ScaffoldMessenger.of(context).showSnackBar(

@@ -7,7 +7,7 @@ import 'dart:io';
 
 class ProfileController extends GetxController {
   var isLoading = true.obs;
-  var profileData = {}.obs;
+  var profileData = <String, dynamic>{}.obs;
 
   @override
   void onInit() {
@@ -20,7 +20,10 @@ class ProfileController extends GetxController {
       isLoading.value = true;
       User? user = FirebaseAuth.instance.currentUser;
       if (user != null) {
-        var documentSnapshot = await FirebaseFirestore.instance.collection('customers').doc(user.uid).get();
+        var documentSnapshot = await FirebaseFirestore.instance
+            .collection('customers')
+            .doc(user.uid)
+            .get();
         if (documentSnapshot.exists) {
           profileData.value = documentSnapshot.data()!;
         } else {
@@ -40,7 +43,10 @@ class ProfileController extends GetxController {
     try {
       User? user = FirebaseAuth.instance.currentUser;
       if (user != null) {
-        await FirebaseFirestore.instance.collection('customers').doc(user.uid).update({key: value});
+        await FirebaseFirestore.instance
+            .collection('customers')
+            .doc(user.uid)
+            .update({key: value});
         profileData[key] = value;
       } else {
         print("No user is signed in");
@@ -52,19 +58,24 @@ class ProfileController extends GetxController {
 
   Future<void> updateField(String fieldName) async {
     try {
-      final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+      final pickedFile =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
       if (pickedFile != null) {
         File imageFile = File(pickedFile.path);
         User? user = FirebaseAuth.instance.currentUser;
         if (user != null) {
           String filePath = '${fieldName}_images/${user.uid}.jpg';
-          TaskSnapshot uploadTask = await FirebaseStorage.instance.ref(filePath).putFile(imageFile);
+          TaskSnapshot uploadTask =
+              await FirebaseStorage.instance.ref(filePath).putFile(imageFile);
 
           // Get the download URL
           String imageUrl = await uploadTask.ref.getDownloadURL();
 
           // Update Firestore with the new image URL
-          await FirebaseFirestore.instance.collection('customers').doc(user.uid).update({fieldName: imageUrl});
+          await FirebaseFirestore.instance
+              .collection('customers')
+              .doc(user.uid)
+              .update({fieldName: imageUrl});
           profileData[fieldName] = imageUrl;
         }
       }

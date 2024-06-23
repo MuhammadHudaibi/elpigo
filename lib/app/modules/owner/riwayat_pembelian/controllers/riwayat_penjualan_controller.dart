@@ -55,9 +55,11 @@ class RiwayatPenjualanController extends GetxController {
       String nama = userSnapshot.data()?['name'] ?? 'Unknown';
 
       showGeneralDialog(
+        // ignore: use_build_context_synchronously
         context: context,
         barrierDismissible: true,
         barrierLabel:
+            // ignore: use_build_context_synchronously
             MaterialLocalizations.of(context).modalBarrierDismissLabel,
         barrierColor: Colors.black87.withOpacity(0.5),
         transitionDuration: const Duration(milliseconds: 200),
@@ -144,6 +146,7 @@ class RiwayatPenjualanController extends GetxController {
         },
       );
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: $e')),
       );
@@ -159,15 +162,18 @@ class RiwayatPenjualanController extends GetxController {
           quality: 80, name: "$caption $nama");
 
       if (result['isSuccess']) {
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Gambar berhasil disimpan ke galeri')),
         );
       } else {
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Gagal menyimpan gambar ke galeri')),
         );
       }
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error: $e')),
       );

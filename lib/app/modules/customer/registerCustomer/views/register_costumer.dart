@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../controllers/register_customer_controller.dart';
 
 class RegisterCustomerView extends GetView<RegisterCustomerController> {
-  const RegisterCustomerView({Key? key}) : super(key: key);
+  const RegisterCustomerView({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../controllers/maps_controller.dart';
 
+// ignore: use_key_in_widget_constructors
 class MapsView extends StatelessWidget {
   final MapsController mapsController = Get.put(MapsController());
 
@@ -32,9 +33,11 @@ class MapView extends StatefulWidget {
   final LatLng center;
   final MapsController controller;
 
+  // ignore: prefer_const_constructors_in_immutables, use_key_in_widget_constructors
   MapView({required this.center, required this.controller});
 
   @override
+  // ignore: library_private_types_in_public_api
   _MapViewState createState() => _MapViewState();
 }
 

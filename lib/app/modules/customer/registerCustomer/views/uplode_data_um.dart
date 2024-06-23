@@ -9,9 +9,10 @@ import 'dart:io';
 import '../controllers/register_customer_controller.dart';
 
 class UploadUMKMDataView extends StatefulWidget {
-  const UploadUMKMDataView({Key? key}) : super(key: key);
+  const UploadUMKMDataView({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _UploadUMKMDataViewState createState() => _UploadUMKMDataViewState();
 }
 
@@ -150,7 +151,7 @@ class _UploadUMKMDataViewState extends State<UploadUMKMDataView> {
   }
 
   Widget _buildUploadField(BuildContext context, String label, Rx<File?> imageFile) {
-    return Container(
+    return SizedBox(
       width: 300,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -213,7 +214,7 @@ class _UploadUMKMDataViewState extends State<UploadUMKMDataView> {
       onTap: () {
         Get.toNamed(Routes.MAPS);
       },
-      child: Container(
+      child: SizedBox(
         width: 300,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

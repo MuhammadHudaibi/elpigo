@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import '../../loginCustomer/controllers/login_customer_controller.dart';
 
+// ignore: use_key_in_widget_constructors
 class ProfileView extends StatelessWidget {
   final ProfileController controller = Get.put(ProfileController());
-  final LoginCustomerController logincontroller =
-      Get.put(LoginCustomerController());
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +22,7 @@ class ProfileView extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              showLogoutConfirmationDialog(context);
+              showLogoutConfirmationDialog();
             },
             icon: Icon(
               Icons.logout,
@@ -38,6 +36,7 @@ class ProfileView extends StatelessWidget {
         if (controller.isLoading.value) {
           return Center(child: CircularProgressIndicator());
         }
+
         return SingleChildScrollView(
           padding: EdgeInsets.all(16.0),
           child: Column(
@@ -58,11 +57,9 @@ class ProfileView extends StatelessWidget {
                       ),
                       child: CircleAvatar(
                         radius: 60,
-                        backgroundImage:
-                            controller.profileData['profilePhotoUrl'] != null
-                                ? NetworkImage(
-                                    controller.profileData['profilePhotoUrl'])
-                                : null,
+                        backgroundImage: controller.profileData['profilePhotoUrl'] != null
+                            ? NetworkImage(controller.profileData['profilePhotoUrl'])
+                            : null,
                         child: controller.profileData['profilePhotoUrl'] == null
                             ? Icon(
                                 Icons.person,
@@ -113,12 +110,10 @@ class ProfileView extends StatelessWidget {
               buildDocumentPhoto('KTP', 'ktpPhotoUrl', key: 'ktpPhotoUrl'),
               if (controller.profileData['customerType'] == 'UMKM') ...[
                 SizedBox(height: 10),
-                buildDocumentPhoto('Usaha', 'usahaPhotoUrl',
-                    key: 'usahaPhotoUrl'),
+                buildDocumentPhoto('Usaha', 'usahaPhotoUrl', key: 'usahaPhotoUrl'),
               ],
               SizedBox(height: 10),
-              buildDocumentPhoto('Pemilik', 'PemilikPhotoUrl',
-                  key: 'PemilikPhotoUrl', isPemilik: true),
+              buildDocumentPhoto('Pemilik', 'PemilikPhotoUrl', key: 'PemilikPhotoUrl', isPemilik: true),
               SizedBox(height: 10),
               buildLocationMap('Lokasi', controller.profileData['location']),
             ],
@@ -131,31 +126,26 @@ class ProfileView extends StatelessWidget {
   Widget buildEditableText(String label, String key) {
     return GestureDetector(
       onTap: () => showEditDialog(key, controller.profileData[key] ?? ''),
-      child: Text(
-        '$label: ${controller.profileData[key] ?? ''}',
+      child: Text('$label: ${controller.profileData[key] ?? ''}',
         style: GoogleFonts.poppins(),
       ),
     );
   }
 
   Widget buildNonEditableText(String label, String key) {
-    return Text(
-      '$label: ${controller.profileData[key] ?? ''}',
+    return Text('$label: ${controller.profileData[key] ?? ''}',
       style: GoogleFonts.poppins(),
     );
   }
 
-  Widget buildDocumentPhoto(String label, String imageUrlKey,
-      {bool isPemilik = false, required String key}) {
+  Widget buildDocumentPhoto(String label, String imageUrlKey, {bool isPemilik = false, required String key}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('$label:', style: GoogleFonts.poppins()),
         SizedBox(height: 5),
         GestureDetector(
-          onTap: isPemilik
-              ? () => controller.updatePemilikPhoto()
-              : () => controller.updateField(key),
+          onTap: isPemilik ? () => controller.updatePemilikPhoto() : () => controller.updateField(key),
           child: Container(
             height: 150,
             width: double.infinity,
@@ -163,15 +153,12 @@ class ProfileView extends StatelessWidget {
               border: Border.all(color: Colors.grey),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: controller.profileData[imageUrlKey] != null &&
-                    controller.profileData[imageUrlKey] is String
+            child: controller.profileData[imageUrlKey] != null && controller.profileData[imageUrlKey] is String
                 ? Image.network(
                     controller.profileData[imageUrlKey],
                     fit: BoxFit.cover,
                   )
-                : Center(
-                    child: Text('Gambar tidak tersedia',
-                        style: GoogleFonts.poppins())),
+                : Center(child: Text('Gambar tidak tersedia', style: GoogleFonts.poppins())),
           ),
         ),
       ],
@@ -199,15 +186,13 @@ class ProfileView extends StatelessWidget {
               border: Border.all(color: Colors.grey),
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Center(
-                child: Text('Lokasi Tidak ditemukan',
-                    style: GoogleFonts.poppins())),
+            child: Center(child: Text('Lokasi Tidak ditemukan', style: GoogleFonts.poppins())),
           ),
         ],
       );
     }
 
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -253,8 +238,7 @@ class ProfileView extends StatelessWidget {
   }
 
   void showEditDialog(String key, String currentValue) {
-    TextEditingController textController =
-        TextEditingController(text: currentValue);
+    TextEditingController textController = TextEditingController(text: currentValue);
 
     Get.dialog(
       AlertDialog(
@@ -283,35 +267,15 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-  void showLogoutConfirmationDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Konfirmasi'),
-          content: Text('Apakah Anda yakin ingin keluar?'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(false);
-              },
-              child: Text(
-                'Tidak',
-                style: TextStyle(color: Color.fromARGB(255, 82, 140, 75)),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(true);
-                logincontroller.logout();
-              },
-              child: Text(
-                'Ya',
-                style: TextStyle(color: Color.fromARGB(255, 82, 140, 75)),
-              ),
-            ),
-          ],
-        );
+  void showLogoutConfirmationDialog() {
+    Get.defaultDialog(
+      title: "Konfirmasi Keluar Akun",
+      middleText: "Apakah Anda ingin keluar dari akun?",
+      textConfirm: "Ya",
+      textCancel: "Tidak",
+      onConfirm: () {
+        Get.back(); // Close the dialog
+        controller.signOut(); // Proceed with the sign-out
       },
     );
   }

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../controllers/keranjang_customer_controller.dart';
 
+// ignore: use_key_in_widget_constructors
 class KeranjangCustomerView extends GetView<KeranjangCustomerController> {
   final KeranjangCustomerController cartController =
       Get.find<KeranjangCustomerController>();

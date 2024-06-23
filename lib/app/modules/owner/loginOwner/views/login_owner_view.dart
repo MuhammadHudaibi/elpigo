@@ -7,7 +7,7 @@ class LoginOwnerView extends GetView<LoginOwnerController> {
   final TextEditingController idPangkalanController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  LoginOwnerView({Key? key}) : super(key: key);
+  LoginOwnerView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class LoginOwnerView extends GetView<LoginOwnerController> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Container(
+                        SizedBox(
                           width: 300,
                           child: TextFormField(
                             controller: idPangkalanController,
@@ -75,7 +75,7 @@ class LoginOwnerView extends GetView<LoginOwnerController> {
                           ),
                         ),
                         const SizedBox(height: 30),
-                        Container(
+                        SizedBox(
                           width: 300,
                           child: Obx(() => TextFormField(
                                 controller: passwordController,

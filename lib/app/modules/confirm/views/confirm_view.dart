@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../controllers/confirm_controller.dart';
 
 class ConfirmView extends GetView<ConfirmController> {
-  const ConfirmView({Key? key}) : super(key: key);
+  const ConfirmView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

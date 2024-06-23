@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../controllers/login_customer_controller.dart';
 
 class LoginCustomerView extends GetView<LoginCustomerController> {
-  const LoginCustomerView({Key? key}) : super(key: key);
+  const LoginCustomerView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +51,7 @@ class LoginCustomerView extends GetView<LoginCustomerController> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Container(
+                        SizedBox(
                           width: 300,
                           child: TextFormField(
                             controller: controller.emailNikController,
@@ -75,7 +75,7 @@ class LoginCustomerView extends GetView<LoginCustomerController> {
                           ),
                         ),
                         const SizedBox(height: 30),
-                        Container(
+                        SizedBox(
                           width: 300,
                           child: Obx(() => TextFormField(
                                 controller: controller.passwordController,

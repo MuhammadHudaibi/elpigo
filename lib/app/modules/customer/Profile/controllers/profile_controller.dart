@@ -1,3 +1,5 @@
+// ignore_for_file: empty_catches
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,13 +29,12 @@ class ProfileController extends GetxController {
         if (documentSnapshot.exists) {
           profileData.value = documentSnapshot.data()!;
         } else {
-          print("User document not found");
         }
       } else {
-        print("No user is signed in");
       }
+    // ignore: duplicate_ignore
+    // ignore: empty_catches
     } catch (e) {
-      print("Error fetching profile data: $e");
     } finally {
       isLoading.value = false;
     }
@@ -49,10 +50,8 @@ class ProfileController extends GetxController {
             .update({key: value});
         profileData[key] = value;
       } else {
-        print("No user is signed in");
       }
     } catch (e) {
-      print("Error updating profile data: $e");
     }
   }
 
@@ -80,7 +79,6 @@ class ProfileController extends GetxController {
         }
       }
     } catch (e) {
-      print("Error updating $fieldName: $e");
     }
   }
 
@@ -99,7 +97,7 @@ class ProfileController extends GetxController {
   Future<void> signOut() async {
     isLoading.value = true;
     try {
-      await FirebaseAuth.instance.signOut();
+      await FirebaseAuth.instance.signOut(); // Sign out the user
       profileData.clear();
       Get.offAllNamed('/confirm');
     } catch (e) {

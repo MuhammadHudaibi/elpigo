@@ -7,8 +7,9 @@ import '../../keranjang/views/keranjang_view.dart';
 import '../controllers/home_customer_controller.dart';
 
 class HomeCustomerView extends GetView<HomeCustomerController> {
-  HomeCustomerView({Key? key}) : super(key: key);
+  HomeCustomerView({super.key});
 
+  @override
   final HomeCustomerController controller = Get.put(HomeCustomerController());
 
   @override

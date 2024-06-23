@@ -4,7 +4,9 @@ import 'package:get/get.dart';
 
 class ForgotPasswordView extends StatelessWidget {
   final ForgotPasswordController controller = Get.put(ForgotPasswordController());
-  final Color greenColor = Color.fromARGB(255, 82, 140, 75); 
+  final Color greenColor = Color.fromARGB(255, 82, 140, 75);
+
+  ForgotPasswordView({super.key}); 
 
   @override
   Widget build(BuildContext context) {
@@ -48,22 +50,22 @@ class ForgotPasswordView extends StatelessWidget {
                 onPressed: () {
                   controller.resetPassword(controller.emailController.text);
                 },
-                child: Text('Reset Password'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: greenColor, 
                   foregroundColor: Colors.white, 
                 ),
+                child: Text('Reset Password'),
               ),
               SizedBox(height: 10), 
               ElevatedButton(
                 onPressed: () {
                   Get.back();
                 },
-                child: Text('Back to sign in'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: greenColor, 
                   foregroundColor: Colors.white, 
                 ),
+                child: Text('Back to sign in'),
               ),
             ],
           ),

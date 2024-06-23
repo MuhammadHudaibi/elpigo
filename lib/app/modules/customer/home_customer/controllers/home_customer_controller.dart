@@ -110,6 +110,7 @@ class HomeCustomerController extends GetxController {
                 : product['price']
           });
         }
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Color.fromARGB(255, 151, 182, 153),
@@ -123,6 +124,7 @@ class HomeCustomerController extends GetxController {
           ),
         );
       } else if (stok == 0) {
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Colors.red,
@@ -136,6 +138,7 @@ class HomeCustomerController extends GetxController {
           ),
         );
       } else {
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Colors.red,
@@ -150,6 +153,7 @@ class HomeCustomerController extends GetxController {
         );
       }
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: Colors.red,

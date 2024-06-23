@@ -8,7 +8,10 @@ import 'package:image_picker/image_picker.dart';
 import '../controllers/home_owner_controller.dart';
 
 class AddProductPage extends StatefulWidget {
+  const AddProductPage({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _AddProductPageState createState() => _AddProductPageState();
 }
 

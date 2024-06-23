@@ -11,9 +11,10 @@ import 'package:image_picker/image_picker.dart';
 import '../controllers/register_customer_controller.dart';
 
 class UploadRTDataView extends StatefulWidget {
-  const UploadRTDataView({Key? key}) : super(key: key);
+  const UploadRTDataView({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _UploadRTDataViewState createState() => _UploadRTDataViewState();
 }
 
@@ -145,7 +146,7 @@ class _UploadRTDataViewState extends State<UploadRTDataView> {
   }
 
   Widget _buildUploadField(BuildContext context, String label, Rx<File?> imageFile) {
-    return Container(
+    return SizedBox(
       width: 300,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -208,7 +209,7 @@ class _UploadRTDataViewState extends State<UploadRTDataView> {
       onTap: () {
         Get.toNamed(Routes.MAPS);
       },
-      child: Container(
+      child: SizedBox(
         width: 300,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

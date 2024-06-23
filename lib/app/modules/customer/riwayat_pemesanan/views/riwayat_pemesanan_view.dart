@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:elpigo/app/modules/customer/riwayat_pemesanan/controllers/riwayat_pemesanan_controller.dart';
 
+// ignore: use_key_in_widget_constructors
 class RiwayatPemesanan extends GetView<RiwayatPemesananController> {
   final RiwayatPemesananController cartController =
       Get.put(RiwayatPemesananController());
@@ -79,7 +80,7 @@ class RiwayatPemesanan extends GetView<RiwayatPemesananController> {
                               ),
                             ),
                             child: Text(
-                              "${controller.formatDateTime(product['timestamp'])}",
+                              controller.formatDateTime(product['timestamp']),
                               style: GoogleFonts.poppins(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,

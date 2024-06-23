@@ -4,13 +4,17 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:elpigo/app/modules/owner/home_owner/controllers/home_owner_controller.dart';
 import 'package:elpigo/app/modules/owner/home_owner/views/add_product.dart';
 import 'package:elpigo/app/modules/owner/loginOwner/controllers/login_owner_controller.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 class HomeOwnerView extends StatefulWidget {
+  const HomeOwnerView({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _HomeViewState createState() => _HomeViewState();
 }
 
@@ -24,53 +28,46 @@ class _HomeViewState extends State<HomeOwnerView> {
 
     if (image != null) {
       try {
+        // Menampilkan dialog konfirmasi sebelum mengunggah gambar baru
         bool confirmChange = await showDialog(
+          // ignore: use_build_context_synchronously
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
               title: Text('Konfirmasi'),
-              content:
-                  Text('Apakah Anda yakin ingin mengganti foto produk ini?'),
+              content: Text('Apakah Anda yakin ingin mengganti foto produk ini?'),
               actions: [
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).pop(false);
+                    Navigator.of(context).pop(false); // Batal
                   },
-                  child: Text(
-                    'Tidak',
-                    style: TextStyle(color: Color.fromARGB(255, 82, 140, 75)),
-                  ),
+                  child: Text('Tidak'),
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).pop(true);
+                    Navigator.of(context).pop(true); // Konfirmasi
                   },
-                  child: Text(
-                    'Ya',
-                    style: TextStyle(color: Color.fromARGB(255, 82, 140, 75)),
-                  ),
+                  child: Text('Ya'),
                 ),
               ],
             );
           },
         );
 
-        if (confirmChange != null && confirmChange) {
+        if (confirmChange) {
           String fileName = image.name;
-          Reference storageRef = FirebaseStorage.instance
-              .ref()
-              .child('product_images')
-              .child(fileName);
+          Reference storageRef = FirebaseStorage.instance.ref().child('product_images').child(fileName);
           await storageRef.putFile(File(image.path));
           String downloadUrl = await storageRef.getDownloadURL();
           await controller.updateProductImage(productId, downloadUrl);
         }
       } catch (e) {
-        print('Error uploading image: $e');
+        if (kDebugMode) {
+          print('Error uploading image: $e');
+        }
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text('Error uploading image: $e',
-                  style: GoogleFonts.poppins())),
+          SnackBar(content: Text('Error uploading image: $e', style: GoogleFonts.poppins())),
         );
       }
     }
@@ -86,10 +83,21 @@ class _HomeViewState extends State<HomeOwnerView> {
           style: GoogleFonts.poppins(color: Colors.white),
         ),
         actions: [
-          IconButton(
+           IconButton(
             color: Colors.white,
             onPressed: () {
-              showLogoutConfirmationDialog(context);
+              Get.defaultDialog(
+                title: "Konfirmasi",
+                middleText: "Apakah Anda yakin ingin keluar?",
+                textConfirm: "Ya",
+                textCancel: "Tidak",
+                confirmTextColor: Colors.white,
+                onConfirm: () {
+                  logincontroller.logout();
+                  Get.back(); 
+                },
+                onCancel: () {},
+              );
             },
             icon: Icon(Icons.logout),
           ),
@@ -127,13 +135,11 @@ class _HomeViewState extends State<HomeOwnerView> {
                   return ListView.builder(
                     itemCount: products.length,
                     itemBuilder: (context, index) {
-                      var product =
-                          products[index].data() as Map<String, dynamic>;
+                      var product = products[index].data() as Map<String, dynamic>;
                       var productId = products[index].id;
                       var imageUrl = product['imageUrl'] ?? '';
                       return Card(
-                        margin: EdgeInsets.symmetric(
-                            vertical: 8.0, horizontal: 16.0),
+                        margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
                         child: Padding(
                           padding: EdgeInsets.all(12.0),
                           child: Row(
@@ -148,22 +154,16 @@ class _HomeViewState extends State<HomeOwnerView> {
                                     width: 100,
                                     height: 100,
                                     fit: BoxFit.cover,
-                                    loadingBuilder:
-                                        (context, child, loadingProgress) {
+                                    loadingBuilder: (context, child, loadingProgress) {
                                       if (loadingProgress == null) return child;
-                                      return Container(
+                                      return SizedBox(
                                         width: 100,
                                         height: 100,
                                         child: Center(
                                           child: CircularProgressIndicator(
-                                            value: loadingProgress
-                                                        .expectedTotalBytes !=
-                                                    null
-                                                ? loadingProgress
-                                                        .cumulativeBytesLoaded /
-                                                    (loadingProgress
-                                                            .expectedTotalBytes ??
-                                                        1)
+                                            value: loadingProgress.expectedTotalBytes != null
+                                                ? loadingProgress.cumulativeBytesLoaded /
+                                                    (loadingProgress.expectedTotalBytes ?? 1)
                                                 : null,
                                           ),
                                         ),
@@ -201,8 +201,7 @@ class _HomeViewState extends State<HomeOwnerView> {
                                           border: InputBorder.none,
                                         ),
                                         onChanged: (value) {
-                                          controller.updateTitle(
-                                              productId, value);
+                                          controller.updateTitle(productId, value);
                                         },
                                       ),
                                     ),
@@ -210,20 +209,17 @@ class _HomeViewState extends State<HomeOwnerView> {
                                       children: [
                                         Text(
                                           'Harga: Rp.',
-                                          style:
-                                              GoogleFonts.poppins(fontSize: 16),
+                                          style: GoogleFonts.poppins(fontSize: 16),
                                         ),
                                         Expanded(
                                           child: TextFormField(
                                             initialValue: '${product['price']}',
-                                            style: GoogleFonts.poppins(
-                                                fontSize: 14),
+                                            style: GoogleFonts.poppins(fontSize: 14),
                                             decoration: InputDecoration(
                                               border: InputBorder.none,
                                             ),
                                             onChanged: (value) {
-                                              controller.updatePrice(
-                                                  productId, value);
+                                              controller.updatePrice(productId, value);
                                             },
                                             keyboardType: TextInputType.number,
                                           ),
@@ -243,16 +239,14 @@ class _HomeViewState extends State<HomeOwnerView> {
                                   ElevatedButton(
                                     onPressed: () {
                                       int currentStock = product['stok'];
-                                      controller.updateStock(
-                                          productId, currentStock + 1);
+                                      controller.updateStock(productId, currentStock + 1);
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.green,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(5),
                                       ),
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 16, vertical: 8),
+                                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                     ),
                                     child: Icon(
                                       Icons.add,
@@ -264,8 +258,7 @@ class _HomeViewState extends State<HomeOwnerView> {
                                     onPressed: () {
                                       int currentStock = product['stok'];
                                       if (currentStock > 0) {
-                                        controller.updateStock(
-                                            productId, currentStock - 1);
+                                        controller.updateStock(productId, currentStock - 1);
                                       }
                                     },
                                     style: ElevatedButton.styleFrom(
@@ -273,8 +266,7 @@ class _HomeViewState extends State<HomeOwnerView> {
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(5),
                                       ),
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 16, vertical: 8),
+                                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                     ),
                                     child: Icon(
                                       Icons.remove,
@@ -283,57 +275,26 @@ class _HomeViewState extends State<HomeOwnerView> {
                                   ),
                                   SizedBox(height: 8.0),
                                   ElevatedButton(
-                                    onPressed: () async {
-                                      bool confirmDelete = await showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: Text('Konfirmasi'),
-                                            content: Text(
-                                                'Apakah Anda yakin ingin menghapus produk ini?'),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context)
-                                                      .pop(false);
-                                                },
-                                                child: Text(
-                                                  'Tidak',
-                                                  style: TextStyle(
-                                                      color: Color.fromARGB(
-                                                          255, 82, 140, 75)),
-                                                ),
-                                              ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context)
-                                                      .pop(true);
-                                                },
-                                                child: Text(
-                                                  'Ya',
-                                                  style: TextStyle(
-                                                      color: Color.fromARGB(
-                                                          255, 82, 140, 75)),
-                                                ),
-                                              ),
-                                            ],
-                                          );
+                                    onPressed: () {
+                                      Get.defaultDialog(
+                                        title: "Konfirmasi",
+                                        middleText: "Apa anda yakin ingin menghapus produk ini?",
+                                        textConfirm: "Ya",
+                                        textCancel: "Tidak",
+                                        confirmTextColor: Colors.white,
+                                        onConfirm: () {
+                                          controller.deleteProduct(productId, imageUrl);
+                                          Get.back();
                                         },
+                                        onCancel: () {},
                                       );
-
-                                      if (confirmDelete) {
-                                        controller.deleteProduct(
-                                            productId, imageUrl);
-                                      }
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor:
-                                          Color.fromARGB(255, 82, 140, 75),
+                                      backgroundColor: Color.fromARGB(255, 82, 140, 75),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(5),
                                       ),
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 16, vertical: 8),
+                                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                     ),
                                     child: Icon(
                                       Icons.delete,
@@ -371,8 +332,7 @@ class _HomeViewState extends State<HomeOwnerView> {
                         width: 0.5,
                       ),
                     ),
-                    padding:
-                        EdgeInsets.symmetric(vertical: 14.0, horizontal: 24.0),
+                    padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 24.0),
                   ),
                   child: Text('Tambah Produk', style: GoogleFonts.poppins()),
                 ),
@@ -380,12 +340,12 @@ class _HomeViewState extends State<HomeOwnerView> {
                   onPressed: () async {
                     try {
                       await controller.saveAllChanges();
+                      // ignore: use_build_context_synchronously
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                            content: Text('Perubahan disimpan',
-                                style: GoogleFonts.poppins())),
+                        SnackBar(content: Text('Perubahan disimpan', style: GoogleFonts.poppins())),
                       );
                     } catch (e) {
+                      // ignore: use_build_context_synchronously
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('Error: ${e.toString()}')),
                       );
@@ -397,8 +357,7 @@ class _HomeViewState extends State<HomeOwnerView> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    padding:
-                        EdgeInsets.symmetric(vertical: 14.0, horizontal: 24.0),
+                    padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 24.0),
                   ),
                   child: Text('Simpan Perubahan', style: GoogleFonts.poppins()),
                 ),
@@ -407,40 +366,6 @@ class _HomeViewState extends State<HomeOwnerView> {
           ),
         ],
       ),
-    );
-  }
-
-  void showLogoutConfirmationDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Konfirmasi'),
-          content: Text('Apakah Anda yakin ingin keluar?'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(false);
-              },
-              child: Text(
-                'Tidak',
-                style: TextStyle(color: Color.fromARGB(255, 82, 140, 75)),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(true);
-                logincontroller.logout();
-                Get.back();
-              },
-              child: Text(
-                'Ya',
-                style: TextStyle(color: Color.fromARGB(255, 82, 140, 75)),
-              ),
-            ),
-          ],
-        );
-      },
     );
   }
 }

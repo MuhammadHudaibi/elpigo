@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:elpigo/app/modules/owner/riwayat_pembelian/controllers/riwayat_penjualan_controller.dart';
 
+// ignore: use_key_in_widget_constructors
 class RiwayatPenjualanView extends StatelessWidget {
   final RiwayatPenjualanController controller = Get.put(RiwayatPenjualanController());
 

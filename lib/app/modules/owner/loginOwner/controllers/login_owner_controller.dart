@@ -7,7 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class LoginOwnerController extends GetxController {
   var isObscured = true.obs;
 
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> signIn(String idPangkalan, String password) async {
     try {

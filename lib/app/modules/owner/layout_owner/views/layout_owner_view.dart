@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../controllers/layout_owner_controller.dart';
 
+// ignore: use_key_in_widget_constructors
 class LayoutOwnerView extends StatelessWidget {
   final LayoutOwnerController controller = Get.put(LayoutOwnerController());
 
@@ -36,7 +37,7 @@ class LayoutOwnerView extends StatelessWidget {
           selectedLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.bold),
           unselectedLabelStyle: GoogleFonts.poppins(fontWeight: FontWeight.normal),
           type: BottomNavigationBarType.fixed,
-          items: [
+          items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: 'Home',

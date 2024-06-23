@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -65,7 +66,9 @@ class KeranjangCustomerController extends GetxController {
         }).toList();
       }
     } catch (e) {
-      print('Error fetching cart items: $e');
+      if (kDebugMode) {
+        print('Error fetching cart items: $e');
+      }
     }
   }
 
@@ -163,6 +166,7 @@ class KeranjangCustomerController extends GetxController {
 
   double get totalSelectedPrice {
     return selectedItems.values
+        // ignore: avoid_types_as_parameter_names
         .fold(0, (sum, item) => sum + item['totalPrice']);
   }
 

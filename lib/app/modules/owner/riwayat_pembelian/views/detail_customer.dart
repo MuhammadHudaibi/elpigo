@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 class DetailCustomer extends StatelessWidget {
   final String userId;
 
+  // ignore: use_key_in_widget_constructors
   DetailCustomer({required this.userId});
 
   final RiwayatPenjualanController controller = Get.find();
@@ -16,7 +18,7 @@ class DetailCustomer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 2, // Number of tabs
       child: Scaffold(
         appBar: AppBar(
           title: Text(
@@ -29,7 +31,7 @@ class DetailCustomer extends StatelessWidget {
             indicatorColor: Colors.greenAccent,
             labelStyle: GoogleFonts.poppins(),
             unselectedLabelColor: Colors.white,
-            tabs: [
+            tabs: const [
               Tab(text: 'Data Penjualan'),
               Tab(text: 'Data Pelanggan'),
             ],
@@ -45,12 +47,11 @@ class DetailCustomer extends StatelessWidget {
     );
   }
 }
-
 class RiwayatPenjualan extends StatelessWidget {
-  final RiwayatPenjualanController _controller =
-      Get.put(RiwayatPenjualanController());
+  final RiwayatPenjualanController _controller = Get.put(RiwayatPenjualanController());
   final String userId;
 
+  // ignore: use_key_in_widget_constructors
   RiwayatPenjualan({required this.userId});
 
   String formatDateTime(Timestamp timestamp) {
@@ -78,19 +79,18 @@ class RiwayatPenjualan extends StatelessWidget {
           return ListView.builder(
             itemCount: riwayatPemesanan.length,
             itemBuilder: (context, index) {
-              var product =
-                  riwayatPemesanan[index].data() as Map<String, dynamic>;
+              var product = riwayatPemesanan[index].data() as Map<String, dynamic>;
               DateTime dateTime = (product['timestamp'] as Timestamp).toDate();
               String formattedDate = formatDateTime(product['timestamp']);
 
-              String status = product['status'] ?? 'Diproses';
+              String status = product['status'] ?? 'Pending';
               Color statusColor;
 
               switch (status) {
-                case 'Selesai':
+                case 'Completed':
                   statusColor = Colors.green;
                   break;
-                case 'Dibatalkan':
+                case 'Cancelled':
                   statusColor = Colors.red;
                   break;
                 default:
@@ -119,8 +119,7 @@ class RiwayatPenjualan extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                           decoration: BoxDecoration(
                             color: Colors.blueAccent,
                             borderRadius: BorderRadius.circular(5),
@@ -136,14 +135,13 @@ class RiwayatPenjualan extends StatelessWidget {
                         ),
                         DropdownButton<String>(
                           value: status,
-                          items: <String>['Diproses', 'Selesai', 'Dibatalkan']
-                              .map((String value) {
+                          items: <String>['Pending', 'Completed', 'Cancelled'].map((String value) {
                             Color color;
                             switch (value) {
-                              case 'Selesai':
+                              case 'Completed':
                                 color = Colors.green;
                                 break;
-                              case 'Dibatalkan':
+                              case 'Cancelled':
                                 color = Colors.red;
                                 break;
                               default:
@@ -157,18 +155,16 @@ class RiwayatPenjualan extends StatelessWidget {
                               ),
                             );
                           }).toList(),
-                          onChanged: (newValue) {
+                                   onChanged: (newValue) {
                             if (newValue != null) {
                               Get.defaultDialog(
                                 title: "Konfirmasi",
-                                middleText:
-                                    "Apakah anda ingin memperbarui status menjadi $newValue?",
+                                middleText: "Apakah anda ingin memperbarui status menjadi $newValue?",
                                 textConfirm: "Ya",
                                 textCancel: "Tidak",
                                 confirmTextColor: Colors.white,
                                 onConfirm: () {
-                                  _controller.updateStatus(
-                                      snapshot.data!.docs[index], newValue);
+                                  _controller.updateStatus(snapshot.data!.docs[index], newValue);
                                   Get.back();
                                 },
                                 onCancel: () {},
@@ -250,6 +246,7 @@ class RiwayatPenjualan extends StatelessWidget {
 class DetailPelanggan extends StatelessWidget {
   final String userId;
 
+  // ignore: use_key_in_widget_constructors
   DetailPelanggan({required this.userId});
 
   final RiwayatPenjualanController controller = Get.find();
@@ -270,17 +267,14 @@ class DetailPelanggan extends StatelessWidget {
 
           final data = snapshot.data?.data();
           if (data == null) {
-            return Center(
-                child: Text('Pengguna tidak ditemukan',
-                    style: GoogleFonts.poppins()));
+            return Center(child: Text('Pengguna tidak ditemukan', style: GoogleFonts.poppins()));
           }
 
           final photos = [
             {'url': data['ktpPhotoUrl'], 'caption': 'Foto KTP'},
             {'url': data['kkPhotoUrl'], 'caption': 'Foto KK'},
             {'url': data['ownerPhotoUrl'], 'caption': 'Foto Pemilik'},
-            if (data['customerType'] == "UMKM")
-              {'url': data['businessPhotoUrl'], 'caption': 'Foto Tempat Usaha'},
+            if (data['customerType'] == "UMKM") {'url': data['businessPhotoUrl'], 'caption': 'Foto Tempat Usaha'},
           ];
 
           final location = data['location'];
@@ -293,10 +287,7 @@ class DetailPelanggan extends StatelessWidget {
               double.tryParse(location['longitude'].toString()) == null) {
             contentMaps = _buildGoogleMapsFieldError();
           } else {
-            contentMaps = _buildGoogleMapsField(
-                context,
-                double.parse(location['latitude'].toString()),
-                double.parse(location['longitude'].toString()));
+            contentMaps = _buildGoogleMapsField(context, double.parse(location['latitude'].toString()), double.parse(location['longitude'].toString()));
           }
 
           return SingleChildScrollView(
@@ -312,9 +303,7 @@ class DetailPelanggan extends StatelessWidget {
                   buildUserDetail('NIK', data['nik']),
                   buildUserDetail('Alamat', data['address']),
                   SizedBox(height: 20),
-                  Text('Foto-foto',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  Text('Foto-foto', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                   SizedBox(height: 10),
                   GridView.builder(
                     shrinkWrap: true,
@@ -346,24 +335,17 @@ class DetailPelanggan extends StatelessWidget {
                                 child: Image.network(
                                   photos[index]['url'] ?? '',
                                   fit: BoxFit.cover,
-                                  loadingBuilder:
-                                      (context, child, loadingProgress) {
+                                  loadingBuilder: (context, child, loadingProgress) {
                                     if (loadingProgress == null) return child;
                                     return Center(
                                       child: CircularProgressIndicator(
-                                        value: loadingProgress
-                                                    .expectedTotalBytes !=
-                                                null
-                                            ? loadingProgress
-                                                    .cumulativeBytesLoaded /
-                                                loadingProgress
-                                                    .expectedTotalBytes!
+                                        value: loadingProgress.expectedTotalBytes != null
+                                            ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
                                             : null,
                                       ),
                                     );
                                   },
-                                  errorBuilder: (context, error, stackTrace) =>
-                                      Icon(
+                                  errorBuilder: (context, error, stackTrace) => Icon(
                                     Icons.error_outline,
                                     size: 100,
                                     color: Color.fromARGB(255, 82, 140, 75),
@@ -374,8 +356,7 @@ class DetailPelanggan extends StatelessWidget {
                             SizedBox(height: 5),
                             Text(
                               photos[index]['caption']!,
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.bold),
+                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
@@ -401,8 +382,7 @@ class DetailPelanggan extends StatelessWidget {
         children: [
           Text(
             '$title: ',
-            style: GoogleFonts.poppins(
-                fontSize: fontSize, fontWeight: FontWeight.bold),
+            style: GoogleFonts.poppins(fontSize: fontSize, fontWeight: FontWeight.bold),
           ),
           Expanded(
             child: Text(
@@ -416,7 +396,7 @@ class DetailPelanggan extends StatelessWidget {
   }
 
   Widget _buildGoogleMapsField(BuildContext context, double lat, double long) {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -456,8 +436,7 @@ class DetailPelanggan extends StatelessWidget {
                   Marker(
                     markerId: MarkerId('current_location'),
                     position: LatLng(lat, long),
-                    icon: BitmapDescriptor.defaultMarkerWithHue(
-                        BitmapDescriptor.hueAzure),
+                    icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
                   ),
                 },
                 zoomControlsEnabled: false,
@@ -470,7 +449,7 @@ class DetailPelanggan extends StatelessWidget {
   }
 
   Widget _buildGoogleMapsFieldError() {
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

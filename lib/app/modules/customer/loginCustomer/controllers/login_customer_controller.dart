@@ -63,4 +63,8 @@ class LoginCustomerController extends GetxController {
     passwordController.dispose();
     super.onClose();
   }
+
+  void logout() {
+    Get.offAllNamed(Routes.CONFIRM);
+  }
 }

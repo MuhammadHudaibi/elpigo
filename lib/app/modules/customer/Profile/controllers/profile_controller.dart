@@ -99,7 +99,7 @@ class ProfileController extends GetxController {
   Future<void> signOut() async {
     isLoading.value = true;
     try {
-      await FirebaseAuth.instance.signOut(); // Sign out the user
+      await FirebaseAuth.instance.signOut();
       profileData.clear();
       Get.offAllNamed('/confirm');
     } catch (e) {

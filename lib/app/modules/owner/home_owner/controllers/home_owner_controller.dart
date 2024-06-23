@@ -52,7 +52,7 @@ class HomeOwnerController extends GetxController {
 
   Future<void> saveAllChanges() async {
     final batch = _firestore.batch();
-    
+
     // Update Firestore with changes from local maps
     priceChanges.forEach((docId, newPrice) {
       final docRef = _firestore.collection('products').doc(docId);
@@ -78,7 +78,8 @@ class HomeOwnerController extends GetxController {
     }
   }
 
-  Future<void> addProduct(String title, String price, int stock, XFile image) async {
+  Future<void> addProduct(
+      String title, String price, int stock, XFile image) async {
     try {
       String imageUrl = await _uploadImage(image);
       await FirebaseFirestore.instance.collection('products').doc(title).set({
@@ -95,7 +96,8 @@ class HomeOwnerController extends GetxController {
   Future<String> _uploadImage(XFile image) async {
     File file = File(image.path);
     try {
-      var snapshot = await _storage.ref().child('produk/${image.name}').putFile(file);
+      var snapshot =
+          await _storage.ref().child('produk/${image.name}').putFile(file);
       return await snapshot.ref.getDownloadURL();
     } catch (e) {
       throw Exception("Gagal mengunggah foto: $e");
@@ -104,7 +106,10 @@ class HomeOwnerController extends GetxController {
 
   Future<void> updateProductImage(String productId, String imageUrl) async {
     try {
-      await _firestore.collection('products').doc(productId).update({'imageUrl': imageUrl});
+      await _firestore
+          .collection('products')
+          .doc(productId)
+          .update({'imageUrl': imageUrl});
     } catch (e) {
       throw Exception("Gagal memperbaharui: $e");
     }

@@ -52,7 +52,8 @@ class RiwayatPemesanan extends GetView<RiwayatPemesananController> {
               itemCount: controller.riwayatItems.length,
               itemBuilder: (context, index) {
                 var product = controller.riwayatItems[index];
-                Color statusColor = getStatusColor(product['status']);
+                Color statusColor =
+                    getStatusColor(product['status'] ?? 'Unknown');
 
                 return Container(
                   margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),

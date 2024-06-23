@@ -52,6 +52,8 @@ class RiwayatPemesanan extends GetView<RiwayatPemesananController> {
               itemCount: controller.riwayatItems.length,
               itemBuilder: (context, index) {
                 var product = controller.riwayatItems[index];
+                Color statusColor = getStatusColor(product['status']);
+
                 return Container(
                   margin: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   padding: EdgeInsets.all(10),
@@ -88,15 +90,15 @@ class RiwayatPemesanan extends GetView<RiwayatPemesananController> {
                             padding: EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 4),
                             decoration: BoxDecoration(
-                              color: Colors.grey,
+                              color: statusColor,
                               borderRadius: BorderRadius.circular(5),
                             ),
                             child: Text(
-                              product['status'] ?? 'Unkown',
+                              product['status'] ?? 'Unknown',
                               style: GoogleFonts.poppins(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
-                                color: Colors.black,
+                                color: Colors.white,
                               ),
                             ),
                           ),
@@ -165,5 +167,16 @@ class RiwayatPemesanan extends GetView<RiwayatPemesananController> {
         },
       ),
     );
+  }
+
+  Color getStatusColor(String status) {
+    switch (status) {
+      case 'Completed':
+        return Colors.green;
+      case 'Cancelled':
+        return Colors.red;
+      default:
+        return Colors.orange;
+    }
   }
 }

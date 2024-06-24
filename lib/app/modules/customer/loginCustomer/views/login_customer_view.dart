@@ -172,14 +172,20 @@ class LoginCustomerView extends GetView<LoginCustomerController> {
                               onPressed: () {
                                 Get.toNamed('/register-customer');
                               },
-                              child: Text(
-                                "Buat akun",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                  decoration: TextDecoration.underline,
-                                  decorationColor: Colors.white,
+                              child: RichText(
+                                text: TextSpan(
+                                  text: 'Belum memiliki akun? ',
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: 'Buat akun',
+                                      style: GoogleFonts.poppins(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),

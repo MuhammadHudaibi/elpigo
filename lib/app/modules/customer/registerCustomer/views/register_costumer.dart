@@ -440,7 +440,7 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                               },
                               child: RichText(
                                 text: TextSpan(
-                                  text: 'Sudah punya akun? ',
+                                  text: 'Sudah memiliki akun? ',
                                   style: GoogleFonts.poppins(
                                     color: Colors.white,
                                   ),

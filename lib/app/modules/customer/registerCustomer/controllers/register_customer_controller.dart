@@ -1,11 +1,13 @@
 import 'package:elpigo/app/modules/customer/loginCustomer/views/login_customer_view.dart';
 import 'package:elpigo/app/modules/customer/maps/controllers/maps_controller.dart';
+import 'package:elpigo/app/routes/app_pages.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class RegisterCustomerController extends GetxController {
@@ -160,7 +162,7 @@ class RegisterCustomerController extends GetxController {
         selectedCustomerType.value == 'UMKM' ? '/upload-umkm' : '/upload-rt';
     Get.toNamed(nextPage);
   }
-
+  
   Future<void> uploadData() async {
     try {
       isLoading.value = true;
@@ -170,6 +172,22 @@ class RegisterCustomerController extends GetxController {
         email: emailController.text,
         password: passwordController.text,
       );
+      userCredential.user!.sendEmailVerification();
+
+      Get.defaultDialog(
+          title: 'Verify your email',
+          middleText:
+              'Please verify your email to continue. We have sent you an email verification link.',
+          textConfirm: 'OK',
+          textCancel: 'Resend',
+          confirmTextColor: Colors.white,
+          onConfirm: () {
+            Get.offAllNamed(Routes.LOGIN_CUSTOMER);
+          },
+          onCancel: () {
+            userCredential.user!.sendEmailVerification();
+            Get.snackbar('Success', 'Email verification link sent');
+          });
 
       User? user = userCredential.user;
       if (user != null) {
@@ -237,8 +255,6 @@ class RegisterCustomerController extends GetxController {
             .set(customerData);
 
         Get.snackbar('Success', 'Data registered successfully');
-
-        Get.off(LoginCustomerView());
       }
     } catch (e) {
       Get.snackbar('Error', 'Failed to register data: $e');

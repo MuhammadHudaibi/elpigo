@@ -37,12 +37,20 @@ class LoginCustomerController extends GetxController {
           return;
         }
       }
-
+      
       if (email != null) {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
+        UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email,
           password: password,
         );
+
+        if (!userCredential.user!.emailVerified) {
+          await FirebaseAuth.instance.signOut();
+          Get.snackbar('Error', 'Email Anda belum diverifikasi');
+          return;
+        }
+        
         Get.snackbar(
           "Berhasil",
           "Anda Berhasil Masuk.",

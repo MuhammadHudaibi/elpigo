@@ -209,6 +209,7 @@ class KeranjangCustomerController extends GetxController {
           product['quantity'] > maxGasQuantity) {
         Get.snackbar(
           'Pembatasan Produk',
+          // ignore: unnecessary_brace_in_string_interps
           'Pembelian gas 3 kg dibatasi ${maxGasQuantity} untuk tipe pengguna $userType',
           snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.red,

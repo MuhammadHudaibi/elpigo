@@ -1,3 +1,5 @@
+// ignore_for_file: sized_box_for_whitespace, duplicate_ignore
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -274,6 +276,7 @@ class RiwayatPenjualan extends StatelessWidget {
 class DetailPelanggan extends StatelessWidget {
   final String userId;
 
+  // ignore: use_key_in_widget_constructors
   DetailPelanggan({required this.userId});
 
   final RiwayatPenjualanController controller = Get.find();
@@ -423,6 +426,7 @@ class DetailPelanggan extends StatelessWidget {
   }
 
   Widget _buildGoogleMapsField(BuildContext context, double lat, double long) {
+    // ignore: sized_box_for_whitespace
     return Container(
       width: double.infinity,
       child: Column(

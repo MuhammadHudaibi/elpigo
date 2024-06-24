@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class RegisterCustomerController extends GetxController {
@@ -238,21 +239,43 @@ class RegisterCustomerController extends GetxController {
             .set(customerData);
 
         Get.defaultDialog(
-          title: 'Verify your email',
-          middleText:
-              'Please verify your email to continue. We have sent you an email verification link.',
-          textConfirm: 'OK',
-          textCancel: 'Resend',
-          confirmTextColor: Colors.white,
-          onConfirm: () {
-            Get.off(Routes.LOGIN_CUSTOMER);
-          },
-          onCancel: () {
-            userCredential.user!.sendEmailVerification();
-            Get.snackbar('Success', 'Email verification link sent');
-          });
+          title: 'Verifikasi Email',
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Harap verifikasi email Anda untuk melanjutkan. Kami telah mengirimkan tautan verifikasi ke email Anda.',
+                style: GoogleFonts.poppins(fontSize: 16),
+              ),
+            ],
+          ),
+          confirm: ElevatedButton(
+            onPressed: () {
+              Get.offAllNamed(Routes.LOGIN_CUSTOMER);
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Color.fromARGB(255, 82, 140, 75),
+              textStyle: GoogleFonts.poppins(color: Colors.white),
+            ),
+            child: Text('OK'),
+          ),
+          cancel: ElevatedButton(
+            onPressed: () {
+              userCredential.user!.sendEmailVerification();
+              Get.back();
+              Get.snackbar('Berhasil', 'Tautan verifikasi email telah dikirim ulang');
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.orange,
+              textStyle: TextStyle(color: Colors.white),
+            ),
+            child: Text('Kirim Ulang'),
+          ),
+        );
 
-        Get.snackbar('Success', 'Data registered successfully');
+      Get.snackbar('Berhasil', 'Data berhasil terdaftar');
+
       }
     } catch (e) {
       Get.snackbar('Error', 'Failed to register data: $e');

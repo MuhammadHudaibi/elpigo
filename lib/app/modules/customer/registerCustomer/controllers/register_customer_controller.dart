@@ -36,12 +36,18 @@ class RegisterCustomerController extends GetxController {
   var passwordError = ''.obs;
   var confirmPasswordError = ''.obs;
   var customerTypeError = ''.obs;
+  var isObscuredPassword = true.obs;
+  var isObscuredConfirmPassword = true.obs;
+
+  void toggleObscurePassword() {
+    isObscuredPassword.toggle();
+  }
+
+  void toggleObscureConfirmPassword() {
+    isObscuredConfirmPassword.toggle();
+  }
 
   final MapsController mapsController = Get.put(MapsController());
-
-  void toggleObscure() {
-    isObscured.toggle();
-  }
 
   Future<bool> isNikUnique(String nik) async {
     final querySnapshot = await FirebaseFirestore.instance

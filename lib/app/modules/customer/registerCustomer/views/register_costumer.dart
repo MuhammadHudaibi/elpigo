@@ -308,7 +308,8 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                             Obx(() => TextFormField(
                                   controller: controller.passwordController,
                                   cursorColor: Colors.white,
-                                  obscureText: controller.isObscured.value,
+                                  obscureText:
+                                      controller.isObscuredPassword.value,
                                   decoration: InputDecoration(
                                     enabledBorder: const OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -345,10 +346,10 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                                         color: Colors.redAccent),
                                     suffixIcon: IconButton(
                                       onPressed: () {
-                                        controller.toggleObscure();
+                                        controller.toggleObscurePassword();
                                       },
                                       icon: Icon(
-                                        controller.isObscured.value
+                                        controller.isObscuredPassword.value
                                             ? Icons.visibility_off
                                             : Icons.visibility,
                                         color: Colors.white,
@@ -361,7 +362,8 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                                   controller:
                                       controller.confirmPasswordController,
                                   cursorColor: Colors.white,
-                                  obscureText: controller.isObscured.value,
+                                  obscureText: controller
+                                      .isObscuredConfirmPassword.value,
                                   decoration: InputDecoration(
                                     enabledBorder: const OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -398,10 +400,12 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                                         color: Colors.redAccent),
                                     suffixIcon: IconButton(
                                       onPressed: () {
-                                        controller.toggleObscure();
+                                        controller
+                                            .toggleObscureConfirmPassword();
                                       },
                                       icon: Icon(
-                                        controller.isObscured.value
+                                        controller
+                                                .isObscuredConfirmPassword.value
                                             ? Icons.visibility_off
                                             : Icons.visibility,
                                         color: Colors.white,

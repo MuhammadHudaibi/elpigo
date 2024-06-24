@@ -183,14 +183,6 @@ class KeranjangCustomerController extends GetxController {
 
     String checkoutCatatan = catatan.value.isNotEmpty ? catatan.value : '-';
 
-    DocumentSnapshot userDoc = await FirebaseFirestore.instance
-        .collection('customers')
-        .doc(userId)
-        .get();
-    String userType = userDoc['customerType'];
-
-    int maxGasQuantity = userType == 'RT' ? 1 : (userType == 'UMKM' ? 2 : 0);
-
     for (var key in selectedItems.keys) {
       var product = selectedItems[key];
       var productDocRef =
@@ -200,22 +192,6 @@ class KeranjangCustomerController extends GetxController {
       if (!productSnapshot.exists) {
         allProductsExist = false;
         missingProducts.add(product['title']);
-      }
-    }
-
-    for (var key in selectedItems.keys) {
-      var product = selectedItems[key];
-      if (product['title'] == 'Gas 3 kg' &&
-          product['quantity'] > maxGasQuantity) {
-        Get.snackbar(
-          'Pembatasan Produk',
-          // ignore: unnecessary_brace_in_string_interps
-          'Pembelian gas 3 kg dibatasi ${maxGasQuantity} untuk tipe pengguna $userType',
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-        );
-        return;
       }
     }
 
@@ -259,8 +235,8 @@ class KeranjangCustomerController extends GetxController {
       Get.offNamed('/riwayat-pemesanan');
     } catch (e) {
       Get.snackbar(
-        'Checkout Gagal',
-        'Terdapat kesalahan pada proses checkout',
+        'Checkout Failed',
+        'There was an error processing your checkout. Please try again.',
         snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.red,
         colorText: Colors.white,

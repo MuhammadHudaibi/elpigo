@@ -76,29 +76,53 @@ class _AddProductPageState extends State<AddProductPage> {
             children: [
               TextField(
                 controller: titleController,
+                cursorColor: Color.fromARGB(255, 82, 140, 75),
                 decoration: InputDecoration(
                   labelText: 'Nama Produk',
-                  labelStyle: GoogleFonts.poppins(),
+                  labelStyle: GoogleFonts.poppins(
+                    color: Color.fromARGB(255, 82, 140, 75),
+                  ),
                   border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Color.fromARGB(255, 82, 140, 75),
+                    ),
+                  ),
                 ),
               ),
               SizedBox(height: 16.0),
               TextField(
                 controller: priceController,
+                cursorColor: Color.fromARGB(255, 82, 140, 75),
                 decoration: InputDecoration(
                   labelText: 'Harga',
-                  labelStyle: GoogleFonts.poppins(),
+                  labelStyle: GoogleFonts.poppins(
+                    color: Color.fromARGB(255, 82, 140, 75),
+                  ),
                   border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Color.fromARGB(255, 82, 140, 75),
+                    ),
+                  ),
                 ),
                 keyboardType: TextInputType.number,
               ),
               SizedBox(height: 16.0),
               TextField(
                 controller: stockController,
+                cursorColor: Color.fromARGB(255, 82, 140, 75),
                 decoration: InputDecoration(
                   labelText: 'Stok',
-                  labelStyle: GoogleFonts.poppins(),
+                  labelStyle: GoogleFonts.poppins(
+                    color: Color.fromARGB(255, 82, 140, 75),
+                  ),
                   border: OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Color.fromARGB(255, 82, 140, 75),
+                    ),
+                  ),
                 ),
                 keyboardType: TextInputType.number,
               ),

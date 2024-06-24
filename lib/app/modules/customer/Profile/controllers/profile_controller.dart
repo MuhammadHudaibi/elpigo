@@ -80,7 +80,7 @@ class ProfileController extends GetxController {
   }
 
   Future<void> updatePemilikPhoto() async {
-    await updateField('PemilikPhotoUrl');
+    await updateField('ownerPhotoUrl');
   }
 
   Future<void> updateProfilePhoto() async {

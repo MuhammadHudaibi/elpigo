@@ -1,4 +1,3 @@
-import 'package:elpigo/app/modules/customer/loginCustomer/views/login_customer_view.dart';
 import 'package:elpigo/app/modules/customer/maps/controllers/maps_controller.dart';
 import 'package:elpigo/app/routes/app_pages.dart';
 import 'package:get/get.dart';
@@ -7,7 +6,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class RegisterCustomerController extends GetxController {

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
@@ -253,7 +254,6 @@ class RiwayatPenjualan extends StatelessWidget {
 class DetailPelanggan extends StatelessWidget {
   final String userId;
 
-  // ignore: use_key_in_widget_constructors
   DetailPelanggan({required this.userId});
 
   final RiwayatPenjualanController controller = Get.find();
@@ -274,17 +274,14 @@ class DetailPelanggan extends StatelessWidget {
 
           final data = snapshot.data?.data();
           if (data == null) {
-            return Center(
-                child: Text('Pengguna tidak ditemukan',
-                    style: GoogleFonts.poppins()));
+            return Center(child: Text('Pengguna tidak ditemukan', style: GoogleFonts.poppins()));
           }
 
           final photos = [
             {'url': data['ktpPhotoUrl'], 'caption': 'Foto KTP'},
             {'url': data['kkPhotoUrl'], 'caption': 'Foto KK'},
-            {'url': data['PemilikPhotoUrl'], 'caption': 'Foto Pemilik'},
-            if (data['customerType'] == "UMKM")
-              {'url': data['usahaPhotoUrl'], 'caption': 'Foto Tempat Usaha'},
+            {'url': data['ownerPhotoUrl'], 'caption': 'Foto Pemilik'},
+            if (data['customerType'] == "UMKM") {'url': data['businessPhotoUrl'], 'caption': 'Foto Tempat Usaha'},
           ];
 
           final location = data['location'];
@@ -297,10 +294,7 @@ class DetailPelanggan extends StatelessWidget {
               double.tryParse(location['longitude'].toString()) == null) {
             contentMaps = _buildGoogleMapsFieldError();
           } else {
-            contentMaps = _buildGoogleMapsField(
-                context,
-                double.parse(location['latitude'].toString()),
-                double.parse(location['longitude'].toString()));
+            contentMaps = _buildGoogleMapsField(context, double.parse(location['latitude'].toString()), double.parse(location['longitude'].toString()));
           }
 
           return SingleChildScrollView(
@@ -316,32 +310,67 @@ class DetailPelanggan extends StatelessWidget {
                   buildUserDetail('NIK', data['nik']),
                   buildUserDetail('Alamat', data['address']),
                   SizedBox(height: 20),
-                  Text('Foto-foto',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  Text('Foto-foto', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                   SizedBox(height: 10),
-                  Wrap(
-                    spacing: 8.0, // gap between adjacent chips
-                    runSpacing: 4.0, // gap between lines
-                    children: photos.map((photo) {
-                      if (photo['url'] != null) {
-                        return Column(children: [
-                          Text(photo['caption']),
-                          Image.network(
-                            photo['url'],
-                            width: 100,
-                            height: 100,
-                          )
-                        ]);
-                      }
-                      return Container();
-                    }).toList(),
+                  GridView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      childAspectRatio: 1.0,
+                    ),
+                    itemCount: photos.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          controller.showImageDialog(
+                            context,
+                            photos[index]['url'],
+                            photos[index]['caption'] ?? '',
+                            userId,
+                          );
+                        },
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                child: Image.network(
+                                  photos[index]['url'] ?? '',
+                                  fit: BoxFit.cover,
+                                  loadingBuilder: (context, child, loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return Center(
+                                      child: CircularProgressIndicator(
+                                        value: loadingProgress.expectedTotalBytes != null
+                                            ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                            : null,
+                                      ),
+                                    );
+                                  },
+                                  errorBuilder: (context, error, stackTrace) => Icon(
+                                    Icons.error_outline,
+                                    size: 100,
+                                    color: Color.fromARGB(255, 82, 140, 75),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              photos[index]['caption']!,
+                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
                   SizedBox(height: 20),
-                  Text('Lokasi',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                  SizedBox(height: 10),
                   contentMaps,
                 ],
               ),
@@ -352,52 +381,119 @@ class DetailPelanggan extends StatelessWidget {
     );
   }
 
-  Widget buildUserDetail(String title, String value) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-        SizedBox(height: 8),
-        Text(
-          value,
-          style: GoogleFonts.poppins(fontSize: 14),
-        ),
-        SizedBox(height: 10),
-      ],
+  Widget buildUserDetail(String title, String? value, [double fontSize = 16]) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '$title: ',
+            style: GoogleFonts.poppins(fontSize: fontSize, fontWeight: FontWeight.bold),
+          ),
+          Expanded(
+            child: Text(
+              value ?? 'Tidak ada data',
+              style: GoogleFonts.poppins(fontSize: fontSize),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _buildGoogleMapsField(BuildContext context, double lat, double lng) {
-    return SizedBox(
-      height: 300,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: Image.network(
-          'https://maps.googleapis.com/maps/api/staticmap?center=$lat,$lng&zoom=13&size=600x300&maptype=roadmap&markers=color:red%7Clabel:C%7C$lat,$lng',
-          fit: BoxFit.cover,
-        ),
+  Widget _buildGoogleMapsField(BuildContext context, double lat, double long) {
+    return Container(
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: Text(
+              'Lokasi',
+              style: GoogleFonts.poppins(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Container(
+              height: 150,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color.fromARGB(255, 82, 140, 75).withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 7,
+                    offset: Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: GoogleMap(
+                initialCameraPosition: CameraPosition(
+                  target: LatLng(lat, long),
+                  zoom: 15,
+                ),
+                markers: {
+                  Marker(
+                    markerId: MarkerId('current_location'),
+                    position: LatLng(lat, long),
+                    icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
+                  ),
+                },
+                zoomControlsEnabled: false,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildGoogleMapsFieldError() {
-    return Center(
+    return Container(
+      width: double.infinity,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Icon(Icons.error_outline, size: 60, color: Colors.red),
-          SizedBox(height: 16),
-          Text('Lokasi tidak tersedia',
-              style: GoogleFonts.poppins(fontSize: 20, color: Colors.red)),
-          SizedBox(height: 8),
-          Text('Harap periksa informasi lokasi pelanggan',
-              style: GoogleFonts.poppins(fontSize: 16, color: Colors.red)),
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: Text(
+              'Lokasi',
+              style: GoogleFonts.poppins(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Container(
+              height: 150,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color.fromARGB(255, 82, 140, 75).withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 7,
+                    offset: Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Center(
+                child: Text("Lokasi tidak ditemukan"),
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 }
-

@@ -200,7 +200,6 @@ class KeranjangCustomerController extends GetxController {
         missingProducts.add(product['title']);
       }
 
-      // Check restriction for "Gas 3 kg"
       if (product['title'] == 'Gas 3 kg') {
         if ((customerType == 'RT' && product['quantity'] > 1) ||
             (customerType == 'UMKM' && product['quantity'] > 2)) {

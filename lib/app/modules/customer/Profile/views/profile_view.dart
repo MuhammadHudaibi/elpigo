@@ -98,31 +98,31 @@ class ProfileView extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 30),
-              buildEditableText('Nama', 'name'),
+              buildEditableText('Nama ', 'name'),
               SizedBox(height: 10),
-              buildEditableText('NIK', 'nik'),
+              buildEditableText('NIK ', 'nik'),
               SizedBox(height: 10),
-              buildEditableText('Email', 'email'),
+              buildEditableText('Email ', 'email'),
               SizedBox(height: 10),
-              buildEditableText('No HP', 'phone'),
+              buildEditableText('No HP ', 'phone'),
               SizedBox(height: 10),
-              buildEditableText('Alamat', 'address'),
-              SizedBox(height: 15),
-              buildNonEditableText('Type Customer', 'customerType'),
+              buildEditableText('Alamat ', 'address'),
+              SizedBox(height: 10),
+              buildNonEditableText('Tipe Customer ', 'customerType'),
               SizedBox(height: 20),
-              Text('Foto:', style: GoogleFonts.poppins()),
+              Text('Foto :', style: GoogleFonts.poppins(fontSize: 20)),
               SizedBox(height: 10),
-              buildDocumentPhoto('KK', 'kkPhotoUrl', key: 'kkPhotoUrl'),
+              buildDocumentPhoto('KK ', 'kkPhotoUrl', key: 'kkPhotoUrl'),
               SizedBox(height: 10),
-              buildDocumentPhoto('KTP', 'ktpPhotoUrl', key: 'ktpPhotoUrl'),
+              buildDocumentPhoto('KTP ', 'ktpPhotoUrl', key: 'ktpPhotoUrl'),
               if (controller.profileData['customerType'] == 'UMKM') ...[
                 SizedBox(height: 10),
-                buildDocumentPhoto('Usaha', 'usahaPhotoUrl',
+                buildDocumentPhoto('Usaha ', 'usahaPhotoUrl',
                     key: 'usahaPhotoUrl'),
               ],
               SizedBox(height: 10),
-              buildDocumentPhoto('Pemilik', 'ownerPhotoUrl',
-                  key: 'ownerPhotoUrl', isPemilik: true),
+              buildDocumentPhoto('Pemilik ', 'PemilikPhotoUrl',
+                  key: 'PemilikPhotoUrl', isPemilik: true),
               SizedBox(height: 10),
               buildLocationMap(),
             ],
@@ -194,7 +194,7 @@ class ProfileView extends StatelessWidget {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Lokasi:', style: GoogleFonts.poppins()),
+          Text('Lokasi :', style: GoogleFonts.poppins()),
           Container(
             height: 150,
             width: double.infinity,
@@ -217,7 +217,7 @@ class ProfileView extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4.0),
-            child: Text('Lokasi:', style: GoogleFonts.poppins()),
+            child: Text('Lokasi :', style: GoogleFonts.poppins()),
           ),
           SizedBox(height: 10),
           ClipRRect(
@@ -230,7 +230,8 @@ class ProfileView extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                        color: Color.fromARGB(255, 82, 140, 75).withOpacity(0.5),
+                        color:
+                            Color.fromARGB(255, 82, 140, 75).withOpacity(0.5),
                         spreadRadius: 2,
                         blurRadius: 7,
                         offset: Offset(0, 3),

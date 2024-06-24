@@ -162,7 +162,7 @@ class _AddProductPageState extends State<AddProductPage> {
                       Icons.image,
                       color: Colors.white,
                     ),
-                    label: Text('Pick Image',
+                    label: Text('Pilih Gambar',
                         style: GoogleFonts.poppins(color: Colors.white)),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color.fromARGB(255, 82, 140, 75),
@@ -177,7 +177,7 @@ class _AddProductPageState extends State<AddProductPage> {
                   ElevatedButton.icon(
                     onPressed: _submit,
                     icon: Icon(Icons.add, color: Colors.white),
-                    label: Text('Add Product',
+                    label: Text('Tambah Produk',
                         style: GoogleFonts.poppins(color: Colors.white)),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color.fromARGB(255, 82, 140, 75),

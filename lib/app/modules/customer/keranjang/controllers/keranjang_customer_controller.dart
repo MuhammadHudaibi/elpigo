@@ -177,19 +177,17 @@ class KeranjangCustomerController extends GetxController {
 
   void checkout() async {
     String userId = FirebaseAuth.instance.currentUser!.uid;
+    var customerDocRef =
+        FirebaseFirestore.instance.collection('customers').doc(userId);
+    var customerSnapshot = await customerDocRef.get();
+    String customerType = customerSnapshot['customerType'];
+
     var batch = FirebaseFirestore.instance.batch();
     bool allProductsExist = true;
     List<String> missingProducts = [];
+    bool restrictionViolated = false;
 
     String checkoutCatatan = catatan.value.isNotEmpty ? catatan.value : '-';
-
-    DocumentSnapshot userDoc = await FirebaseFirestore.instance
-        .collection('customers')
-        .doc(userId)
-        .get();
-    String userType = userDoc['customerType'];
-
-    int maxGasQuantity = userType == 'RT' ? 1 : (userType == 'UMKM' ? 2 : 0);
 
     for (var key in selectedItems.keys) {
       var product = selectedItems[key];
@@ -201,21 +199,26 @@ class KeranjangCustomerController extends GetxController {
         allProductsExist = false;
         missingProducts.add(product['title']);
       }
+
+      // Check restriction for "Gas 3 kg"
+      if (product['title'] == 'Gas 3 kg') {
+        if ((customerType == 'RT' && product['quantity'] > 1) ||
+            (customerType == 'UMKM' && product['quantity'] > 2)) {
+          restrictionViolated = true;
+          break;
+        }
+      }
     }
 
-    for (var key in selectedItems.keys) {
-      var product = selectedItems[key];
-      if (product['title'] == 'Gas 3 kg' &&
-          product['quantity'] > maxGasQuantity) {
-        Get.snackbar(
-          'Pembatasan Produk',
-          'Pembelian gas 3 kg dibatasi ${maxGasQuantity} untuk tipe pengguna $userType',
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-        );
-        return;
-      }
+    if (restrictionViolated) {
+      Get.snackbar(
+        'Pembatasan Produk',
+        'Pembelian produk "Gas 3 kg" melebihi batas untuk tipe pelanggan Anda.',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      return;
     }
 
     for (var key in selectedItems.keys) {
@@ -258,8 +261,8 @@ class KeranjangCustomerController extends GetxController {
       Get.offNamed('/riwayat-pemesanan');
     } catch (e) {
       Get.snackbar(
-        'Checkout Gagal',
-        'Terdapat kesalahan pada proses checkout',
+        'Checkout Failed',
+        'There was an error processing your checkout. Please try again.',
         snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.red,
         colorText: Colors.white,

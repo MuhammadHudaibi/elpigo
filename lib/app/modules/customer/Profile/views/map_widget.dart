@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,6 +8,7 @@ class MapScreen extends StatefulWidget {
   final LatLng initialLocation;
   final Function(LatLng) onSave;
 
+  // ignore: prefer_const_constructors_in_immutables, use_key_in_widget_constructors
   MapScreen({required this.initialLocation, required this.onSave});
 
   @override
@@ -13,6 +16,7 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
+  // ignore: unused_field
   late GoogleMapController _controller;
   late LatLng _currentLocation;
 

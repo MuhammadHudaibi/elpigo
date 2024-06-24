@@ -1,5 +1,8 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:elpigo/app/modules/customer/Profile/controllers/profile_controller.dart';
 import 'package:elpigo/app/modules/customer/Profile/views/map_widget.dart';
+// ignore: unused_import
 import 'package:elpigo/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -260,6 +263,7 @@ class ProfileView extends StatelessWidget {
                             },
                           ));
                     },
+                    // ignore: sort_child_properties_last
                     child: Icon(Icons.edit_location),
                     backgroundColor: Colors.green,
                   ),

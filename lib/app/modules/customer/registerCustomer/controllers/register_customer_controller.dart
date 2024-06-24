@@ -174,21 +174,6 @@ class RegisterCustomerController extends GetxController {
       );
       userCredential.user!.sendEmailVerification();
 
-      Get.defaultDialog(
-          title: 'Verify your email',
-          middleText:
-              'Please verify your email to continue. We have sent you an email verification link.',
-          textConfirm: 'OK',
-          textCancel: 'Resend',
-          confirmTextColor: Colors.white,
-          onConfirm: () {
-            Get.offAllNamed(Routes.LOGIN_CUSTOMER);
-          },
-          onCancel: () {
-            userCredential.user!.sendEmailVerification();
-            Get.snackbar('Success', 'Email verification link sent');
-          });
-
       User? user = userCredential.user;
       if (user != null) {
         String name = nameController.text;
@@ -253,6 +238,21 @@ class RegisterCustomerController extends GetxController {
             .collection('customers')
             .doc(user.uid)
             .set(customerData);
+
+        Get.defaultDialog(
+          title: 'Verify your email',
+          middleText:
+              'Please verify your email to continue. We have sent you an email verification link.',
+          textConfirm: 'OK',
+          textCancel: 'Resend',
+          confirmTextColor: Colors.white,
+          onConfirm: () {
+            Get.off(Routes.LOGIN_CUSTOMER);
+          },
+          onCancel: () {
+            userCredential.user!.sendEmailVerification();
+            Get.snackbar('Success', 'Email verification link sent');
+          });
 
         Get.snackbar('Success', 'Data registered successfully');
       }

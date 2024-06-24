@@ -28,26 +28,30 @@ class _HomeViewState extends State<HomeOwnerView> {
 
     if (image != null) {
       try {
-        // Menampilkan dialog konfirmasi sebelum mengunggah gambar baru
         bool confirmChange = await showDialog(
           // ignore: use_build_context_synchronously
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
               title: Text('Konfirmasi'),
-              content: Text('Apakah Anda yakin ingin mengganti foto produk ini?'),
+              content:
+                  Text('Apakah Anda yakin ingin mengganti foto produk ini?'),
               actions: [
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).pop(false); // Batal
+                    Navigator.of(context).pop(false);
                   },
-                  child: Text('Tidak'),
+                  child: Text('Tidak',
+                      style:
+                          TextStyle(color: Color.fromARGB(255, 82, 140, 75))),
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.of(context).pop(true); // Konfirmasi
+                    Navigator.of(context).pop(true);
                   },
-                  child: Text('Ya'),
+                  child: Text('Ya',
+                      style:
+                          TextStyle(color: Color.fromARGB(255, 82, 140, 75))),
                 ),
               ],
             );
@@ -56,7 +60,10 @@ class _HomeViewState extends State<HomeOwnerView> {
 
         if (confirmChange) {
           String fileName = image.name;
-          Reference storageRef = FirebaseStorage.instance.ref().child('product_images').child(fileName);
+          Reference storageRef = FirebaseStorage.instance
+              .ref()
+              .child('product_images')
+              .child(fileName);
           await storageRef.putFile(File(image.path));
           String downloadUrl = await storageRef.getDownloadURL();
           await controller.updateProductImage(productId, downloadUrl);
@@ -67,7 +74,9 @@ class _HomeViewState extends State<HomeOwnerView> {
         }
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error uploading image: $e', style: GoogleFonts.poppins())),
+          SnackBar(
+              content: Text('Error uploading image: $e',
+                  style: GoogleFonts.poppins())),
         );
       }
     }
@@ -86,17 +95,34 @@ class _HomeViewState extends State<HomeOwnerView> {
           IconButton(
             color: Colors.white,
             onPressed: () {
-              Get.defaultDialog(
-                title: "Konfirmasi",
-                middleText: "Apakah Anda yakin ingin keluar?",
-                textConfirm: "Ya",
-                textCancel: "Tidak",
-                confirmTextColor: Colors.white,
-                onConfirm: () {
-                  logincontroller.logout();
-                  Get.back();
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: Text('Konfirmasi'),
+                    content: Text('Apakah Anda yakin ingin keluar?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(false);
+                        },
+                        child: Text('Tidak',
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 82, 140, 75))),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(true);
+                          logincontroller.logout();
+                          Get.back();
+                        },
+                        child: Text('Ya',
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 82, 140, 75))),
+                      ),
+                    ],
+                  );
                 },
-                onCancel: () {},
               );
             },
             icon: const Icon(Icons.logout),
@@ -135,11 +161,13 @@ class _HomeViewState extends State<HomeOwnerView> {
                   return ListView.builder(
                     itemCount: products.length,
                     itemBuilder: (context, index) {
-                      var product = products[index].data() as Map<String, dynamic>;
+                      var product =
+                          products[index].data() as Map<String, dynamic>;
                       var productId = products[index].id;
                       var imageUrl = product['imageUrl'] ?? '';
                       return Card(
-                        margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 16.0),
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: Row(
@@ -154,16 +182,22 @@ class _HomeViewState extends State<HomeOwnerView> {
                                     width: 100,
                                     height: 100,
                                     fit: BoxFit.cover,
-                                    loadingBuilder: (context, child, loadingProgress) {
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
                                       if (loadingProgress == null) return child;
                                       return SizedBox(
                                         width: 100,
                                         height: 100,
                                         child: Center(
                                           child: CircularProgressIndicator(
-                                            value: loadingProgress.expectedTotalBytes != null
-                                                ? loadingProgress.cumulativeBytesLoaded /
-                                                    (loadingProgress.expectedTotalBytes ?? 1)
+                                            value: loadingProgress
+                                                        .expectedTotalBytes !=
+                                                    null
+                                                ? loadingProgress
+                                                        .cumulativeBytesLoaded /
+                                                    (loadingProgress
+                                                            .expectedTotalBytes ??
+                                                        1)
                                                 : null,
                                           ),
                                         ),
@@ -173,7 +207,8 @@ class _HomeViewState extends State<HomeOwnerView> {
                                       return Container(
                                         width: 100,
                                         height: 100,
-                                        color: const Color.fromARGB(255, 82, 140, 75),
+                                        color: const Color.fromARGB(
+                                            255, 82, 140, 75),
                                         child: const Icon(
                                           Icons.error,
                                           color: Colors.red,
@@ -189,7 +224,8 @@ class _HomeViewState extends State<HomeOwnerView> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(bottom: 4.0),
+                                      padding:
+                                          const EdgeInsets.only(bottom: 4.0),
                                       child: TextFormField(
                                         initialValue: product['title'],
                                         style: GoogleFonts.poppins(
@@ -201,7 +237,8 @@ class _HomeViewState extends State<HomeOwnerView> {
                                           border: InputBorder.none,
                                         ),
                                         onChanged: (value) {
-                                          controller.updateTitle(productId, value);
+                                          controller.updateTitle(
+                                              productId, value);
                                         },
                                       ),
                                     ),
@@ -209,17 +246,20 @@ class _HomeViewState extends State<HomeOwnerView> {
                                       children: [
                                         Text(
                                           'Harga: Rp.',
-                                          style: GoogleFonts.poppins(fontSize: 16),
+                                          style:
+                                              GoogleFonts.poppins(fontSize: 16),
                                         ),
                                         Expanded(
                                           child: TextFormField(
                                             initialValue: '${product['price']}',
-                                            style: GoogleFonts.poppins(fontSize: 14),
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 14),
                                             decoration: const InputDecoration(
                                               border: InputBorder.none,
                                             ),
                                             onChanged: (value) {
-                                              controller.updatePrice(productId, value);
+                                              controller.updatePrice(
+                                                  productId, value);
                                             },
                                             keyboardType: TextInputType.number,
                                           ),
@@ -231,19 +271,23 @@ class _HomeViewState extends State<HomeOwnerView> {
                                       children: [
                                         Text(
                                           'Stok: ',
-                                          style: GoogleFonts.poppins(fontSize: 16),
+                                          style:
+                                              GoogleFonts.poppins(fontSize: 16),
                                         ),
                                         Expanded(
                                           child: TextFormField(
                                             initialValue: '${product['stok']}',
-                                            style: GoogleFonts.poppins(fontSize: 14),
+                                            style: GoogleFonts.poppins(
+                                                fontSize: 14),
                                             decoration: const InputDecoration(
                                               border: InputBorder.none,
                                             ),
                                             onChanged: (value) {
                                               // Jika value kosong atau tidak valid, set stok menjadi 0
-                                              int stok = int.tryParse(value) ?? 0;
-                                              controller.updateStock(productId, stok);
+                                              int stok =
+                                                  int.tryParse(value) ?? 0;
+                                              controller.updateStock(
+                                                  productId, stok);
                                             },
                                             keyboardType: TextInputType.number,
                                           ),
@@ -257,25 +301,50 @@ class _HomeViewState extends State<HomeOwnerView> {
                                 children: [
                                   ElevatedButton(
                                     onPressed: () {
-                                      Get.defaultDialog(
-                                        title: "Konfirmasi",
-                                        middleText: "Apa anda yakin ingin menghapus produk ini?",
-                                        textConfirm: "Ya",
-                                        textCancel: "Tidak",
-                                        confirmTextColor: Colors.white,
-                                        onConfirm: () {
-                                          controller.deleteProduct(productId, imageUrl);
-                                          Get.back();
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text('Konfirmasi'),
+                                            content: Text(
+                                                'Apakah Anda yakin ingin menghapus produk ini?'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop(false);
+                                                },
+                                                child: Text('Tidak',
+                                                    style: TextStyle(
+                                                        color: Color.fromARGB(
+                                                            255, 82, 140, 75))),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop(true);
+                                                  controller.deleteProduct(
+                                                      productId, imageUrl);
+                                                  Get.back();
+                                                },
+                                                child: Text('Ya',
+                                                    style: TextStyle(
+                                                        color: Color.fromARGB(
+                                                            255, 82, 140, 75))),
+                                              ),
+                                            ],
+                                          );
                                         },
-                                        onCancel: () {},
                                       );
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color.fromARGB(255, 82, 140, 75),
+                                      backgroundColor: const Color.fromARGB(
+                                          255, 82, 140, 75),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(5),
                                       ),
-                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16, vertical: 8),
                                     ),
                                     child: const Icon(
                                       Icons.delete,
@@ -313,7 +382,8 @@ class _HomeViewState extends State<HomeOwnerView> {
                         width: 0.5,
                       ),
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 24.0),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 14.0, horizontal: 24.0),
                   ),
                   child: Text('Tambah Produk', style: GoogleFonts.poppins()),
                 ),
@@ -323,7 +393,9 @@ class _HomeViewState extends State<HomeOwnerView> {
                       await controller.saveAllChanges();
                       // ignore: use_build_context_synchronously
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Perubahan disimpan', style: GoogleFonts.poppins())),
+                        SnackBar(
+                            content: Text('Perubahan disimpan',
+                                style: GoogleFonts.poppins())),
                       );
                     } catch (e) {
                       // ignore: use_build_context_synchronously
@@ -338,7 +410,8 @@ class _HomeViewState extends State<HomeOwnerView> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 24.0),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 14.0, horizontal: 24.0),
                   ),
                   child: Text('Simpan Perubahan', style: GoogleFonts.poppins()),
                 ),

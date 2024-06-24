@@ -163,19 +163,39 @@ class RiwayatPenjualan extends StatelessWidget {
                           }).toList(),
                           onChanged: (newValue) {
                             if (newValue != null) {
-                              Get.defaultDialog(
-                                title: "Konfirmasi",
-                                middleText:
-                                    "Apakah anda ingin memperbarui status menjadi $newValue?",
-                                textConfirm: "Ya",
-                                textCancel: "Tidak",
-                                confirmTextColor: Colors.white,
-                                onConfirm: () {
-                                  _controller.updateStatus(
-                                      snapshot.data!.docs[index], newValue);
-                                  Get.back();
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Konfirmasi'),
+                                    content: Text(
+                                        'Apakah anda ingin memperbarui status menjadi $newValue?'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop(false);
+                                        },
+                                        child: Text('Tidak',
+                                            style: TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 82, 140, 75))),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop(true);
+                                          _controller.updateStatus(
+                                              snapshot.data!.docs[index],
+                                              newValue);
+                                          Get.back();
+                                        },
+                                        child: Text('Ya',
+                                            style: TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 82, 140, 75))),
+                                      ),
+                                    ],
+                                  );
                                 },
-                                onCancel: () {},
                               );
                             }
                           },

@@ -24,13 +24,14 @@ class _AddProductPageState extends State<AddProductPage> {
 
   Future<void> _pickImage() async {
     try {
-      final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+      final pickedImage =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
       if (pickedImage != null) {
         setState(() {
           _image = pickedImage;
         });
       } else {
-        Get.snackbar('No Image Selected', 'Please select an image.');
+        Get.snackbar('Tidak ada gambar yang dipilih', 'Pilih gambar.');
       }
     } catch (e) {
       Get.snackbar('Error', 'Failed to pick image: $e');
@@ -54,7 +55,7 @@ class _AddProductPageState extends State<AddProductPage> {
         Get.snackbar('Error', 'Gagal menambahkan produk: $e');
       }
     } else {
-      Get.snackbar('Error', 'Silakan lengkapi semua kolom dan pilih gambar');
+      Get.snackbar('Error', 'Silahkan lengkapi semua kolom dan pilih gambar');
     }
   }
 
@@ -62,7 +63,8 @@ class _AddProductPageState extends State<AddProductPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tambah Produk', style: GoogleFonts.poppins(color: Colors.white)),
+        title: Text('Tambah Produk',
+            style: GoogleFonts.poppins(color: Colors.white)),
         backgroundColor: Color.fromARGB(255, 82, 140, 75),
         iconTheme: IconThemeData(color: Colors.white),
       ),
@@ -132,27 +134,34 @@ class _AddProductPageState extends State<AddProductPage> {
                 children: [
                   ElevatedButton.icon(
                     onPressed: _pickImage,
-                    icon: Icon(Icons.image, color: Colors.white,),
-                    label: Text('Pick Image', style: GoogleFonts.poppins(color: Colors.white)),
+                    icon: Icon(
+                      Icons.image,
+                      color: Colors.white,
+                    ),
+                    label: Text('Pick Image',
+                        style: GoogleFonts.poppins(color: Colors.white)),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color.fromARGB(255, 82, 140, 75),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
                       ),
-                      padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 24.0),
+                      padding: EdgeInsets.symmetric(
+                          vertical: 14.0, horizontal: 24.0),
                     ),
                   ),
                   SizedBox(width: 16.0),
                   ElevatedButton.icon(
                     onPressed: _submit,
                     icon: Icon(Icons.add, color: Colors.white),
-                    label: Text('Add Product', style: GoogleFonts.poppins(color: Colors.white)),
+                    label: Text('Add Product',
+                        style: GoogleFonts.poppins(color: Colors.white)),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color.fromARGB(255, 82, 140, 75),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
                       ),
-                      padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 24.0),
+                      padding: EdgeInsets.symmetric(
+                          vertical: 14.0, horizontal: 24.0),
                     ),
                   ),
                 ],

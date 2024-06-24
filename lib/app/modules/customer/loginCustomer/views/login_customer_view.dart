@@ -157,33 +157,26 @@ class LoginCustomerView extends GetView<LoginCustomerController> {
                             ),
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Belum memiliki akun?",
+                        TextButton(
+                          onPressed: () {
+                            Get.toNamed('/register-customer');
+                          },
+                          child: RichText(
+                            text: TextSpan(
+                              text: 'Belum memiliki akun? ',
                               style: GoogleFonts.poppins(
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
                                 color: Colors.white,
                               ),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Get.toNamed('/register-customer');
-                              },
-                              child: Text(
-                                "Buat akun",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                  decoration: TextDecoration.underline,
-                                  decorationColor: Colors.white,
+                              children: [
+                                TextSpan(
+                                  text: 'Buat akun',
+                                  style: GoogleFonts.poppins(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
                       ],
                     ),

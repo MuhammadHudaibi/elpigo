@@ -110,23 +110,6 @@ class LoginOwnerView extends GetView<LoginOwnerController> {
                                 ),
                               )),
                         ),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 13),
-                            child: TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                "Lupa Password?",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.normal,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
                         const SizedBox(height: 60),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(

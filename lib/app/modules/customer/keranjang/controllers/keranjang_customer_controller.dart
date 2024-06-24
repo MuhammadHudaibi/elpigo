@@ -177,9 +177,15 @@ class KeranjangCustomerController extends GetxController {
 
   void checkout() async {
     String userId = FirebaseAuth.instance.currentUser!.uid;
+    var customerDocRef =
+        FirebaseFirestore.instance.collection('customers').doc(userId);
+    var customerSnapshot = await customerDocRef.get();
+    String customerType = customerSnapshot['customerType'];
+
     var batch = FirebaseFirestore.instance.batch();
     bool allProductsExist = true;
     List<String> missingProducts = [];
+    bool restrictionViolated = false;
 
     String checkoutCatatan = catatan.value.isNotEmpty ? catatan.value : '-';
 
@@ -193,6 +199,26 @@ class KeranjangCustomerController extends GetxController {
         allProductsExist = false;
         missingProducts.add(product['title']);
       }
+
+      // Check restriction for "Gas 3 kg"
+      if (product['title'] == 'Gas 3 kg') {
+        if ((customerType == 'RT' && product['quantity'] > 1) ||
+            (customerType == 'UMKM' && product['quantity'] > 2)) {
+          restrictionViolated = true;
+          break;
+        }
+      }
+    }
+
+    if (restrictionViolated) {
+      Get.snackbar(
+        'Pembatasan Produk',
+        'Pembelian produk "Gas 3 kg" melebihi batas untuk tipe pelanggan Anda.',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      return;
     }
 
     for (var key in selectedItems.keys) {

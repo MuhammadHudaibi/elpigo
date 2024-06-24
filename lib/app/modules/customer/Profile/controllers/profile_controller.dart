@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
@@ -28,12 +29,8 @@ class ProfileController extends GetxController {
             .get();
         if (documentSnapshot.exists) {
           profileData.value = documentSnapshot.data()!;
-        } else {
         }
-      } else {
       }
-    // ignore: duplicate_ignore
-    // ignore: empty_catches
     } catch (e) {
     } finally {
       isLoading.value = false;
@@ -41,6 +38,7 @@ class ProfileController extends GetxController {
   }
 
   Future<void> updateProfileData(String key, dynamic value) async {
+    profileData[key] = value;
     try {
       User? user = FirebaseAuth.instance.currentUser;
       if (user != null) {
@@ -49,7 +47,6 @@ class ProfileController extends GetxController {
             .doc(user.uid)
             .update({key: value});
         profileData[key] = value;
-      } else {
       }
     } catch (e) {
     }
@@ -104,6 +101,29 @@ class ProfileController extends GetxController {
       Get.snackbar('Error', 'Sign-out failed');
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  Future<void> updateLocation(LatLng newLocation) async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        await FirebaseFirestore.instance
+            .collection('customers')
+            .doc(user.uid)
+            .update({
+          'location': {
+            'latitude': newLocation.latitude,
+            'longitude': newLocation.longitude,
+          },
+        });
+        profileData['location'] = {
+          'latitude': newLocation.latitude,
+          'longitude': newLocation.longitude,
+        };
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'Location update failed');
     }
   }
 }

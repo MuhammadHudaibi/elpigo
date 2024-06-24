@@ -1,4 +1,6 @@
 import 'package:elpigo/app/modules/customer/Profile/controllers/profile_controller.dart';
+import 'package:elpigo/app/modules/customer/Profile/views/map_widget.dart';
+import 'package:elpigo/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -119,7 +121,7 @@ class ProfileView extends StatelessWidget {
               buildDocumentPhoto('Pemilik', 'PemilikPhotoUrl',
                   key: 'PemilikPhotoUrl', isPemilik: true),
               SizedBox(height: 10),
-              buildLocationMap('Lokasi', controller.profileData['location']),
+              buildLocationMap(),
             ],
           ),
         );
@@ -177,20 +179,19 @@ class ProfileView extends StatelessWidget {
     );
   }
 
-  Widget buildLocationMap(String label, Map<String, dynamic>? location) {
+  Widget buildLocationMap() {
+    Map<String, dynamic>? location = controller.profileData['location'];
     LatLng initialLocation;
-    bool locationFound = false;
 
-    if (location?['latitude'] != null && location?['longitude'] != null) {
-      double latitude = location?['latitude'];
-      double longitude = location?['longitude'];
-      initialLocation = LatLng(latitude, longitude);
-      locationFound = true;
+    if (location != null &&
+        location['latitude'] != null &&
+        location['longitude'] != null) {
+      initialLocation = LatLng(location['latitude'], location['longitude']);
     } else {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('$label:', style: GoogleFonts.poppins()),
+          Text('Lokasi:', style: GoogleFonts.poppins()),
           Container(
             height: 150,
             width: double.infinity,
@@ -213,37 +214,57 @@ class ProfileView extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4.0),
-            child: Text('$label:', style: GoogleFonts.poppins()),
+            child: Text('Lokasi:', style: GoogleFonts.poppins()),
           ),
           SizedBox(height: 10),
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
-            child: Container(
-              height: 150,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color.fromARGB(255, 82, 140, 75).withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 7,
-                    offset: Offset(0, 3),
+            child: Stack(
+              children: [
+                Container(
+                  height: 150,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color.fromARGB(255, 82, 140, 75).withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 7,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              child: GoogleMap(
-                initialCameraPosition: CameraPosition(
-                  target: initialLocation,
-                  zoom: 15,
+                  child: GoogleMap(
+                    initialCameraPosition: CameraPosition(
+                      target: initialLocation,
+                      zoom: 15,
+                    ),
+                    markers: {
+                      Marker(
+                        markerId: MarkerId('current_location'),
+                        position: initialLocation,
+                      ),
+                    },
+                    zoomControlsEnabled: false,
+                  ),
                 ),
-                markers: {
-                  Marker(
-                    markerId: MarkerId('current_location'),
-                    position: initialLocation,
+                Positioned(
+                  bottom: 10,
+                  right: 10,
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      Get.to(() => MapScreen(
+                            initialLocation: initialLocation,
+                            onSave: (LatLng newLocation) {
+                              controller.updateLocation(newLocation);
+                            },
+                          ));
+                    },
+                    child: Icon(Icons.edit_location),
+                    backgroundColor: Colors.green,
                   ),
-                },
-                zoomControlsEnabled: false,
-              ),
+                ),
+              ],
             ),
           ),
         ],

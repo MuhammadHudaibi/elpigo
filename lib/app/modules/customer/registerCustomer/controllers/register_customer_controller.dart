@@ -43,11 +43,22 @@ class RegisterCustomerController extends GetxController {
     isObscured.toggle();
   }
 
-  bool validateInputs() {
+  Future<bool> isNikUnique(String nik) async {
+    final querySnapshot = await FirebaseFirestore.instance
+        .collection('customers')
+        .where('nik', isEqualTo: nik)
+        .get();
+    return querySnapshot.docs.isEmpty;
+  }
+
+  Future<bool> validateInputs() async {
     bool isValid = true;
 
     if (nameController.text.isEmpty) {
       nameError.value = 'Nama harus diisi';
+      isValid = false;
+    } else if (!RegExp(r'^[a-zA-Z\s]+$').hasMatch(nameController.text)) {
+      nameError.value = 'Nama hanya boleh berisi huruf';
       isValid = false;
     } else {
       nameError.value = '';
@@ -63,19 +74,31 @@ class RegisterCustomerController extends GetxController {
     if (nikController.text.isEmpty) {
       nikError.value = 'NIK harus diisi';
       isValid = false;
+    } else if (!RegExp(r'^\d{16}$').hasMatch(nikController.text)) {
+      nikError.value = 'NIK harus berupa 16 digit angka';
+      isValid = false;
     } else {
       nikError.value = '';
+      bool nikUnique = await isNikUnique(nikController.text);
+      if (!nikUnique) {
+        nikError.value = 'NIK sudah terdaftar';
+        isValid = false;
+      }
     }
 
-    if (emailController.text.isEmpty || !GetUtils.isEmail(emailController.text)) {
+    if (emailController.text.isEmpty ||
+        !GetUtils.isEmail(emailController.text)) {
       emailError.value = 'Email yang valid harus diisi';
       isValid = false;
     } else {
       emailError.value = '';
     }
 
-    if (phoneController.text.isEmpty || !GetUtils.isPhoneNumber(phoneController.text)) {
-      phoneError.value = 'Nomor telepon yang valid harus diisi';
+    if (phoneController.text.isEmpty) {
+      phoneError.value = 'Nomor telepon harus diisi';
+      isValid = false;
+    } else if (!RegExp(r'^\d{11,12}$').hasMatch(phoneController.text)) {
+      phoneError.value = 'Nomor telepon harus berupa angka (11-12 digit)';
       isValid = false;
     } else {
       phoneError.value = '';
@@ -101,17 +124,20 @@ class RegisterCustomerController extends GetxController {
     } else {
       customerTypeError.value = '';
     }
+
     return isValid;
   }
 
-  Future<String?> _uploadPhoto(File? photo, String path, String username, String password) async {
+  Future<String?> _uploadPhoto(
+      File? photo, String path, String username, String password) async {
     if (photo == null) return null;
     try {
-      final ref = FirebaseStorage.instance
-          .ref()
-          .child(path)
-          .putFile(photo, SettableMetadata(
-              customMetadata: <String, String>{'username': username, 'password': password}));
+      final ref = FirebaseStorage.instance.ref().child(path).putFile(
+          photo,
+          SettableMetadata(customMetadata: <String, String>{
+            'username': username,
+            'password': password
+          }));
       await ref;
       return await ref.snapshot.ref.getDownloadURL();
     } catch (e) {
@@ -121,10 +147,11 @@ class RegisterCustomerController extends GetxController {
   }
 
   void register() async {
-    if (!validateInputs()) {
+    if (!await validateInputs()) {
       return;
     }
-    String nextPage = selectedCustomerType.value == 'UMKM' ? '/upload-umkm' : '/upload-rt';
+    String nextPage =
+        selectedCustomerType.value == 'UMKM' ? '/upload-umkm' : '/upload-rt';
     Get.toNamed(nextPage);
   }
 
@@ -132,7 +159,8 @@ class RegisterCustomerController extends GetxController {
     try {
       isLoading.value = true;
 
-      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
       );
@@ -197,7 +225,10 @@ class RegisterCustomerController extends GetxController {
           customerData['businessPhotoUrl'] = businessPhotoUrl;
         }
 
-        await FirebaseFirestore.instance.collection('customers').doc(user.uid).set(customerData);
+        await FirebaseFirestore.instance
+            .collection('customers')
+            .doc(user.uid)
+            .set(customerData);
 
         Get.snackbar('Success', 'Data registered successfully');
 

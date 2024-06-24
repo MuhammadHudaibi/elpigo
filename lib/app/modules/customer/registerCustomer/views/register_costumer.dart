@@ -80,8 +80,8 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                                 errorText: controller.nameError.value.isNotEmpty
                                     ? controller.nameError.value
                                     : null,
-                                errorStyle: GoogleFonts.poppins(
-                                    color: Colors.redAccent),
+                                errorStyle:
+                                    GoogleFonts.poppins(color: Colors.white),
                               ),
                             ),
                             const SizedBox(height: 20),
@@ -119,8 +119,8 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                                 errorText: controller.nikError.value.isNotEmpty
                                     ? controller.nikError.value
                                     : null,
-                                errorStyle: GoogleFonts.poppins(
-                                    color: Colors.redAccent),
+                                errorStyle:
+                                    GoogleFonts.poppins(color: Colors.white),
                               ),
                             ),
                             const SizedBox(height: 20),
@@ -159,8 +159,8 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                                     controller.addressError.value.isNotEmpty
                                         ? controller.addressError.value
                                         : null,
-                                errorStyle: GoogleFonts.poppins(
-                                    color: Colors.redAccent),
+                                errorStyle:
+                                    GoogleFonts.poppins(color: Colors.white),
                               ),
                             ),
                             const SizedBox(height: 20),
@@ -199,8 +199,8 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                                     controller.emailError.value.isNotEmpty
                                         ? controller.emailError.value
                                         : null,
-                                errorStyle: GoogleFonts.poppins(
-                                    color: Colors.redAccent),
+                                errorStyle:
+                                    GoogleFonts.poppins(color: Colors.white),
                               ),
                             ),
                             const SizedBox(height: 20),
@@ -239,8 +239,8 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                                     controller.phoneError.value.isNotEmpty
                                         ? controller.phoneError.value
                                         : null,
-                                errorStyle: GoogleFonts.poppins(
-                                    color: Colors.redAccent),
+                                errorStyle:
+                                    GoogleFonts.poppins(color: Colors.white),
                               ),
                             ),
                             const SizedBox(height: 20),
@@ -283,8 +283,8 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                                           .customerTypeError.value.isNotEmpty
                                       ? controller.customerTypeError.value
                                       : null,
-                                  errorStyle: GoogleFonts.poppins(
-                                      color: Colors.redAccent),
+                                  errorStyle:
+                                      GoogleFonts.poppins(color: Colors.white),
                                 ),
                                 dropdownColor: Color.fromARGB(255, 58, 100, 53),
                                 items: controller.customerTypes.map((type) {
@@ -343,7 +343,7 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                                         ? controller.passwordError.value
                                         : null,
                                     errorStyle: GoogleFonts.poppins(
-                                        color: Colors.redAccent),
+                                        color: Colors.white),
                                     suffixIcon: IconButton(
                                       onPressed: () {
                                         controller.toggleObscurePassword();
@@ -397,7 +397,7 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                                         ? controller.confirmPasswordError.value
                                         : null,
                                     errorStyle: GoogleFonts.poppins(
-                                        color: Colors.redAccent),
+                                        color: Colors.white),
                                     suffixIcon: IconButton(
                                       onPressed: () {
                                         controller

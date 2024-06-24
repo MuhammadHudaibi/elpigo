@@ -96,8 +96,8 @@ class RiwayatPenjualan extends StatelessWidget {
                 case 'Selesai':
                   statusColor = Colors.green;
                   break;
-                case 'Dibatalkan':
-                  statusColor = Colors.red;
+                case 'Dikirim':
+                  statusColor = Colors.blue;
                   break;
                 default:
                   statusColor = Colors.orange;
@@ -142,15 +142,15 @@ class RiwayatPenjualan extends StatelessWidget {
                         ),
                         DropdownButton<String>(
                           value: status,
-                          items: <String>['Diproses', 'Selesai', 'Dibatalkan']
+                          items: <String>['Diproses','Dikirim', 'Selesai']
                               .map((String value) {
                             Color color;
                             switch (value) {
                               case 'Selesai':
                                 color = Colors.green;
                                 break;
-                              case 'Dibatalkan':
-                                color = Colors.red;
+                              case 'Dikirim':
+                                color = Colors.blue;
                                 break;
                               default:
                                 color = Colors.orange;

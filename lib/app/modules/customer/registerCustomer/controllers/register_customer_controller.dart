@@ -252,13 +252,13 @@ class RegisterCustomerController extends GetxController {
           ),
           confirm: ElevatedButton(
             onPressed: () {
-              Get.offAllNamed(Routes.LOGIN_CUSTOMER);
+              Get.offAllNamed(Routes.CONFIRM);
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Color.fromARGB(255, 82, 140, 75),
               textStyle: GoogleFonts.poppins(color: Colors.white),
             ),
-            child: Text('OK'),
+            child: Text('OK', style: GoogleFonts.poppins(color: Colors.white)),
           ),
           cancel: ElevatedButton(
             onPressed: () {
@@ -268,9 +268,9 @@ class RegisterCustomerController extends GetxController {
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.orange,
-              textStyle: TextStyle(color: Colors.white),
+              textStyle: GoogleFonts.poppins(color: Colors.white),
             ),
-            child: Text('Kirim Ulang'),
+            child: Text('Kirim Ulang', style: GoogleFonts.poppins(color: Colors.white)),
           ),
         );
 

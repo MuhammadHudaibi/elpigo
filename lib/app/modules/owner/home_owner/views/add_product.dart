@@ -185,7 +185,7 @@ class _AddProductPageState extends State<AddProductPage> {
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       padding: EdgeInsets.symmetric(
-                          vertical: 14.0, horizontal: 24.0),
+                          vertical: 14.0, horizontal: 22.0),
                     ),
                   ),
                 ],

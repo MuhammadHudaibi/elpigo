@@ -8,6 +8,7 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:http/http.dart' as http;
+import 'package:permission_handler/permission_handler.dart';
 
 class RiwayatPenjualanController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -153,8 +154,18 @@ class RiwayatPenjualanController extends GetxController {
     }
   }
 
+  Future<void> requestPermissions() async {
+    final status = await Permission.storage.request();
+    if (status.isGranted) {
+      print('Izin penyimpanan diberikan');
+    } else {
+      print('Izin penyimpanan ditolak');
+    }
+  }
+
   void saveImageToGallery(BuildContext context, String imageUrl, String caption,
       String nama) async {
+        await requestPermissions();
     try {
       final response = await http.get(Uri.parse(imageUrl));
       final Uint8List bytes = response.bodyBytes;
@@ -168,6 +179,9 @@ class RiwayatPenjualanController extends GetxController {
         );
       } else {
         // ignore: use_build_context_synchronously
+
+        final errorMessage = result['errorMessage'] ?? 'Unknown error';
+        print('Gagal menyimpan gambar ke galeri: $errorMessage');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Gagal menyimpan gambar ke galeri')),
         );

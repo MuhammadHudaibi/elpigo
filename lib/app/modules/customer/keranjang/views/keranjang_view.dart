@@ -1,3 +1,4 @@
+import 'package:elpigo/app/modules/customer/layout_customer/views/layout_customer_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -27,7 +28,7 @@ class KeranjangCustomerView extends GetView<KeranjangCustomerController> {
         actions: [
           IconButton(
             onPressed: () {
-              Get.back();
+              Get.off(LayoutCustomerView());
             },
             icon: Icon(
               CupertinoIcons.home,

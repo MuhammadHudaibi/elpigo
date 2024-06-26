@@ -139,7 +139,8 @@ class _AddProductPageState extends State<AddProductPage> {
                       ? Center(
                           child: Text(
                             'Belum ada gambar dipilih.',
-                            style: GoogleFonts.poppins(),
+                            style: GoogleFonts.poppins(
+                                color: Color.fromARGB(255, 82, 140, 75)),
                           ),
                         )
                       : ClipRRect(
@@ -152,7 +153,7 @@ class _AddProductPageState extends State<AddProductPage> {
                         ),
                 ),
               ),
-              SizedBox(height: 16.0),
+              SizedBox(height: 25.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

@@ -245,7 +245,7 @@ class _HomeViewState extends State<HomeOwnerView> {
                                     Row(
                                       children: [
                                         Text(
-                                          'Harga: Rp.',
+                                          'Harga : Rp.',
                                           style:
                                               GoogleFonts.poppins(fontSize: 16),
                                         ),
@@ -270,7 +270,7 @@ class _HomeViewState extends State<HomeOwnerView> {
                                     Row(
                                       children: [
                                         Text(
-                                          'Stok: ',
+                                          'Stok : ',
                                           style:
                                               GoogleFonts.poppins(fontSize: 16),
                                         ),

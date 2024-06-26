@@ -72,45 +72,49 @@ class LoginOwnerView extends GetView<LoginOwnerController> {
                                 color: Colors.white,
                               ),
                             ),
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                         const SizedBox(height: 30),
                         SizedBox(
                           width: 300,
-                          child: Obx(() => TextFormField(
-                                controller: passwordController,
-                                cursorColor: Colors.white,
-                                obscureText: controller.isObscured.value,
-                                decoration: InputDecoration(
-                                  enabledBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  focusedBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  hintText: "Password",
-                                  hintStyle: GoogleFonts.poppins(
+                          child: Obx(
+                            () => TextFormField(
+                              controller: passwordController,
+                              cursorColor: Colors.white,
+                              obscureText: controller.isObscured.value,
+                              decoration: InputDecoration(
+                                enabledBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
                                     color: Colors.white,
                                   ),
-                                  suffixIcon: IconButton(
-                                    onPressed: () {
-                                      controller.toggleObscure();
-                                    },
-                                    icon: Icon(
-                                      controller.isObscured.value
-                                          ? Icons.visibility_off
-                                          : Icons.visibility,
-                                      color: Colors.white,
-                                    ),
+                                ),
+                                focusedBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.black,
                                   ),
                                 ),
-                              )),
+                                hintText: "Password",
+                                hintStyle: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                ),
+                                suffixIcon: IconButton(
+                                  onPressed: () {
+                                    controller.toggleObscure();
+                                  },
+                                  icon: Icon(
+                                    controller.isObscured.value
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
                         ),
-                        const SizedBox(height: 60),
+                        const SizedBox(height: 80),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,

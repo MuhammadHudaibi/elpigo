@@ -7,14 +7,16 @@ import 'package:elpigo/app/modules/owner/riwayat_pembelian/controllers/riwayat_p
 
 // ignore: use_key_in_widget_constructors
 class RiwayatPenjualanView extends StatelessWidget {
-  final RiwayatPenjualanController controller = Get.put(RiwayatPenjualanController());
+  final RiwayatPenjualanController controller =
+      Get.put(RiwayatPenjualanController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Riwayat Penjualan', style: GoogleFonts.poppins(color: Colors.white)),
-        backgroundColor:  Color.fromARGB(255, 82, 140, 75),
+        title: Text('Riwayat Penjualan',
+            style: GoogleFonts.poppins(color: Colors.white)),
+        backgroundColor: Color.fromARGB(255, 82, 140, 75),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: controller.getUsersStream(),
@@ -39,14 +41,17 @@ class RiwayatPenjualanView extends StatelessWidget {
           }
 
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(child: Text('User tidak di temukan', style: GoogleFonts.poppins()));
+            return Center(
+                child: Text('User tidak di temukan',
+                    style: GoogleFonts.poppins()));
           }
 
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) {
               DocumentSnapshot userDoc = snapshot.data!.docs[index];
-              Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+              Map<String, dynamic> userData =
+                  userDoc.data() as Map<String, dynamic>;
 
               return Card(
                 margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -54,13 +59,15 @@ class RiwayatPenjualanView extends StatelessWidget {
                   contentPadding: EdgeInsets.all(16),
                   leading: userData['profilePhotoUrl'] != null
                       ? CircleAvatar(
-                          backgroundImage: NetworkImage(userData['profilePhotoUrl']),
+                          backgroundImage:
+                              NetworkImage(userData['profilePhotoUrl']),
                           onBackgroundImageError: (_, __) => Icon(Icons.person),
                           child: Container(
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               border: Border.all(
-                                color:  Color.fromARGB(255, 82, 140, 75).withOpacity(0.5),
+                                color: Color.fromARGB(255, 82, 140, 75)
+                                    .withOpacity(0.5),
                                 width: 2,
                               ),
                             ),
@@ -81,11 +88,11 @@ class RiwayatPenjualanView extends StatelessWidget {
                     children: [
                       SizedBox(height: 8),
                       Text(
-                        'NIK: ${userData['nik'] ?? 'Tidak ada NIK'}',
+                        'NIK : ${userData['nik'] ?? 'Tidak ada NIK'}',
                         style: GoogleFonts.poppins(),
                       ),
                       Text(
-                        'No hp: ${userData['phone'] ?? 'Tidak ada Phone'}',
+                        'No HP : ${userData['phone'] ?? 'Tidak ada Phone'}',
                         style: GoogleFonts.poppins(),
                       ),
                     ],

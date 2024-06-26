@@ -21,7 +21,7 @@ class DetailCustomer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2, // Number of tabs
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
           title: Text(
@@ -29,6 +29,7 @@ class DetailCustomer extends StatelessWidget {
             style: GoogleFonts.poppins(color: Colors.white),
           ),
           backgroundColor: Color.fromARGB(255, 82, 140, 75),
+          iconTheme: IconThemeData(color: Colors.white),
           bottom: TabBar(
             labelColor: Colors.greenAccent,
             indicatorColor: Colors.greenAccent,
@@ -126,15 +127,18 @@ class RiwayatPenjualan extends StatelessWidget {
                       children: [
                         Container(
                           padding:
-                              EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                              EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                           decoration: BoxDecoration(
-                            color: Colors.blueAccent,
-                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.green,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
+                            ),
                           ),
                           child: Text(
                             formattedDate,
                             style: GoogleFonts.poppins(
-                              fontSize: 12,
+                              fontSize: 13,
                               fontWeight: FontWeight.w400,
                               color: Colors.white,
                             ),
@@ -142,7 +146,7 @@ class RiwayatPenjualan extends StatelessWidget {
                         ),
                         DropdownButton<String>(
                           value: status,
-                          items: <String>['Diproses','Dikirim', 'Selesai']
+                          items: <String>['Diproses', 'Dikirim', 'Selesai']
                               .map((String value) {
                             Color color;
                             switch (value) {
@@ -297,14 +301,17 @@ class DetailPelanggan extends StatelessWidget {
 
           final data = snapshot.data?.data();
           if (data == null) {
-            return Center(child: Text('Pengguna tidak ditemukan', style: GoogleFonts.poppins()));
+            return Center(
+                child: Text('Pengguna tidak ditemukan',
+                    style: GoogleFonts.poppins()));
           }
 
           final photos = [
             {'url': data['ktpPhotoUrl'], 'caption': 'Foto KTP'},
             {'url': data['kkPhotoUrl'], 'caption': 'Foto KK'},
             {'url': data['ownerPhotoUrl'], 'caption': 'Foto Pemilik'},
-            if (data['customerType'] == "UMKM") {'url': data['businessPhotoUrl'], 'caption': 'Foto Tempat Usaha'},
+            if (data['customerType'] == "UMKM")
+              {'url': data['businessPhotoUrl'], 'caption': 'Foto Tempat Usaha'},
           ];
 
           final location = data['location'];
@@ -317,7 +324,10 @@ class DetailPelanggan extends StatelessWidget {
               double.tryParse(location['longitude'].toString()) == null) {
             contentMaps = _buildGoogleMapsFieldError();
           } else {
-            contentMaps = _buildGoogleMapsField(context, double.parse(location['latitude'].toString()), double.parse(location['longitude'].toString()));
+            contentMaps = _buildGoogleMapsField(
+                context,
+                double.parse(location['latitude'].toString()),
+                double.parse(location['longitude'].toString()));
           }
 
           return SingleChildScrollView(
@@ -326,14 +336,16 @@ class DetailPelanggan extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  buildUserDetail('Nama', data['name']),
-                  buildUserDetail('Email', data['email']),
-                  buildUserDetail('Tipe Pelanggan', data['customerType']),
-                  buildUserDetail('No HP', data['phone']),
-                  buildUserDetail('NIK', data['nik']),
-                  buildUserDetail('Alamat', data['address']),
+                  buildUserDetail('Nama ', data['name']),
+                  buildUserDetail('Email ', data['email']),
+                  buildUserDetail('Tipe Pelanggan ', data['customerType']),
+                  buildUserDetail('No HP ', data['phone']),
+                  buildUserDetail('NIK ', data['nik']),
+                  buildUserDetail('Alamat ', data['address']),
                   SizedBox(height: 20),
-                  Text('Foto-foto', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  Text('Foto-foto',
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                   SizedBox(height: 10),
                   GridView.builder(
                     shrinkWrap: true,
@@ -365,17 +377,24 @@ class DetailPelanggan extends StatelessWidget {
                                 child: Image.network(
                                   photos[index]['url'] ?? '',
                                   fit: BoxFit.cover,
-                                  loadingBuilder: (context, child, loadingProgress) {
+                                  loadingBuilder:
+                                      (context, child, loadingProgress) {
                                     if (loadingProgress == null) return child;
                                     return Center(
                                       child: CircularProgressIndicator(
-                                        value: loadingProgress.expectedTotalBytes != null
-                                            ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                        value: loadingProgress
+                                                    .expectedTotalBytes !=
+                                                null
+                                            ? loadingProgress
+                                                    .cumulativeBytesLoaded /
+                                                loadingProgress
+                                                    .expectedTotalBytes!
                                             : null,
                                       ),
                                     );
                                   },
-                                  errorBuilder: (context, error, stackTrace) => Icon(
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      Icon(
                                     Icons.error_outline,
                                     size: 100,
                                     color: Color.fromARGB(255, 82, 140, 75),
@@ -386,7 +405,8 @@ class DetailPelanggan extends StatelessWidget {
                             SizedBox(height: 5),
                             Text(
                               photos[index]['caption']!,
-                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
@@ -412,7 +432,8 @@ class DetailPelanggan extends StatelessWidget {
         children: [
           Text(
             '$title: ',
-            style: GoogleFonts.poppins(fontSize: fontSize, fontWeight: FontWeight.bold),
+            style: GoogleFonts.poppins(
+                fontSize: fontSize, fontWeight: FontWeight.bold),
           ),
           Expanded(
             child: Text(
@@ -467,7 +488,8 @@ class DetailPelanggan extends StatelessWidget {
                   Marker(
                     markerId: MarkerId('current_location'),
                     position: LatLng(lat, long),
-                    icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
+                    icon: BitmapDescriptor.defaultMarkerWithHue(
+                        BitmapDescriptor.hueAzure),
                   ),
                 },
                 zoomControlsEnabled: false,

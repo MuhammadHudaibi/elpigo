@@ -25,6 +25,7 @@ class HomeCustomerView extends GetView<HomeCustomerController> {
             color: Colors.white,
           ),
         ),
+        automaticallyImplyLeading: false,
         actions: [
           IconButton(
             onPressed: () {

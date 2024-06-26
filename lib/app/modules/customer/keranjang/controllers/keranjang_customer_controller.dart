@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:elpigo/app/modules/customer/layout_customer/views/layout_customer_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -257,7 +258,14 @@ class KeranjangCustomerController extends GetxController {
       await batch.commit();
       selectedItems.clear();
       catatanController.clear();
-      Get.offNamed('/riwayat-pemesanan');
+      Get.to(LayoutCustomerView());
+      Get.snackbar(
+        'Berhasil',
+        'Berhasil memesan barang, cek pada riwayat pemesanan.',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+      );
     } catch (e) {
       Get.snackbar(
         'Checkout Failed',

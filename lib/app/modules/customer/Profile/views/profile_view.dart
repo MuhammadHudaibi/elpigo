@@ -23,7 +23,9 @@ class ProfileView extends StatelessWidget {
               fontSize: 25,
               fontWeight: FontWeight.bold,
               color: Colors.white,
-            )),
+            )
+          ),
+        automaticallyImplyLeading: false,
         actions: [
           IconButton(
             onPressed: () {

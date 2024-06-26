@@ -94,7 +94,7 @@ class LoginOwnerView extends GetView<LoginOwnerController> {
                                     color: Colors.black,
                                   ),
                                 ),
-                                hintText: "Password",
+                                hintText: "Kata Sandi",
                                 hintStyle: GoogleFonts.poppins(
                                   color: Colors.white,
                                 ),

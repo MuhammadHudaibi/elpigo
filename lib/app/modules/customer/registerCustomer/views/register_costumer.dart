@@ -25,7 +25,7 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                   Padding(
                     padding: const EdgeInsets.only(top: 2, left: 20, right: 20),
                     child: Text(
-                      "REGISTER ",
+                      "REGISTRASI",
                       style: GoogleFonts.poppins(
                         fontSize: 40,
                         fontWeight: FontWeight.bold,
@@ -83,6 +83,7 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                                 errorStyle:
                                     GoogleFonts.poppins(color: Colors.white),
                               ),
+                              style: TextStyle(color: Colors.white),
                             ),
                             const SizedBox(height: 20),
                             TextFormField(
@@ -122,6 +123,7 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                                 errorStyle:
                                     GoogleFonts.poppins(color: Colors.white),
                               ),
+                              style: TextStyle(color: Colors.white),
                             ),
                             const SizedBox(height: 20),
                             TextFormField(
@@ -162,6 +164,7 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                                 errorStyle:
                                     GoogleFonts.poppins(color: Colors.white),
                               ),
+                              style: TextStyle(color: Colors.white),
                             ),
                             const SizedBox(height: 20),
                             TextFormField(
@@ -202,6 +205,7 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                                 errorStyle:
                                     GoogleFonts.poppins(color: Colors.white),
                               ),
+                              style: TextStyle(color: Colors.white),
                             ),
                             const SizedBox(height: 20),
                             TextFormField(
@@ -242,6 +246,7 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                                 errorStyle:
                                     GoogleFonts.poppins(color: Colors.white),
                               ),
+                              style: TextStyle(color: Colors.white),
                             ),
                             const SizedBox(height: 20),
                             Obx(
@@ -305,114 +310,116 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                               ),
                             ),
                             const SizedBox(height: 20),
-                            Obx(() => TextFormField(
-                                  controller: controller.passwordController,
-                                  cursorColor: Colors.white,
-                                  obscureText:
-                                      controller.isObscuredPassword.value,
-                                  decoration: InputDecoration(
-                                    enabledBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    focusedBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                    errorBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.red,
-                                        width: 2.0,
-                                      ),
-                                    ),
-                                    focusedErrorBorder:
-                                        const OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.red,
-                                        width: 2.0,
-                                      ),
-                                    ),
-                                    hintText: "Kata Sandi",
-                                    hintStyle: GoogleFonts.poppins(
+                            Obx(
+                              () => TextFormField(
+                                controller: controller.passwordController,
+                                cursorColor: Colors.white,
+                                obscureText:
+                                    controller.isObscuredPassword.value,
+                                decoration: InputDecoration(
+                                  enabledBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
                                       color: Colors.white,
                                     ),
-                                    errorText: controller
-                                            .passwordError.value.isNotEmpty
-                                        ? controller.passwordError.value
-                                        : null,
-                                    errorStyle: GoogleFonts.poppins(
-                                        color: Colors.white),
-                                    suffixIcon: IconButton(
-                                      onPressed: () {
-                                        controller.toggleObscurePassword();
-                                      },
-                                      icon: Icon(
-                                        controller.isObscuredPassword.value
-                                            ? Icons.visibility_off
-                                            : Icons.visibility,
-                                        color: Colors.white,
-                                      ),
+                                  ),
+                                  focusedBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.black,
                                     ),
                                   ),
-                                )),
+                                  errorBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 2.0,
+                                    ),
+                                  ),
+                                  focusedErrorBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 2.0,
+                                    ),
+                                  ),
+                                  hintText: "Kata Sandi",
+                                  hintStyle: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                  ),
+                                  errorText:
+                                      controller.passwordError.value.isNotEmpty
+                                          ? controller.passwordError.value
+                                          : null,
+                                  errorStyle:
+                                      GoogleFonts.poppins(color: Colors.white),
+                                  suffixIcon: IconButton(
+                                    onPressed: () {
+                                      controller.toggleObscurePassword();
+                                    },
+                                    icon: Icon(
+                                      controller.isObscuredPassword.value
+                                          ? Icons.visibility_off
+                                          : Icons.visibility,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
                             const SizedBox(height: 20),
-                            Obx(() => TextFormField(
-                                  controller:
-                                      controller.confirmPasswordController,
-                                  cursorColor: Colors.white,
-                                  obscureText: controller
-                                      .isObscuredConfirmPassword.value,
-                                  decoration: InputDecoration(
-                                    enabledBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    focusedBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                    errorBorder: const OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.red,
-                                        width: 2.0,
-                                      ),
-                                    ),
-                                    focusedErrorBorder:
-                                        const OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Colors.red,
-                                        width: 2.0,
-                                      ),
-                                    ),
-                                    hintText: "Konfirmasi Kata Sandi",
-                                    hintStyle: GoogleFonts.poppins(
+                            Obx(
+                              () => TextFormField(
+                                controller:
+                                    controller.confirmPasswordController,
+                                cursorColor: Colors.white,
+                                obscureText:
+                                    controller.isObscuredConfirmPassword.value,
+                                decoration: InputDecoration(
+                                  enabledBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
                                       color: Colors.white,
                                     ),
-                                    errorText: controller.confirmPasswordError
-                                            .value.isNotEmpty
-                                        ? controller.confirmPasswordError.value
-                                        : null,
-                                    errorStyle: GoogleFonts.poppins(
-                                        color: Colors.white),
-                                    suffixIcon: IconButton(
-                                      onPressed: () {
-                                        controller
-                                            .toggleObscureConfirmPassword();
-                                      },
-                                      icon: Icon(
-                                        controller
-                                                .isObscuredConfirmPassword.value
-                                            ? Icons.visibility_off
-                                            : Icons.visibility,
-                                        color: Colors.white,
-                                      ),
+                                  ),
+                                  focusedBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.black,
                                     ),
                                   ),
-                                )),
+                                  errorBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 2.0,
+                                    ),
+                                  ),
+                                  focusedErrorBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Colors.red,
+                                      width: 2.0,
+                                    ),
+                                  ),
+                                  hintText: "Konfirmasi Kata Sandi",
+                                  hintStyle: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                  ),
+                                  errorText: controller
+                                          .confirmPasswordError.value.isNotEmpty
+                                      ? controller.confirmPasswordError.value
+                                      : null,
+                                  errorStyle:
+                                      GoogleFonts.poppins(color: Colors.white),
+                                  suffixIcon: IconButton(
+                                    onPressed: () {
+                                      controller.toggleObscureConfirmPassword();
+                                    },
+                                    icon: Icon(
+                                      controller.isObscuredConfirmPassword.value
+                                          ? Icons.visibility_off
+                                          : Icons.visibility,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
                             const SizedBox(height: 23),
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
@@ -430,7 +437,7 @@ class RegisterCustomerView extends GetView<RegisterCustomerController> {
                                 controller.register();
                               },
                               child: Text(
-                                "Register",
+                                "Registrasi",
                                 style: GoogleFonts.poppins(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,

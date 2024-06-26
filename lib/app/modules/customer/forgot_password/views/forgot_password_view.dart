@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ForgotPasswordView extends StatelessWidget {
-  final ForgotPasswordController controller = Get.put(ForgotPasswordController());
+  final ForgotPasswordController controller =
+      Get.put(ForgotPasswordController());
   final Color greenColor = Color.fromARGB(255, 82, 140, 75);
 
   ForgotPasswordView({super.key});
@@ -12,7 +13,7 @@ class ForgotPasswordView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: SingleChildScrollView( // Added SingleChildScrollView
+        child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -20,7 +21,7 @@ class ForgotPasswordView extends StatelessWidget {
               Icon(Icons.lock, size: 100, color: greenColor),
               SizedBox(height: 20),
               Text(
-                'Lupa password',
+                'Lupa Kata Sandi',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 10),
@@ -34,6 +35,8 @@ class ForgotPasswordView extends StatelessWidget {
                 controller: controller.emailController,
                 decoration: InputDecoration(
                   labelText: 'Email',
+                  labelStyle:
+                      TextStyle(color: Color.fromARGB(255, 82, 140, 75)),
                   border: OutlineInputBorder(
                     borderSide: BorderSide(color: greenColor),
                   ),
@@ -54,7 +57,7 @@ class ForgotPasswordView extends StatelessWidget {
                   backgroundColor: greenColor,
                   foregroundColor: Colors.white,
                 ),
-                child: Text('Reset Password'),
+                child: Text('Reset kata sandi'),
               ),
               SizedBox(height: 10),
               ElevatedButton(
@@ -65,7 +68,7 @@ class ForgotPasswordView extends StatelessWidget {
                   backgroundColor: greenColor,
                   foregroundColor: Colors.white,
                 ),
-                child: Text('Back to sign in'),
+                child: Text('Kembali ke login'),
               ),
             ],
           ),

@@ -6,13 +6,13 @@ class ForgotPasswordView extends StatelessWidget {
   final ForgotPasswordController controller = Get.put(ForgotPasswordController());
   final Color greenColor = Color.fromARGB(255, 82, 140, 75);
 
-  ForgotPasswordView({super.key}); 
+  ForgotPasswordView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Padding(
+        child: SingleChildScrollView( // Added SingleChildScrollView
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -35,13 +35,13 @@ class ForgotPasswordView extends StatelessWidget {
                 decoration: InputDecoration(
                   labelText: 'Email',
                   border: OutlineInputBorder(
-                    borderSide: BorderSide(color: greenColor), 
+                    borderSide: BorderSide(color: greenColor),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: greenColor), 
+                    borderSide: BorderSide(color: greenColor),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: greenColor), 
+                    borderSide: BorderSide(color: greenColor),
                   ),
                 ),
               ),
@@ -51,19 +51,19 @@ class ForgotPasswordView extends StatelessWidget {
                   controller.resetPassword(controller.emailController.text);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: greenColor, 
-                  foregroundColor: Colors.white, 
+                  backgroundColor: greenColor,
+                  foregroundColor: Colors.white,
                 ),
                 child: Text('Reset Password'),
               ),
-              SizedBox(height: 10), 
+              SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
                   Get.back();
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: greenColor, 
-                  foregroundColor: Colors.white, 
+                  backgroundColor: greenColor,
+                  foregroundColor: Colors.white,
                 ),
                 child: Text('Back to sign in'),
               ),

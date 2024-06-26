@@ -14,6 +14,7 @@ class RiwayatPemesanan extends GetView<RiwayatPemesananController> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 82, 140, 75),
+        iconTheme: IconThemeData(color: Colors.white),
         title: Text(
           "Riwayat Pemesanan",
           style: GoogleFonts.poppins(

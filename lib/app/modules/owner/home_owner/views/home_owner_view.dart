@@ -89,7 +89,11 @@ class _HomeViewState extends State<HomeOwnerView> {
         backgroundColor: const Color.fromARGB(255, 82, 140, 75),
         title: Text(
           'Produk Manajemen',
-          style: GoogleFonts.poppins(color: Colors.white),
+          style: GoogleFonts.poppins(
+            fontSize: 25,
+            fontWeight: FontWeight.bold,
+            color: Colors.white
+            ),
         ),
         actions: [
           IconButton(

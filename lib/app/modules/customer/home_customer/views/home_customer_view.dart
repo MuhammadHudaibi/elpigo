@@ -18,7 +18,7 @@ class HomeCustomerView extends GetView<HomeCustomerController> {
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 82, 140, 75),
         title: Text(
-          "Home",
+          "Beranda",
           style: GoogleFonts.poppins(
             fontSize: 25,
             fontWeight: FontWeight.bold,

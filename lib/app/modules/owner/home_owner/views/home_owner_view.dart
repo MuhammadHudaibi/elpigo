@@ -394,8 +394,15 @@ class _HomeViewState extends State<HomeOwnerView> {
                       // ignore: use_build_context_synchronously
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                            content: Text('Perubahan disimpan',
-                                style: GoogleFonts.poppins())),
+                          backgroundColor: Color.fromARGB(255, 151, 182, 153),
+                          content: Text(
+                            'Berhasil menyimpan perubahan!',
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
                       );
                     } catch (e) {
                       // ignore: use_build_context_synchronously

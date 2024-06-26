@@ -31,21 +31,23 @@ class LoginOwnerController extends GetxController {
           Get.snackbar(
             "Error",
             "Password yang Anda masukkan salah.",
-            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Color.fromARGB(255, 151, 182, 153),
+            snackPosition: SnackPosition.TOP,
           );
         }
       } else {
         Get.snackbar(
           "Error",
           "ID Pangkalan tidak ditemukan.",
-          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Color.fromARGB(255, 151, 182, 153),
+          snackPosition: SnackPosition.TOP,
         );
       }
     } catch (error) {
       Get.snackbar(
         "Error",
         error.toString(),
-        snackPosition: SnackPosition.BOTTOM,
+        snackPosition: SnackPosition.TOP,
       );
     }
   }

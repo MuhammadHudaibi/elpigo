@@ -12,7 +12,7 @@ Future<void> main() async {
   runApp(
     GetMaterialApp(
       title: "Elpigo",
-      initialRoute: AppPages.INITIAL,
+      initialRoute: Routes.SPLASH,
       getPages: AppPages.routes,
       debugShowCheckedModeBanner: false,
     ),
